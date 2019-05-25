@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main>
+    <div class="container"></div>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (lib) {
+                lib.init('.container');
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

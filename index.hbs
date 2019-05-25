@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
+    <title>RC Widgets Debug Pages</title>
+</head>
+<body>
+<header>
+    <h1>RC Widgets Debug Pages</h1>
+</header>
+<main>
+    {{#each htmlWebpackPlugin.options.pages}}
+        <a href="{{this}}" style="display: block">{{ this }}</a>
+    {{/each}}
+</main>
+</body>
+</html>
