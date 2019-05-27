@@ -1,5 +1,5 @@
-const simpleControl = require('./components/simple-control/index');
+const buttons = require('./components/buttons/index');
 
 module.exports = {
-    simpleControl
+   buttons
 };

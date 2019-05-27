@@ -1,5 +1,4 @@
 const merge = require('webpack-merge');
-const prod = require('./webpack.prod');
 const aux = require('./webpack.aux');
 
 const config = {
@@ -28,13 +27,28 @@ const config = {
             { test: /\.ttf$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
             { test: /\.eot$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
             { test: /\.svg$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
-            { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/, loader: "file-loader", options: {name: 'images/[hash].[ext]'} }
+            { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/, loader: "file-loader", options: {name: 'images/[hash].[ext]'} },
+            { test: /\.(html)$/, use: { loader: 'html-loader', options: { attrs: [':data-src'] } } },
+            {
+                test: /\.less$/,
+                use: [
+                    {
+                        loader: 'style-loader', // creates style nodes from JS strings
+                    },
+                    {
+                        loader: 'css-loader', // translates CSS into CommonJS
+                    },
+                    {
+                        loader: 'less-loader', // compiles Less to CSS
+                    },
+                ],
+            }
         ]
     }
 };
 
 module.exports = function(env) {
-    let conf = merge(config, env.production ? prod : require('./webpack.dev')(env.cdn));
+    let conf = merge(config, env.production ? require('./webpack.prod')() : require('./webpack.dev')(env.cdn));
 
     if (env.cdn) {
         conf.output.libraryTarget = 'var';

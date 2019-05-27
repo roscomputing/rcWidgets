@@ -1,0 +1,17 @@
+<script id="rc-buttons-button-item-template" type="text/x-kendo-template">
+    <li data-bind="click: onButtonClick">
+        <div>#: name #</div>
+    </li>
+</script>
+<div id='rc-buttons-template'>
+    <div class="rc-buttons w-popup">
+        <label class="title" data-bind="text: title"></label>
+        <ul data-template="rc-buttons-button-item-template"
+            data-bind="source: fields"
+            class="fields"></ul>
+        <ul data-template="rc-buttons-button-item-template"
+            data-bind="source: buttons"
+            class="buttons"
+        ></ul>
+    </div>
+</div>

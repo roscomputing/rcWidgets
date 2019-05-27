@@ -1,0 +1,425 @@
+.w-popup {
+    display: none;
+    transition: none;
+
+    position: fixed;
+    z-index: 2;
+    top: 40px;
+    left: 50px;
+
+    * {
+        outline: none;
+    }
+
+    &.tree-container {
+        max-width: 700px;
+        width: auto;
+        min-width: 300px;
+    }
+
+    .input-with-icon {
+        position: relative;
+        .icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            display: block;
+            height: 30px;
+            font-size: 17px;
+            text-align: center;
+            box-sizing: border-box;
+            padding-top: 6px;
+            z-index: 1;
+        }
+        input {
+            padding-left: 40px;
+        }
+    }
+
+    .white-button {
+        border: solid 1px #fff;
+        text-transform: uppercase;
+        height: 30px;
+        border-radius: 3px;
+        padding: 0 14px 1px;
+        display: inline-block;
+        vertical-align: middle;
+        transition: all .4s;
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 16px;
+            transition: all .4s;
+            margin-top: -3px;
+        }
+        &.with-icon {
+            padding: 0 14px 1px 8px;
+        }
+        &.lite-mode {
+            border: none;
+            height: 28px;
+            margin: 1px 0;
+        }
+
+        &.margin-center {
+            margin: 0 auto;
+            display: block;
+        }
+
+        &.attention-mode {
+            box-sizing: border-box;
+            text-align: center; 
+        }
+    }
+
+    .search-input {
+        position: relative;
+        box-sizing: border-box;
+        height: 41px;
+        clear: both;
+        padding: 0px 10px;
+        border-bottom: 1px solid #e4e4e4;
+
+        & > button {
+            color: white;
+            text-transform: lowercase;
+            display: block;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background: 0 0;
+            height: 30px;
+            padding: 0;
+            transition: all .4s;
+            width: 30px;
+            position: absolute;
+
+            &.find-button {
+                left: 10px;
+                top: 1px;
+
+                i {
+                    font-size: 22px;
+                }
+            }
+
+            &.close-button {
+                left: auto;
+                right: 10px;
+                top: 0px;
+                opacity: .4;
+                width: auto;
+
+                &:before {
+                    width: 10px;
+                    height: 10px;
+                    background-position: -34px -98px;
+                }
+
+                &:hover {
+                    opacity: .7;
+                }
+            }
+
+            &:active,
+            &:focus {
+                outline: none;
+            }
+
+            i {
+                font-size: 14px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-bottom: -2px;
+                min-width: 10px;
+                color: #9ea8ba;
+            }
+        }
+
+        & > input {
+            display: block;
+            border: none;
+            background: 0 0;
+            width: 100%;
+            height: 30px;
+            box-sizing: border-box;
+            padding-left: 30px;
+            padding-top: 10x;
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            color: #999999;
+            text-align: left;
+            line-height: normal;
+            border-radius: 4px;
+            transition: all .4s;
+
+            &:active,
+            &:focus {
+                outline: none;
+                &::-webkit-input-placeholder {
+                    opacity: 0;
+                }
+            }
+        }
+
+        & > input + span {
+            border-bottom: solid 1px #d7d7d7;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 1px;
+            transition: right 1s;
+        }
+
+        & > input:focus + span,
+        & > input:active + span {
+            right: 0px;
+        }
+    }
+
+    &.showing {
+        display: block;
+    }
+
+
+    &.no-close {
+        display: block;
+    }
+
+    .rc-loader:not([style*='display: none']) {
+        .wrapper {
+            position: relative;
+            background: url(../images/logo.png) no-repeat 50% 50%;
+            background-position: 0 0;
+            width: 26px;
+            height: 26px;
+            margin: 6px auto;
+            opacity: .4;
+            animation: wrapper 3s linear infinite;
+
+            .pie {
+                width: 50%;
+                height: 100%;
+                transform-origin: 100% 50%;
+                position: absolute;
+                background: #fff;
+            }
+
+            .spinner {
+                border-radius: 100% 0 0 100% e('/') 50% 0 0 50%;
+                z-index: 200;
+                border-right: none;
+                animation: rota 3s linear infinite;
+            }
+
+            .filler {
+                border-radius: 0 100% 100% 0 e('/') 0 50% 50% 0;
+                left: 50%;
+                opacity: 0;
+                z-index: 100;
+                animation: opa 3s steps(1, end) infinite reverse;
+                border-left: none;
+            }
+
+            .mask {
+                width: 50%;
+                height: 100%;
+                position: absolute;
+                background: inherit;
+                opacity: 1;
+                z-index: 300;
+                animation: opa 3s steps(1, end) infinite;
+            }
+
+
+            &.size-2 {
+                background: url(../images/loader.png) no-repeat 50% 50%;
+                background-position: 1px 1px;
+                width: 90px;
+                height: 91px;
+                background-size: 89px;
+                animation: wrapper 6s linear infinite;
+            }
+        }
+
+        .wrapper, .wrapper * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        @keyframes wrapper {
+            0% {
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            85% {
+                opacity: 1;
+            }
+
+            86%, 100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes rota {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes opa {
+            0% {
+                opacity: 1;
+            }
+
+            50%, 100% {
+                opacity: 0;
+            }
+        }
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+}
+
+.w-popup-background {
+    background: rgba(255, 255, 255, 0.01);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 20px;
+    z-index: 2;
+    opacity: .01;
+
+    &.popup-mode {
+        opacity: 0.8;
+        background-color: rgba(71, 69, 97, 1);
+        bottom: 0;
+    }
+}
+
+// Form
+    .small-gray-label {
+        display: block;
+
+
+        .material-icons {
+            font-size: 15px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 2px;
+            margin-top: -3px;
+        }
+    }
+
+    .simple-input {
+        font-family: 'Roboto Light', 'Roboto Regular', 'Roboto';
+        font-weight: 300;
+        font-style: normal;
+        font-size: 16px;
+        color: #333;
+        border: none;
+        border: solid 1px #cccccc;
+        display: block;
+        width: 100%;
+        height: 30px;
+        padding-left: 3px;
+        position: relative;
+        transition: all .4s;
+        box-sizing: border-box;
+        max-width: 320px;
+
+        & + i.line {
+            border-bottom: solid 1px #0cf;
+            display: block;
+            left: 0;
+            bottom: 0px;
+            position: absolute;
+            z-index: 1;
+            width: 0;
+            transition: all .4s; 
+            max-width: 320px;
+        }
+
+        &:focus + i,
+        &:active + i {
+            width: 100%;
+        }
+
+        &.big-title {
+            max-width: 100%;
+            border: solid 1px #222;
+            transition: all .4s;
+            height: auto;
+            padding: 10px;
+        }
+    }
+
+    .simple-input.k-widget {
+        border: none;
+        padding-left: 0;
+    }
+
+    .simple-textarea {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        display: block;
+        margin-bottom: 10px;
+        resize: none;
+        border: solid 1px #222;
+        padding: 5px 10px 5px;
+        border-radius: 3px;
+        transition: all .4s;
+        min-height: 60px;
+        overflow: hidden;
+        &:focus,
+        &:active {
+            outline: none;
+        }
+    }
+
+.rc-widgets {
+    text-align: left;
+
+    .w-popup {
+        position: fixed;
+        z-index: 2;
+        top: 40px;
+        left: 50px;
+    }
+    
+
+    .w-popup-background {
+        background: rgba(255, 255, 255, 0.01);
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 20px;
+        z-index: 2;
+        opacity: .01;
+        &.popup-mode {
+            opacity: 0.8;
+            background-color: rgba(71, 69, 97, 1);
+            bottom: 0;
+        }
+    }
+}
