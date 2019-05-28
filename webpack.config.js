@@ -14,33 +14,33 @@ const config = {
             {
                 test: /\.m?js$/,
                 exclude: /(node_modules)/,
-                use: {
+                use: [{
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env']
                     }
-                }
+                }, 'webpack-conditional-loader']
             },
             { test: /\.hbs$/, loader: "handlebars-loader" },
             { test: /\.css$/, loader: "style-loader!css-loader" },
-            { test: /\.(woff|woff2)$/, loader: "url-loader?limit=10000&mimetype=application/font-woff", options: {name: 'fonts/[hash].[ext]'} },
+            { test: /\.(woff|woff2)$/, loader: 'file-loader', options: {name: 'fonts/[hash].[ext]'} },
+            { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/, loader: "file-loader", options: {name: 'images/[hash].[ext]'} },
             { test: /\.ttf$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
             { test: /\.eot$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
             { test: /\.svg$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
-            { test: /\.jpe?g$|\.gif$|\.png$|\.svg$/, loader: "file-loader", options: {name: 'images/[hash].[ext]'} },
             { test: /\.(html)$/, use: { loader: 'html-loader', options: { attrs: [':data-src'] } } },
             {
                 test: /\.less$/,
                 use: [
                     {
-                        loader: 'style-loader', // creates style nodes from JS strings
+                        loader: 'style-loader',
                     },
                     {
-                        loader: 'css-loader', // translates CSS into CommonJS
+                        loader: 'css-loader',
                     },
                     {
-                        loader: 'less-loader', // compiles Less to CSS
-                    },
+                        loader: 'less-loader',
+                    }
                 ],
             }
         ]

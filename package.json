@@ -5,10 +5,10 @@
   "module": "src/index.js",
   "scripts": {
     "watch": "webpack --watch",
-    "dev-cdn": "webpack-dev-server --env.development --env.cdn  --hot --open",
-    "dev": "webpack-dev-server --env.development --hot --open",
-    "build": "webpack --env.production && webpack --env.production --env.cdn",
-    "build-dev": "webpack --env.development && webpack --env.cdn"
+    "dev-cdn": "cross-env NODE_ENV=development webpack-dev-server --env.development --env.cdn  --hot --open",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --env.development --hot --open",
+    "build": "cross-env NODE_ENV=production webpack --env.production && webpack --env.production --env.cdn",
+    "build-dev": "cross-env NODE_ENV=development webpack --env.development && webpack --env.cdn"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -22,6 +22,7 @@
     "handlebars-loader": "^1.7.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "jquery": "^3.4.1",
     "jsdom": "^15.1.1",
     "kendo-ui-core": "^2019.2.517",
     "less": "^3.9.0",
@@ -31,10 +32,8 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
+    "webpack-conditional-loader": "^1.0.12",
     "webpack-dev-server": "^3.4.1",
     "webpack-merge": "^4.2.1"
-  },
-  "dependencies": {
-    "jquery": "^3.4.1"
   }
 }

@@ -1,3 +1,4 @@
+require('../../shared/dev-styles');
 require('./index.less');
 require('./index.theme.less');
 

@@ -1,4 +1,6 @@
-﻿//
+﻿@import 'rc.fontfaces.less';
+
+//
 // Файл содержит только стили цветовой схемы default
 
 
@@ -98,7 +100,7 @@
 // 22 Headline 1
 //
 .font-22-headline-1() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 500;
     font-style: normal;
     font-size: 22px;
@@ -111,7 +113,7 @@
 // 18 Title
 //
 .font-18-title() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 500;
     font-style: normal;
     font-size: 18px;
@@ -124,7 +126,7 @@
 // 16 Body
 //
 .font-16-body() {
-    font-family: 'Roboto';
+    font-family: @roboto;
     font-weight: normal;
     font-style: normal;
     font-size: 16px;
@@ -137,10 +139,8 @@
 // 15 Title
 //
 .font-15-title() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
-    // font-family: 'Roboto Bold', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 100;
-    // font-weight: 700;
     font-style: normal;
     font-size: 15px;
     line-height: normal;
@@ -152,7 +152,7 @@
 // 15 Body
 //
 .font-15-body() {
-    font-family: 'Roboto';
+    font-family: @roboto;
     font-weight: 400;
     font-style: normal;
     font-size: 15px;
@@ -165,7 +165,7 @@
 // 13 Body
 //
 .font-13-body() {
-    font-family: 'Roboto';
+    font-family: @roboto;
     font-weight: 400;
     font-style: normal;
     font-size: 13px;
@@ -178,7 +178,7 @@
 // 13 BUTTON
 //
 .font-13-button() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 500;
     font-style: normal;
     font-size: 13px;
@@ -191,7 +191,7 @@
 // 11 CAPTION
 //
 .font-11-caption() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 500;
     font-style: normal;
     font-size: 11px;
@@ -204,7 +204,7 @@
 // 11 BODY
 //
 .font-11-body() {
-    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-family: @roboto;
     font-weight: 500;
     font-style: normal;
     font-size: 11px;
@@ -218,9 +218,9 @@
 //
 
 .header-shadow() {
-    -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .container-shadow() {
@@ -231,15 +231,15 @@
 
 
 .rc-upload-dropzone-active-shadow() {
-    -moz-box-shadow: 0px 0px 11px 0px @txt-normal-color;
-    -webkit-box-shadow: 0px 0px 11px 0px @txt-normal-color;
-    box-shadow: 0px 0px 11px 0px @txt-normal-color;
+    -moz-box-shadow: 0 0 11px 0 @txt-normal-color;
+    -webkit-box-shadow: 0 0 11px 0 @txt-normal-color;
+    box-shadow: 0 0 11px 0 @txt-normal-color;
 }
 
 .rc-upload-dropzone-hovered-shadow() {
-    -moz-box-shadow: 0px 0px 31px 0px @btn-normal-color;
-    -webkit-box-shadow: 0px 0px 31px 0px @btn-normal-color;
-    box-shadow: 0px 0px 31px 0px @btn-normal-color;
+    -moz-box-shadow: 0 0 31px 0 @btn-normal-color;
+    -webkit-box-shadow: 0 0 31px 0 @btn-normal-color;
+    box-shadow: 0 0 31px 0 @btn-normal-color;
 }
 
 

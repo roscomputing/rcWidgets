@@ -1,3 +1,5 @@
+@import 'rc.fontfaces.less';
+
 .w-popup {
     display: none;
     transition: none;
@@ -78,7 +80,7 @@
         box-sizing: border-box;
         height: 41px;
         clear: both;
-        padding: 0px 10px;
+        padding: 0 10px;
         border-bottom: 1px solid #e4e4e4;
 
         & > button {
@@ -107,7 +109,7 @@
             &.close-button {
                 left: auto;
                 right: 10px;
-                top: 0px;
+                top: 0;
                 opacity: .4;
                 width: auto;
 
@@ -145,8 +147,8 @@
             height: 30px;
             box-sizing: border-box;
             padding-left: 30px;
-            padding-top: 10x;
-            font-family: 'Roboto';
+            padding-top: 10px;
+            font-family: @roboto;
             font-weight: 400;
             font-style: normal;
             font-size: 14px;
@@ -176,7 +178,7 @@
 
         & > input:focus + span,
         & > input:active + span {
-            right: 0px;
+            right: 0;
         }
     }
 
@@ -330,12 +332,11 @@
     }
 
     .simple-input {
-        font-family: 'Roboto Light', 'Roboto Regular', 'Roboto';
+        font-family: @roboto;
         font-weight: 300;
         font-style: normal;
         font-size: 16px;
         color: #333;
-        border: none;
         border: solid 1px #cccccc;
         display: block;
         width: 100%;
@@ -350,7 +351,7 @@
             border-bottom: solid 1px #0cf;
             display: block;
             left: 0;
-            bottom: 0px;
+            bottom: 0;
             position: absolute;
             z-index: 1;
             width: 0;
