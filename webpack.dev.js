@@ -1,5 +1,6 @@
 const aux = require('./webpack.aux');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 let mainDebugPage = new HtmlWebpackPlugin({
     template: './index.hbs',

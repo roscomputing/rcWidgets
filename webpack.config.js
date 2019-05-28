@@ -1,6 +1,5 @@
 const merge = require('webpack-merge');
 const aux = require('./webpack.aux');
-const webpack = require('webpack');
 
 const config = {
     entry: aux.getEntries(),
