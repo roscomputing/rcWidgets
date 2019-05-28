@@ -1,6 +1,7 @@
 require('../../shared/dev-styles');
 require('./index.less');
 require('./index.theme.less');
+require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
@@ -35,6 +36,7 @@ const buttonsFactory = function(config) {
     initTemplates(el, config);
 
     let vm = {
+        isDark: config.isDark,
         fields: config.fields,
         title: config.title,
         buttons: config.buttons,
@@ -77,6 +79,7 @@ const buttonsFactory = function(config) {
 module.exports = function(config, callback) {
     let buttons;
     let data = {
+        isDark: config.isDark || $('body').hasClass('dark-theme'),
         selector: config.selector || '',
         pos: {
             x: config.pageX || 0,
