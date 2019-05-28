@@ -8,7 +8,8 @@ const getDirectories = source => readdirSync(source).map(name => join(source, na
 
 const getEntries = () => {
     let entries = {
-        'rcWidgets': './index.js'
+        'rcWidgets': './index.js',
+        //'rcWidgetsDependencies': './main-dependencies.js'
     };
     let componentsDirs = getDirectories('./components');
     if (componentsDirs.length) {

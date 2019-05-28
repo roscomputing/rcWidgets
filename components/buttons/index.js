@@ -1,9 +1,6 @@
 require('./index.less');
 require('./index.theme.less');
 
-const $ = require('jquery');
-require('kendo-ui-core/js/kendo.binder.js');
-
 const shared = require('../../shared/index');
 const template = require('./index.html');
 

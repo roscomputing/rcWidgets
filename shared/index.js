@@ -1,5 +1,3 @@
-const $ = require("jquery");
-
 const getGuid = function () {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
