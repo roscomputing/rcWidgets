@@ -1,32 +1,35 @@
 @import '../../styles/theme.dark.less';
 @import '../../styles/rc.widgets.theme.less';
 
-.w-popup {
-  &.rc-buttons.dark-theme {
-    .container-shadow();
-    background-color: @main-color;
-    border-color: @border-color;
-
-    & > .title {
-      .font-18-title();
-      color: @txt-normal-color;
-    }
-
-    .fields {
-      .webkit-scrollbar(@bg-color: @main-color);
+.dark-theme {
+  .w-popup {
+    &.rc-buttons {
+      .container-shadow();
       background-color: @main-color;
+      border-color: @border-color;
 
-      li {
-        .button-standart();
+      & > .title {
+        .font-18-title();
+        color: @txt-normal-color;
       }
-    }
 
-    .buttons {
-      border-top-color: @divider-color;
+      .fields {
+        .webkit-scrollbar(@bg-color: @main-color);
+        background-color: @main-color;
 
-      li {
-        .button-standart();
+        li {
+          .button-standart();
+        }
+      }
+
+      .buttons {
+        border-top-color: @divider-color;
+
+        li {
+          .button-standart();
+        }
       }
     }
   }
 }
+

@@ -1,3 +1,10 @@
+let baseEl;
+let externalLog;
+
+const log = function (v) {
+    typeof (externalLog === 'function' && externalLog(v)) || console.log(v);
+};
+
 const getGuid = function () {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -29,14 +36,19 @@ const findWidgetPos = function(wPopup, pos) {
     $(wPopup).css('left', left);
 };
 
-const anyWidgetInitialActions = function (params) {
+const libraryInitialAction = function (params) {
     if (!params || !params.selector || !$(params.selector).length) {
         return false;
     }
+    baseEl = $(params.selector).addClass('rc-widgets')[0];
+};
 
-    let baseEl = $(params.selector).addClass('rc-widgets');
+const anyWidgetInitialActions = function (params) {
+    if (!baseEl) {
+        libraryInitialAction(params);
+    }
+
     let el = $(`<div id="${getGuid()}"></div>`);
-
     el.appendTo(baseEl);
     return el;
 };
@@ -48,7 +60,9 @@ const addKendoTemplateToPage = function (id ,template) {
 };
 
 module.exports = {
+    libraryInitialAction,
     anyWidgetInitialActions,
     findWidgetPos,
-    addKendoTemplateToPage
+    addKendoTemplateToPage,
+    log
 };

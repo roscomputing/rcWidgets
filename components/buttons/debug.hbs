@@ -15,10 +15,9 @@
 <header>
     <h1>{{htmlWebpackPlugin.options.title}}</h1>
 </header>
-<main>
+<main class="dark-theme">
     <div class="container"></div>
     <button id="sb">КНОПКИ</button>
-    <input type="checkbox" id="isd">ТЕМНАЯ ТЕМА
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
             require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcButtons) {
@@ -44,7 +43,6 @@
                 document.getElementById('sb').addEventListener('click', function (e) {
                     if (!button) {
                         button = rcButtons({
-                            isDark: document.getElementById('isd').checked,
                             selector: '.container',
                             buttons: buttons,
                             title: 'Изменить статус',

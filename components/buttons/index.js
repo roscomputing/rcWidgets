@@ -79,8 +79,8 @@ const buttonsFactory = function(config) {
 module.exports = function(config, callback) {
     let buttons;
     let data = {
-        isDark: config.isDark || $('body').hasClass('dark-theme'),
-        selector: config.selector || '',
+        selector: config.selector,
+        log: config.log,
         pos: {
             x: config.pageX || 0,
             y: config.pageY || 0,
