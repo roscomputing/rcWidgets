@@ -1,0 +1,704 @@
+﻿//
+// --------------------------------------------------------------------------------
+// Цветовая схема
+//
+// NOTE!
+//
+// Пожалуйста:
+// - держите цвета в той же последовательности, в которой они расположены в дизайне;
+// - давайте названия такие же как в дизайне во избежание путаницы.
+//
+
+//
+// 0-я строка цветовой схемы
+// 
+@invert-main-color:            rgba(83, 94, 113, 1);   // #535E71  100%
+@invert-card-bg-color:         rgba(62, 70, 85, 1);    // #3E4655  100%
+@invert-divider-color:         rgba(0, 0, 0, .2);      // #000000  20%
+@invert-scroll-color:          rgba(0, 0, 0, .2);      // #000000  20%
+@invert-border-color:          rgba(73, 82, 99, 1);    // #495263  100%
+@invert-hover-color:           rgba(37, 44, 56, .1);   // #252C38  10%
+@invert-txt-disabled-color:    rgba(255, 255, 255, .4);// #000000  40%
+@invert-txt-placeholder-color: rgba(255, 255, 255, .5);// #000000  50%
+@invert-txt-normal-color:      rgba(255, 255, 255, .6);// #000000  60%
+@invert-txt-contrast-color:    rgba(255, 255, 255, .8);// #000000  80%
+@invert-txt-attention-color:   rgba(228, 189, 69, 1);  // #E4BD45  100%
+@invert-txt-error-color:       rgba(255, 113, 113, 1); // #FF7171  100%
+@invert-txt-good-color:        rgba(87, 240, 140, 1);  // #57F08C  100%
+@invert-btn-normal-color:      rgba(102, 153, 255, 1); // #6699FF  100%
+
+
+//
+// 1-я строка цветовой схемы
+//
+
+@main-color:            rgba(255, 255, 255, 1);   // #FFFFFF  100%
+@main-2n-color:         rgba(102, 153, 255, 0.05);   // #FFFFFF  100%
+@main-header-color:     rgba(242, 244, 247, 1);   // #F2F4F7  100%
+@main-footer-color:     rgba(242, 244, 247, 1);   // #F2F4F7  100%
+@panel-u-color:         rgba(255, 255, 255, 1);   // #FFFFFF  100%
+@panel-l-color:         rgba(255, 255, 255, 1);   // #FFFFFF  100%
+@panel-l-hd-ft-color:   rgba(242, 244, 247, 1);   // #F2F4F7  100%
+@card-bg-color:         rgba(232, 235, 238, 1);   // #E8EBEE  100%
+@divider-color:         rgba(223, 226, 232, .6);        // #000000  10%
+@scroll-color:          rgba(0, 0, 0, .1);        // #000000  10%
+@border-color:          rgba(212, 212, 212, 1);   // #E4E4E4  100%
+
+//
+// 2-я строка цветовой схемы
+//
+
+@hover-color:           rgba(62, 54, 32, .05);    // #3E3620  5%
+@focus-placeholder-color: rgba(102, 153, 255, 0.52);  // #6633ff
+@disabled-color:        rgba(62, 54, 32, .08);    // #3E3620  8%
+@pressed-color:         rgba(62, 54, 32, .1);     // #3E3620  10%
+@selected-color:        rgba(62, 54, 32, .15);    // #3E3620  15%
+@txt-disabled-color:    rgba(0, 0, 0, .4);      // #000000  40%
+@txt-placeholder-color: rgba(0, 0, 0, .5);      // #000000  50%
+@txt-normal-color:      rgba(0, 0, 0, .7);      // #000000  70%
+@txt-contrast-color:    rgba(0, 0, 0, .8);      // #000000  80%
+
+//
+// 3-я строка цветовой схемы
+//
+
+@mini-title-color:      rgba(81, 143, 164, .7); // #518FA4  70%
+@sh-cards-color:        rgba(0, 0, 0, .1);      // #000000  10%
+@sh-btn-hover-color:    rgba(0, 0, 0, .15);     // #000000  15%
+@sh-btn-normal-color:   rgba(0, 0, 0, .2);      // #000000  20%
+@txt-cntrst-color:      rgba(137, 94, 189, 1);  // #895EBD  100%
+@txt-attention-color:   rgba(230, 138, 0, 1);   // #E68A00  100%
+@txt-error-color:       rgba(230, 0, 0, .7);     // #E60000  100%
+@txt-good-color:        rgba(7, 162, 59, 1); //rgba(0, 221, 38, 1);    // #00DD26  100%
+
+//
+// 4-я строка цветовой схемы
+//
+
+@btn-normal-color:      rgba(102, 153, 255, 1); // #6699FF  100%
+
+//
+// цвета портала
+//
+
+@portal-ntf-color:          rgba(227, 168, 45, 1);  // #E3A82D 100%
+@portal-header-color:       rgba(210, 234, 247, 0.6392156862745098);  // #F4ECD9 100%
+@portal-header-hover-color: @hover-color;
+@portal-txt-color:          @txt-normal-color; // #000000 100%
+@portal-final-comment-bg:   rgba(255, 253, 247, 1); // #000000 100%
+
+//
+// цвета для логина
+//
+
+@login-r-txt-color:         rgba(0, 0, 0, .7); // #CCCCCC 100%
+
+.filter-saturation(@value) {
+    -webkit-filter: saturate(@value);
+    filter: saturate(@value);
+}
+
+
+// NOTE!
+// Открыт вопрос с Сашей по дефолтному Saturation
+//.btn-normal-saturation() { .filter-saturation(60%); }   // SAT 60
+.btn-normal-saturation() { .filter-saturation(100%); }  // SAT 100
+
+.btn-hover-saturation() { .filter-saturation(50%); }    // SAT 50
+.btn-pressed-saturation() { .filter-saturation(75%); }  // SAT 75
+.btn-selected-saturation() { .filter-saturation(90%); } // SAT 90
+
+.btn-saturation() {
+    .btn-normal-saturation();
+
+    &:hover {
+        .btn-hover-saturation();
+    }
+
+    &:focus {
+        .btn-pressed-saturation();
+    }
+
+    &:active {
+        .btn-selected-saturation();
+    }
+}
+
+@ic-normal-color:           rgba(0, 0, 0, .3);      // #000000  30%
+@opaque-attention-color:    rgba(255, 153, 0, 1);   // #FF9900  100%
+@opaque-error-color:        rgba(255, 64, 64, 1);   // #FF4040  100%
+@opaque-good-color:         rgba(97, 206, 97, 1);   // #61CE61  100%
+
+
+//
+// 5-я строка цветовой схемы
+//
+
+@good-progress-gradient:  linear-gradient(90deg, rgba(0, 236, 95, 1) 0%, rgba(100, 213, 255, 1) 100%); // #00ec5f - #64d5ff
+@bad-progress-gradient:   linear-gradient(90deg, rgba(255, 204, 102, 1) 0%, rgba(255, 153, 0, 1) 100%); // #fc6 - #f90
+@user-totals-color:       linear-gradient(135deg, rgba(189, 130, 255, 1) 0%, rgba(21, 138, 255, 1) 100%); // #bd82ff - #158aff
+@file-format-bg-color:    rgba(249, 243, 230, 1);  // #F9F3E6  100%
+@txt-link-color:          rgba(102, 153, 255, 1);  // #6699FF  100%
+@menu-bg-color:           rgba(255, 255, 255, 1);  // #FFFFFF  100%
+@menu-bg-opacity-color:   rgba(255, 255, 255, .5);  // #FFFFFF  100%
+@bg-main-color:           rgba(237, 238, 240, 1);  // #96A5AF  100%
+@bg-main-opacity-color:   rgba(237, 238, 240, .75);  // #96A5AF  100%
+@btn-icons-color:         rgba(0, 0, 0, .4);       // #000000  40%
+
+
+//
+// 6-я строка цветовой схемы
+//
+
+@checkbox-color:         rgba(102, 153, 255, 1);    // #6699FF  100%
+@tooltip-color:          rgba(64, 64, 64, 1);       // #404040  100%
+@ic-selected-color:      rgba(0, 0, 0, .7);         // #000000  70%
+@txt-blue-btn-color:     rgba(255, 255, 255, 1);    // #FFFFFF  100%
+
+
+//
+// 7-я строка цветовой схемы
+//
+
+@final-comment-color: rgba(102, 153, 255, 0.2); // #6699FF  20%
+@fill-disabled-color: rgba(242, 242, 242, 1);   // #F2F2F2  100%
+
+
+//
+// 8-я строка цветовой схемы
+//
+
+@timeline-bg-contrast-color:    rgba(255, 255, 255, 1); //rgba(226, 230, 233, 1); // #E2E6E9  100%
+@card-timeline-tail-color:    rgba(228, 228, 288, 1); // #E2E6E9  100%
+@final-report-gradient:         linear-gradient(90deg, rgba(102, 153, 255, 0.2) 0%, rgba(102, 153, 255, 0) 100%); // #6699FF 20% — #6699FF 0%
+
+//
+// TODO:
+// И опять цвета которые есть в дизайне и нет в цветовой схеме
+//
+
+@nastroika-otcheta-head-color:          rgba(83, 158, 215, 1);      // #539ED7  100%
+@nastroika-otcheta-head-button-color:   rgba(255, 255, 255, 0.8);   // #FFFFFF  80%
+@nastroika-otcheta-head-title-color:    rgba(255, 255, 255, 1);     // #FFFFFF  100%
+@nastroika-otcheta-head-contrast-color: rgba(255, 255, 255, 1);     // #FFFFFF  100%
+@nastroika-otcheta-head-border-color:   rgba(255, 255, 0, 1);       // #FFFF00  100%
+
+@user-icon-color:                       rgba(255, 255, 255, 1);     // #FFFFFF  100%
+@user-icon-backround-color:             rgba(34, 34, 34, 1);        // #222222  100%
+
+@share-filters-header-color:            rgba(238, 173, 158, 1);     // #EEAD9E  100%
+@share-filters-header-bg-color:         rgba(72, 82, 102, 1);
+
+//
+// --------------------------------------------------------------------------------
+// Градиенты
+//
+// NOTE!
+// У градиентов нет названия в дизайне: по-этому просто по порядку
+//
+.gradient-1() {
+    //
+    // http://www.colorzilla.com/gradient-editor/#febb42+0,c92af4+100
+    //
+    background: rgb(254,187,66);
+    background: -moz-linear-gradient(-45deg, rgba(254,187,66,1) 0%, rgba(201,42,244,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(254,187,66,1) 0%,rgba(201,42,244,1) 100%);
+    background: linear-gradient(135deg, rgba(254,187,66,1) 0%,rgba(201,42,244,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febb42', endColorstr='#c92af4',GradientType=1 );
+}
+
+// градиент портала
+.gradient-2() {
+    //
+    // http://www.colorzilla.com/gradient-editor/#698AC0+0,2081A6+100
+    //
+    background: rgba(105, 138, 192, 1);
+    background: -webkit-linear-gradient(315deg, rgba(105, 138, 192, 1) 0%, rgba(105, 138, 192, 1) 0%, rgba(62, 80, 142, 1) 59%, rgba(32, 129, 166, 1) 100%, rgba(32, 129, 166, 1) 100%);
+    background: -moz-linear-gradient(135deg, rgba(105, 138, 192, 1) 0%, rgba(105, 138, 192, 1) 0%, rgba(62, 80, 142, 1) 59%, rgba(32, 129, 166, 1) 100%, rgba(32, 129, 166, 1) 100%);
+    background: linear-gradient(135deg, rgba(105, 138, 192, 1) 0%, rgba(105, 138, 192, 1) 0%, rgba(62, 80, 142, 1) 59%, rgba(32, 129, 166, 1) 100%, rgba(32, 129, 166, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#698AC0', endColorstr='#2081A6',GradientType=1 );
+}
+
+// градиент кнопочки Подать заявку
+.gradient-3() {
+    //
+    // http://www.colorzilla.com/gradient-editor/#455D9B+0,315187+100
+    //
+    background: rgb(69,93,155);
+    background: -moz-linear-gradient(-45deg, rgba(69,93,155,1) 0%, rgba(49,81,135,1) 100%);
+    background: -webkit-linear-gradient(-45deg, rgba(69,93,155,1) 0%,rgba(49,81,135,1) 100%);
+    background: linear-gradient(135deg, rgba(69,93,155,1) 0%,rgba(49,81,135,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#455D9B', endColorstr='#315187',GradientType=1 );
+}
+
+// градиент фона страницы логина
+.gradient-4() {
+    background: -moz-linear-gradient(-45deg, #a9d6e1 0,#aebfd3 100%);
+    background: -webkit-linear-gradient(-45deg, #a9d6e1 0,#aebfd3 100%);
+    background: linear-gradient(135deg, #a9d6e1 0,#aebfd3 100%);
+}
+
+// градиент комменты превью
+.gradient-5() {
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, @main-color 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, @main-color 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, @main-color 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+// градиент комменты превью mail-comment
+.gradient-6() {
+    background: -webkit-linear-gradient(0deg, @bg-main-color 0%, @main-color 100%, @main-color 100%);
+    background: -moz-linear-gradient(90deg, @bg-main-color 0%, @main-color 100%, @main-color 100%);
+    background: linear-gradient(90deg, @bg-main-color 0%, @main-color 100%, @main-color 100%);
+}
+
+// градиент комменты превью new-comment-bg
+.gradient-7() {
+    background: -webkit-linear-gradient(0deg, rgba(241, 102, 0, 0.17) 0%, rgba(241, 102, 0, 0.17) 0%, @main-color 100%, @main-color 100%);
+    background: -moz-linear-gradient(90deg, rgba(241, 102, 0, 0.17) 0%, rgba(241, 102, 0, 0.17) 0%, @main-color 100%, @main-color 100%);
+    background: linear-gradient(90deg, rgba(241, 102, 0, 0.17) 0%, rgba(241, 102, 0, 0.17) 0%, @main-color 100%, @main-color 100%);
+}
+
+//
+// --------------------------------------------------------------------------------
+// Шрифты
+//
+// NOTE!
+//
+// Пожалуйста:
+// - держите шрифты в той же последовательности, в которой они расположены в дизайне;
+// - давайте названия такие же как в дизайне во избежание путаницы.
+//
+
+//
+// 30 Headline 1
+//
+.font-30-healine-1() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 30px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+
+//
+// 28 Headline 2
+//
+.font-28-healine-2() {
+    font-family: 'Roboto Light', 'Roboto Regular', 'Roboto';
+    font-weight: 300;
+    font-style: normal;
+    font-size: 28px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 24 Headline 3
+//
+.font-24-healine-3() {
+    font-family: 'Roboto Light', 'Roboto Regular', 'Roboto';
+    font-weight: 300;
+    font-style: normal;
+    font-size: 24px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 22 Headline 1
+//
+.font-22-headline-1() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 22px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 18 Title
+//
+.font-18-title() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 16 Body
+//
+.font-16-body() {
+    font-family: 'Roboto';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.7em;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 16 Lite
+//
+.font-16-lite() {
+    font-family: 'Roboto Light', 'Roboto Regular', 'Roboto';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.7em;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 15 Title
+//
+.font-15-title() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    // font-family: 'Roboto Bold', 'Roboto Regular', 'Roboto';
+    font-weight: 100;
+    // font-weight: 700;
+    font-style: normal;
+    font-size: 15px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+
+//
+// 15 Body
+//
+.font-15-body() {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 14 Body
+//
+.font-14-body() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 13 Body
+//
+.font-13-body() {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+//
+// 12 Body
+//
+.font-12-body() {
+    font-family: 'Roboto';
+    font-weight: 900;
+    font-style: normal;
+    font-size: 12px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+
+//
+// 13 BUTTON
+//
+.font-13-button() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 13px;
+    line-height: normal;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+//
+// 11 CAPTION
+//
+.font-11-caption() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 11px;
+    line-height: normal;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+//
+// 11 BODY
+//
+.font-11-body() {
+    font-family: 'Roboto Medium', 'Roboto Regular', 'Roboto';
+    font-weight: 500;
+    font-style: normal;
+    font-size: 11px;
+    line-height: normal;
+    text-transform: none;
+    text-decoration: none;
+}
+
+
+
+// --------------------------------------------------------------------------------
+// Типы надписей
+//
+// NOTE!
+//
+// Пожалуйста:
+// - держите типы надписей в той же последовательности, в которой они расположены в дизайне;
+// - давайте названия такие же как в дизайне во избежание путаницы.
+//
+
+.mini-title() {
+    .font-11-caption();
+    color: @mini-title-color;
+}
+
+
+
+// --------------------------------------------------------------------------------
+// Тени
+//
+
+.header-shadow() {
+    -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-up-shadow() {
+    -moz-box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-shadow-inset() {
+    -moz-box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container-shadow() {
+    -moz-box-shadow: 0 10px 35px rgba(80, 118, 156, .35);
+    -webkit-box-shadow: 0 10px 35px rgba(80, 118, 156, .35);
+    box-shadow: 0 10px 35px rgba(80, 118, 156, .35);
+}
+
+.sub-block-shadow() {
+    -moz-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.098);
+    -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.098);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.098);
+}
+
+.icon-shadow() {
+    -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.card-filter-fields-shadow(@shadow-color: @divider-color) {
+    -moz-box-shadow: 0px 1px 2px @shadow-color;
+    -webkit-box-shadow: 0px 1px 2px @shadow-color;
+    box-shadow: 0px 1px 2px @shadow-color;
+}
+
+.filter-tab-item-shadow(@shadow-color: @divider-color) {
+    -moz-box-shadow: -3px 3px 10px @shadow-color;
+    -webkit-box-shadow: -3px 3px 10px @shadow-color;
+    box-shadow: -3px 3px 10px @shadow-color;
+}
+
+.file-detail-add-shadow() {
+    -moz-box-shadow: 0 2px 5px rgba(51, 0, 255, .3);
+    -webkit-box-shadow: 0 2px 5px rgba(51, 0, 255, .3);
+    box-shadow: 0 2px 5px rgba(51, 0, 255, .3);
+}
+
+.filter-check-combo-shadow() {
+    -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.137);
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.137);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.137);
+}
+
+.filter-card-header-shadow() {
+    -moz-box-shadow: 0 2px 5px @divider-color;
+    -webkit-box-shadow: 0 2px 5px @divider-color;
+    box-shadow: 0 2px 5px @divider-color;
+}
+
+.filter-white-popup-stickers-shadow() {
+    -moz-box-shadow: 0px 10px 35px @divider-color;
+    -webkit-box-shadow: 0px 10px 35px @divider-color;
+    box-shadow: 0px 10px 35px @divider-color;
+}
+
+.filter-white-popup-users-list-shadow() {
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+.calendar-load-any-left-button-shadow() {
+    -moz-box-shadow: 11px 0px 20px 4px @btn-normal-color;
+    -webkit-box-shadow: 11px 0px 20px 4px @btn-normal-color;
+    box-shadow: 11px 0px 20px 4px @btn-normal-color;
+}
+
+.calendar-load-any-right-button-shadow() {
+    -moz-box-shadow: -11px 0 20px 4px @btn-normal-color;
+    -webkit-box-shadow: -11px 0 20px 4px @btn-normal-color;
+    box-shadow: -11px 0 20px 4px @btn-normal-color;
+}
+
+.control-points-shadow() {
+    -moz-box-shadow: 0 10px 10px 10px @main-color;
+    -webkit-box-shadow: 0 10px 10px 10px @main-color;
+    box-shadow: 0 10px 10px 10px @main-color;
+}
+
+.excel-head-button-shadow() {
+    -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.rc-menu-with-checkbox-shadow() {
+    -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.rc-upload-dropzone-active-shadow() {
+    -moz-box-shadow: 0px 0px 11px 0px @txt-normal-color;
+    -webkit-box-shadow: 0px 0px 11px 0px @txt-normal-color;
+    box-shadow: 0px 0px 11px 0px @txt-normal-color;
+}
+
+.rc-upload-dropzone-hovered-shadow() {
+    -moz-box-shadow: 0px 0px 31px 0px @btn-normal-color;
+    -webkit-box-shadow: 0px 0px 31px 0px @btn-normal-color;
+    box-shadow: 0px 0px 31px 0px @btn-normal-color;
+}
+
+.no-shadow() {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+// --------------------------------------------------------------------------------
+// Скроллбар
+//
+
+.webkit-scrollbar(@bg-color: @card-bg-color, @scroll-color: @scroll-color) {
+    &::-webkit-scrollbar {
+        width: 20px;
+        height: 20px;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-corner {
+        background-color: @bg-color;
+        width: 20px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: @scroll-color;
+        border: 8px solid @bg-color;
+        border-radius: 10px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+
+        &:hover {
+            border-right-width: 6px;
+            border-left-width: 6px;
+        }
+    }
+
+    &::-webkit-scrollbar-thumb:horizontal {
+        min-width: 40px;
+    }
+
+    &::-webkit-scrollbar-thumb:vertical {
+        min-height: 40px;
+    }
+}
+
+
+
+// --------------------------------------------------------------------------------
+// Инпуты
+
+.input-standart() {
+    border-color: @border-color;
+    background-color: @main-color;
+    color: @txt-normal-color;
+    &:focus {
+        color: @txt-normal-color;
+        border-color: @focus-placeholder-color;
+    }
+    &:hover:not(:focus) {
+        border-color: @hover-color;
+        color: @txt-normal-color;
+    }
+    &[disabled] {
+        border: none;
+    }
+    &::placeholder {
+        color: @txt-placeholder-color;
+    }
+}
+
+
+
+// --------------------------------------------------------------------------------
+// Кнопки
+
+.button-standart() {
+    background-color: @btn-normal-color;
+    .font-13-button();
+    color: #fff;
+    &:hover {
+        .btn-hover-saturation();
+    }
+    &[disabled] {
+        background: @txt-disabled-color;
+    }
+}
