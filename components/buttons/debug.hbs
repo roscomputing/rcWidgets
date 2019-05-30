@@ -10,12 +10,21 @@
     {{#if htmlWebpackPlugin.options.cdnScript}}
         <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
     {{/if}}
+    <style>
+        main {
+            height: 2000px;
+        }
+
+        main #sb {
+            margin-top: 1000px;
+        }
+    </style>
 </head>
 <body>
 <header>
     <h1>{{htmlWebpackPlugin.options.title}}</h1>
 </header>
-<main class="dark-theme">
+<main class="theme-dark">
     <div class="container"></div>
     <button id="sb">КНОПКИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}

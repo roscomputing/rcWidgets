@@ -50,9 +50,10 @@
         </style>
 
         <script src="./lib/jquery/jquery-3.1.1.min.js"></script>
+        <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
         <script src="./lib/highlightJs/highlight.min.js"></script>
         <script src="./lib/kendo/2018.2.620/kendo.ui.core.min.js"></script>
-        <script src="./lib/rc/rcWidgets-cdn.js"></script>
+        <script src="lib/rc/rcWidgets-cdn.js"></script>
         <script src="./rc-buttons.js"></script>
         <script src="./shared.js"></script>
     </head>
@@ -248,7 +249,9 @@ window.rc.buttons({
                                    }],
                                }, function(value) {
                                    setTimeout(function () {
-                                       alert('Your selection is: ' + value);
+                                       if (value) {
+                                           $.notify('Selected value: ' + value, { position:"top center", className: 'success' });
+                                       }
                                    }, 16);
                                });
                            })
@@ -459,7 +462,9 @@ document.getElementById('example-button')
                                             }],
                                         }, function(value) {
                                             setTimeout(function () {
-                                                alert('Your selection is: ' + value);
+                                                if (value) {
+                                                    $.notify('Selected value: ' + value, { position:"top center", className: 'success' });
+                                                }
                                             }, 16);
                                         });
                                     })

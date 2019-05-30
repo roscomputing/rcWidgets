@@ -62,7 +62,8 @@ $(document).ready(function() {
                 });
         // Scroll
 
-            window.onscroll = function() {
+    /*
+    window.onscroll = function() {
                 var navSelector = '.nav-menu';
                 if (!$(navSelector).length)
                     return true;
@@ -77,6 +78,8 @@ $(document).ready(function() {
 
             $('body').on('scroll', window.onscroll);
             $(window).trigger('scroll');
+
+     */
 
         // Code
     $('pre.highlight code:not(.hljs)').each(function(i, block) {
@@ -113,7 +116,9 @@ $(document).ready(function() {
     window.rc = rcWidgets({
         selector: '#widgets',
         log: function(message) {
-            alert(message);
+            if (message) {
+                $.notify(message, { position:"bottom center", className: 'success' });
+            }
         }
     });
 

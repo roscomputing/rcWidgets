@@ -25,7 +25,13 @@ const findWidgetPos = function(wPopup, pos) {
     let y = 0;
 
     if (pos.y) {
-        y = Math.max(Math.min(pos.y, $(window).height() - height - 10), 50);
+        let frame = $(window).height();
+        if (pos.y < frame) {
+            y = pos.y;
+        } else {
+            let framesCount = Math.floor(pos.y / frame);
+            y = pos.y - (frame * framesCount);
+        }
     }
 
     if (pos.x) {
@@ -36,11 +42,49 @@ const findWidgetPos = function(wPopup, pos) {
     $(wPopup).css('left', left);
 };
 
+const initListener = function() {
+    let wPopupShowingKey = '.w-popup.showing';
+
+    let globalMouseDownListener = function(e) {
+        if (!$(e.target).closest('.w-popup').length && !$(e.target).closest('.w-popup-background.popup-mode').length) {
+            $('.w-popup.showing:last').trigger('onClose').removeClass('showing');
+        }
+
+        if ($(e.target).closest('.w-popup-close').length) {
+            $(wPopupShowingKey).trigger('onClose');
+            $('.w-popup').removeClass('showing');
+        }
+    };
+
+    let globalKeyDownListener = function(e) {
+        // esc
+        if (e.keyCode === 27) {
+            if ($(wPopupShowingKey).length) {
+                $(wPopupShowingKey).trigger('onClose');
+                $('.w-popup').removeClass('showing');
+
+            }
+        }
+    };
+
+    window.removeEventListener('keydown', globalKeyDownListener);
+    window.removeEventListener('touchstart', globalMouseDownListener);
+    window.removeEventListener('mouseup', globalMouseDownListener);
+
+    window.addEventListener('keydown', globalKeyDownListener);
+    window.addEventListener('touchstart', globalMouseDownListener);
+    window.addEventListener('mouseup', globalMouseDownListener);
+};
+
+
+
 const libraryInitialAction = function (params) {
     if (!params || !params.selector || !$(params.selector).length) {
         return false;
     }
     baseEl = $(params.selector).addClass('rc-widgets')[0];
+
+    initListener();
 };
 
 const anyWidgetInitialActions = function (params) {

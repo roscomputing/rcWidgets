@@ -16,9 +16,14 @@ const initTemplates = function(el, config) {
     let mainItemTemplate = t.find(itemTemplateSelector);
 
     if (config.template) {
-        let id = $(el).attr('id');
-        shared.addKendoTemplateToPage(`${itemTemplateSelector}-${id}`,
-            mainItemTemplate.html(mainItemTemplate.html().replace('#: name #', config.template)));
+        let id = `${itemTemplateName}-${$(el).attr('id')}`;
+        let newItemTemplateHtml = mainItemTemplate.html().replace('#: name #', config.template);
+
+        mainTemplate = mainTemplate.replace(/rc-buttons-button-item-template/g, id);
+        mainItemTemplate.html(newItemTemplateHtml);
+        mainItemTemplate.attr('id', id);
+
+        shared.addKendoTemplateToPage(`#${id}`, mainItemTemplate);
     } else {
         shared.addKendoTemplateToPage(itemTemplateSelector, mainItemTemplate);
     }
@@ -36,6 +41,7 @@ const buttonsFactory = function(config) {
     initTemplates(el, config);
 
     let vm = {
+        overflowMem: null,
         isDark: config.isDark,
         fields: config.fields,
         title: config.title,
@@ -55,9 +61,12 @@ const buttonsFactory = function(config) {
             }
         },
         show: function() {
+            let html = $('html');
             if (config.pos) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
+            this.set('overflowMem', html.css('overflow'));
+            html.css('overflow', 'hidden');
             el.find('> .w-popup').addClass('showing');
         },
         destroy: function() {
@@ -65,6 +74,7 @@ const buttonsFactory = function(config) {
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            $('html').css('overflow', this.get('overflowMem'));
         }
     };
 
