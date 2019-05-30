@@ -44,7 +44,7 @@ $(document).ready(function() {
                         $('body').removeClass('theme-dark');
                 });
         // Scroll
-    /*
+
             window.onscroll = function(e) {
                 if (!$('.nav-menu').length)
                     return true;
@@ -58,25 +58,55 @@ $(document).ready(function() {
             };
 
             $('body').on('scroll', window.onscroll);
-
             $(window).trigger('scroll');
 
-     */
-
         // Code
-            $('pre code:not(.hljs)').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
+    $('pre code:not(.hljs)').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
 
         // Left menu
-            $('.left-menu-toggle, .left-menu .close').on('click', function() {
-                $('html').toggleClass('opened');
-            })
+    $('.left-menu-toggle, .left-menu .close').on('click', function() {
+        $('html').toggleClass('opened');
+    });
 
-            $('.left-menu .menu li a').on('click', function(e) {
-                $('.main-container .widget').hide();
-                $('.main-container .' + $(e.target).data('widget')).show();
-            })
+    $('.left-menu .menu li a').on('click', function(e) {
+        var widget = $(e.target).data('widget');
+        if (widget) {
+            $('.main-container .widget').hide();
+            $('.main-container .' + widget).show();
+            window.scrollTo(0,0);
+        }
+        return false;
+    });
 
-    $('.main-container .buttons').show();
+    $('.demo-code li').click(function() {
+       var li = $(this);
+       var demoCode = li.closest('.demo-code');
+       var demoKey = 'demo';
+       var exampleKey = 'example-code';
+       var activeKey = 'active';
+       var isDemo = li.hasClass(demoKey);
+       var contentToShow = '.content.' + (isDemo ? demoKey : exampleKey);
+       var contentToHide = '.content.' + (isDemo ?  exampleKey : demoKey);
+       var buttonToDisactivate = 'li.' + (isDemo ?  exampleKey : demoKey);
+
+       if (!li.hasClass(activeKey)) {
+           li.addClass(activeKey);
+       }
+
+       demoCode.find(buttonToDisactivate).removeClass(activeKey);
+       demoCode.find(contentToShow).show();
+       demoCode.find(contentToHide).hide();
+    });
+
+    window.rc = rcWidgets({
+        selector: '#widgets',
+        log: function(message) {
+            alert(message);
+        }
+    });
+
+    $('.main-container .general').show();
+    window.scrollTo(0,0);
 });

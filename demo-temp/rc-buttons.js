@@ -15,9 +15,9 @@ function getRandomFields() {
     return items;
 }
 
-function initButtons(selector, buttonSelector, config, handler) {
+function initButtons(buttonSelector, config, handler) {
     function btn () {
-        rcWidgets.buttons(config, function(value) {
+        window.rc.buttons(config, function(value) {
             typeof handler === 'function' && handler(value);
             btn();
         });
@@ -26,17 +26,25 @@ function initButtons(selector, buttonSelector, config, handler) {
     var button;
     var buttons = [
         {
-            name: 'Отменить всё что можно',
+            name: 'Cancel',
             slug: 'cancel',
         }
     ];
-    var items = getRandomFields();
+    //var items = getRandomFields();
 
     config = config || {
-        selector: selector,
         buttons: buttons,
-        title: 'Изменить статус',
-        fields: items,
+        title: 'Buttons Widget',
+        fields: [{
+            name: 'Selection 1',
+            slug: '1',
+        }, {
+            name: 'Selection 2',
+            slug: '2',
+        }, {
+            name: 'Selection 3',
+            slug: '3',
+        }],
     };
 
     if (buttonSelector) {
@@ -45,7 +53,7 @@ function initButtons(selector, buttonSelector, config, handler) {
                 config.pageX = e.pageX;
                 config.pageY = e.pageY;
 
-                button = rcWidgets.buttons(config, function(value) {
+                button = window.rc.buttons(config, function(value) {
                     typeof handler === 'function' && handler(value);
                     button = null;
                 });

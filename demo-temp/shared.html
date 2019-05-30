@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ресурсница</title>
+        <title>RC Widgets</title>
         
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,33 +16,22 @@
         <link href="./lib/rc/rcWidgets.css" rel="stylesheet"/>
 
         <style>
-            .spoiler.hidden .spoiler-content {
-                display: none;
+            .demo-code .content {
+                padding: 20px 100px;
             }
 
-            .spoiler.visible .spoiler-content {
+            .text a {
+                color: inherit;
+                text-decoration: underline;
                 display: block;
             }
 
-            .spoiler .spoiler-header {
-                position: relative;
-                cursor: pointer;
-                color: rgba(0, 0, 0, 0.8);
+            .config-property {
+                padding-top: 20px;
             }
 
-            .spoiler .spoiler-header:before {
-                font-family: 'Material Icons';
-                position: absolute;
-                left: 81px;
-                top: 4px;
-            }
-
-            .spoiler.hidden .spoiler-header:before {
-                content: '\e147'
-            }
-
-            .spoiler.visible .spoiler-header:before {
-                content: '\e15c'
+            .config-property h3 {
+                font-weight: 800 !important;
             }
         </style>
 
@@ -51,26 +40,11 @@
         <script src="./lib/kendo/2018.2.620/kendo.ui.core.min.js"></script>
         <script src="./lib/rc/rcWidgets-cdn.js"></script>
         <script src="./rc-buttons.js"></script>
-
         <script src="./shared.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('.spoiler-header').click(function () {
-                    var parent = $(this).parent();
-                    if (parent.hasClass('visible')) {
-                        parent.removeClass('visible');
-                        parent.addClass('hidden');
-                    } else {
-                        parent.removeClass('hidden');
-                        parent.addClass('visible');
-                    }
-                    return false;
-                })
-            })
-        </script>
     </head>
 
     <body class="theme-default">
+        <div id="widgets"></div>
         <button type="button" class="left-menu-toggle">
             <i class="material-icons">
                 menu
@@ -97,9 +71,9 @@
                 </div>
                 <span class="split"></span>
                 <button type="button">
-                    <span class="day">день</span>
-                    <span class="night">ночь</span>
-                    <span class="day">день</span>
+                    <span class="day">day</span>
+                    <span class="night">night</span>
+                    <span class="day">day</span>
                 </button>
             </div>
 
@@ -107,13 +81,10 @@
 
             <ul class="menu">
                 <li>
-                    <a href="javascript:;">Общая информация</a>
+                    <a href="javascript:;" data-widget="general">Getting started</a>
                 </li>
                 <li>
-                    <a href="javascript:;">Перед началом</a>
-                </li>
-                <li>
-                    <a href="javascript:;">Компоненты</a>
+                    <a href="javascript:;">Components</a>
                     <ul>
                         <li>
                             <a href="javascript:;" data-widget="buttons">Buttons</a>
@@ -122,82 +93,21 @@
                 </li>
             </ul>
             <span class="version">
-                v 1.05 (14 янв. 2019)
+                v 1.05 (14 january 2019)
             </span>
         </div>
 
         <div class="main-container">
-
-            <!-- buttons -->
-           <div class="widget buttons" style="display:none;">
-                <h1>
-                    <i class="material-icons icon">
-                        radio_button_checked
-                    </i>
-                    buttons
-                </h1>
+            <div class="widget general" style="display:none;">
+                <h1><i class="material-icons icon">radio_button_checked</i>getting started</h1>
+                <div class="text">Before You begin to use widgets, You have to add dependencies and make widgets library initialization.</div>
                 <div class="text">
-                    Виджет выбора. Представлен всплывающим окном с набором кнопок.
-                </div>                
-            </div>
-
-            <a href="./index.html" class="to-home">
-                <img src="./images/logo_1.png" alt="Roscomputing widgets"/>
-            </a>
-
-            <div class="nav-menu">
-                <div>
-                    <ul>
-                        <li class="active">
-                            <i class="material-icons icon">
-                                remove_red_eye
-                            </i>
-                            Пример виджета
-                        </li>
-                    </ul>
+                    As a dependencies, we use most recent versions of jQuery and kendo-ui libraries:
+                    <a href="https://docs.telerik.com/kendo-ui/intro/installation/getting-started" target="_blank">Getting started with kendo-ui</a>
+                    <a href="https://jquery.com/download/" target="_blank">Getting started with jQuery</a>
                 </div>
-            </div>
-            <div class="sub-container">
-                <div class="image-preview">
-                    <div class="buttons-demo-container"></div>
-                    <script>
-                        initButtons('.buttons-demo-container');
-                    </script>
-                </div>
-                <div class="split"></div>
-            </div>
-
-            <div class="sub-container">
-                <h1>Установка</h1>
-                <div>
-                    <div class="text">
-                        Добавьте сценарии и таблицы стилей необходимые для работы библиотеки:
-                    </div>
-
-                    <div class="text">
-                        jQuery:
-                    </div>
-
-                    <div class="code">
-                        <pre>
-                            <code class="javascript">&lt;script src="https://code.jquery.com/jquery-3.4.1.min.js"&gt&lt;/script&gt</code>
-                        </pre>
-                    </div>
-
-                    <div class="text">
-                        kendo:
-                    </div>
-
-                    <div class="code">
-                        <pre>
-                            <code class="javascript">&lt;script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"&gt&lt;/script&gt</code>
-                        </pre>
-                    </div>
-
-                    <div class="text">
-                        библиотека виджетов:
-                    </div>
-
+                <div class="text">
+                    To use the library, reference the files in the script and link tags directly from the rc-widgets CDN domain.
                     <div class="code">
                         <pre>
                             <code class="javascript">&lt;script src="https://rc-cdn/js/widgets.min.js"&gt&lt;/script&gt</code>
@@ -209,651 +119,325 @@
                             <code class="javascript">&lt;link href="https://rc-cdn/js/rcWidgets.css" rel="stylesheet"/&gt</code>
                         </pre>
                     </div>
-
-                    <div class="text">
-                        Используйте глобальный объект <b>rcWidgets</b> для создания виджетов:
-                    </div>
-
+                </div>
+                <div class="text">
+                    After appropriate dependencies install You have to run the widgets library initialization.
+                    Where <strong>selector</strong> is DOM-selector of the block which library going to use as widgets container.
+                    And the <strong>log</strong> is logging override by Your possible logging function implementation.
                     <div class="code">
+                        <button class="copy" type="button">
+                            <i class="material-icons">
+                                
+                            </i>
+                        </button>
                         <pre>
                             <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'Отменить всё что можно',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'Изменить статус',
-                            fields: [{
-                                name: 'Отменить 1',
-                                slug: '1',
-                            }, {
-                                name: 'Отменить 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
+window.rc = rcWidgets({
+    selector: '#widgets',
+    log: function(message) {
+        alert(message);
+    }
+});
+                            </code>
                         </pre>
+                        <div class="links">
+                            <a href="javascript:;">GitHub</a>
+                            <a href="javascript:;">Edit</a>
+                        </div>
+                    </div>
+                    After that You are ready to run the widgets by calling constructors:
+                    <div class="code">
+                        <button class="copy" type="button">
+                            <i class="material-icons">
+                                
+                            </i>
+                        </button>
+                        <pre>
+                            <code class="javascript">
+window.rc.buttons({
+        pageX: e.pageX,
+        pageY: e.pageY,
+        buttons: [
+            {
+                name: 'Cancel',
+                slug: 'cancel',
+            }
+        ],
+        title: 'Buttons Widget',
+        fields: [{
+            name: 'Selection 1',
+            slug: '1',
+        }, {
+            name: 'Selection 2',
+            slug: '2',
+        }, {
+            name: 'Selection 3',
+            slug: '3',
+        }],
+    }, function(value) {
+        alert('Your selection is: ' + value);
+    });
+                            </code>
+                        </pre>
+                        <div class="links">
+                            <a href="javascript:;">GitHub</a>
+                            <a href="javascript:;">Edit</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-            <div class="sub-container">
-                <h1>Конфигурационные параметры</h1>
-                <div class="text">
-                    Задаются объектом, свойства которого определяют внешний вид и поведение виджета.
-                </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">selector</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Определяет CSS-селектор для корневого элемента виджета.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-1"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    selector: '.buttons-demo-container-1',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
+            <div class="widget buttons" style="display:none;">
+                <h1><i class="material-icons icon">radio_button_checked</i>buttons</h1>
+                <div class="text">The widget gives an ability to make a selection using a number of select buttons.</div>
+                <div class="demo-code">
+                   <div class="nav-menu">
+                       <div>
+                           <ul>
+                               <li class="demo active">
+                                   <i class="material-icons icon">
+                                       remove_red_eye
+                                   </i>
+                                   demo
+                               </li>
+                               <li class="example-code">
+                                   <i class="material-icons icon">
+                                       code
+                                   </i>
+                                   code
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                   <div class="demo content">
+                       <button type="button" class="blue-button" id="example-button">Buttons Menu</button>
+                       <script>
+                           document.getElementById('example-button').addEventListener('click', function (e) {
+                               window.rc.buttons({
+                                   pageX: e.pageX,
+                                   pageY: e.pageY,
+                                   buttons: [
+                                       {
+                                           name: 'Cancel',
+                                           slug: 'cancel',
+                                       }
+                                   ],
+                                   title: 'Buttons Widget',
+                                   fields: [{
+                                       name: 'Selection 1',
+                                       slug: '1',
+                                   }, {
+                                       name: 'Selection 2',
+                                       slug: '2',
+                                   }, {
+                                       name: 'Selection 3',
+                                       slug: '3',
+                                   }],
+                               }, function(value) {
+                                   alert('Your selection is: ' + value);
+                               });
+                           })
+                       </script>
+                   </div>
+                   <div class="example-code content" style="display: none;">
+                       <div class="code">
+                           <button class="copy" type="button">
+                               <i class="material-icons">
+                                   
+                               </i>
+                           </button>
+                           <pre>
+                            <code class="javascript">
+document.getElementById('example-button')
+.addEventListener('click', function (e) {
+    window.rc.buttons({
+        pageX: e.pageX,
+        pageY: e.pageY,
+        buttons: [
+            {
+                name: 'Cancel',
+                slug: 'cancel',
+            }
+        ],
+        title: 'Buttons Widget',
+        fields: [{
+            name: 'Selection 1',
+            slug: '1',
+        }, {
+            name: 'Selection 2',
+            slug: '2',
+        }, {
+            name: 'Selection 3',
+            slug: '3',
+        }],
+    }, function(value) {
+        alert('Your selection is: ' + value);
+    });
+})
+                            </code>
+                        </pre>
+                           <div class="links">
+                               <a href="javascript:;">GitHub</a>
+                               <a href="javascript:;">Edit</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+                <div class="split"></div>
+                <div>
+                    <h1>Configuration</h1>
+                    <div class="config-property">
+                        <h3>pageX and pageY</h3>
+                        <div class="text">Set the page coordinates where widget appears to be displayed.</div>
                         <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'Отменить всё что можно',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'Изменить статус',
-                            fields: [{
-                                name: 'Отменить 1',
-                                slug: '1',
-                            }, {
-                                name: 'Отменить 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
-                    </pre>
+                            <button class="copy" type="button">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </button>
+                            <pre>
+                                <code class="javascript">
+    document.getElementById('example-button')
+    .addEventListener('click', function (e) {
+        window.rc.buttons({
+            pageX: e.pageX,
+            pageY: e.pageY,
+        });
+    })
+                                </code>
+                            </pre>
+                            <div class="links">
+                                <a href="javascript:;">GitHub</a>
+                                <a href="javascript:;">Edit</a>
+                            </div>
                         </div>
-
-                        <div class="split"></div>
+                    </div>
+                    <div class="config-property">
+                        <h3>buttons</h3>
+                        <div class="text">Sets the widget bottom buttons</div>
+                        <div class="code">
+                            <button class="copy" type="button">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </button>
+                            <pre>
+                                <code class="javascript">
+    document.getElementById('example-button')
+    .addEventListener('click', function (e) {
+        window.rc.buttons({
+            buttons: [{
+                name: 'Cancel',
+                slug: 'cancel',
+            }]
+        });
+    })
+                                </code>
+                            </pre>
+                            <div class="links">
+                                <a href="javascript:;">GitHub</a>
+                                <a href="javascript:;">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-property">
+                        <h3>fields</h3>
+                        <div class="text">Sets the widget main buttons collection</div>
+                        <div class="code">
+                            <button class="copy" type="button">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </button>
+                            <pre>
+                                <code class="javascript">
+    document.getElementById('example-button')
+    .addEventListener('click', function (e) {
+        window.rc.buttons({
+            fields: [{
+                name: 'Cancel',
+                slug: 'cancel',
+            }]
+        });
+    })
+                                </code>
+                            </pre>
+                            <div class="links">
+                                <a href="javascript:;">GitHub</a>
+                                <a href="javascript:;">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="config-property">
+                        <h3>title</h3>
+                        <div class="text">Sets the widget title value</div>
+                        <div class="code">
+                            <button class="copy" type="button">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </button>
+                            <pre>
+                                <code class="javascript">
+    document.getElementById('example-button')
+    .addEventListener('click', function (e) {
+        window.rc.buttons({
+            title: 'Some Title'
+        });
+    })
+                                </code>
+                            </pre>
+                            <div class="links">
+                                <a href="javascript:;">GitHub</a>
+                                <a href="javascript:;">Edit</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">buttons</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Определяет коллекцию кнопок в нижней части виджета.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-2"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    selector: '.buttons-demo-container-2',
-                                    buttons: [
-                                        {
-                                            name: 'КАСТОМНАЯ КНОПКА ВНИЗУ',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
+                <div class="split"></div>
+                <div>
+                    <h1>Events</h1>
+                    <div class="config-property">
+                        <h3>onClose</h3>
+                        <div class="text">Sets the custom on the close handler, which receives selected value in case of any button clicked.</div>
                         <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'КАСТОМНАЯ КНОПКА ВНИЗУ',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'Изменить статус',
-                            fields: [{
-                                name: 'Отменить 1',
-                                slug: '1',
-                            }, {
-                                name: 'Отменить 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
-                    </pre>
+                            <button class="copy" type="button">
+                                <i class="material-icons">
+                                    
+                                </i>
+                            </button>
+                            <pre>
+                                <code class="javascript">
+window.rc.buttons({
+    pageX: e.pageX,
+    pageY: e.pageY,
+    buttons: [{
+        name: 'Cancel',
+        slug: 'cancel',
+    }],
+    title: 'Buttons Widget',
+    fields: [{
+        name: 'Selection 1',
+        slug: '1',
+    }, {
+        name: 'Selection 2',
+        slug: '2',
+    }, {
+        name: 'Selection 3',
+        slug: '3',
+    }],
+}, function(value) {
+    alert('Your selection is: ' + value);
+});
+                                </code>
+                            </pre>
+                            <div class="links">
+                                <a href="javascript:;">GitHub</a>
+                                <a href="javascript:;">Edit</a>
+                            </div>
                         </div>
-
-                        <div class="split"></div>
                     </div>
                 </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">title</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Определяет основной заголовок виджета.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-3"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    selector: '.buttons-demo-container-3',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить все',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'ЗАГОЛОВОК ВИДЖЕТА',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'Отменить все',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'ЗАГОЛОВОК ВИДЖЕТА',
-                            fields: [{
-                                name: 'Отменить 1',
-                                slug: '1',
-                            }, {
-                                name: 'Отменить 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
-                    </pre>
-                        </div>
-
-                        <div class="split"></div>
-                    </div>
-                </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">fields</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Коллекция с набором основных кнопок виджета
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-4"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    selector: '.buttons-demo-container-4',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить все',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'ОСНОВНАЯ КНОПКА 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'ОСНОВНАЯ КНОПКА 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'Отменить все',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'Изменить статус',
-                            fields: [{
-                                name: 'ОСНОВНАЯ КНОПКА 1',
-                                slug: '1',
-                            }, {
-                                name: 'ОСНОВНАЯ КНОПКА 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
-                    </pre>
-                        </div>
-
-                        <div class="split"></div>
-                    </div>
-                </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">isDark</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Определяет использование темной цветовой схемы.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-5"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    isDark: true,
-                                    selector: '.buttons-demo-container-5',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            isDark: true,
-                            selector: '.buttons-demo-container-1',
-                            buttons: [
-                                {
-                                    name: 'Отменить всё что можно',
-                                    slug: 'cancel',
-                                }
-                            ],
-                            title: 'Изменить статус',
-                            fields: [{
-                                name: 'Отменить 1',
-                                slug: '1',
-                            }, {
-                                name: 'Отменить 2',
-                                slug: '2',
-                            }]
-                        });
-                        </code>
-                    </pre>
-                        </div>
-
-                        <div class="split"></div>
-                    </div>
-                </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">pageX и pageY</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Определяют положение появления виджета на экране.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <button type="button" class="blue-button button-6">КНОПКИ</button>
-                            <div class="buttons-demo-container-6"></div>
-                            <script>
-                                initButtons(null, '.button-6', {
-                                    selector: '.buttons-demo-container-6',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            document.getElementById('#myButton').addEventListener('click', function (e) {
-                            rcButtons({
-                            selector: '.my-container',
-                            buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                            pageX: e.pageX,
-                            pageY: e.pageY,);
-                            });
-                        });
-                        </code>
-                    </pre>
-                        </div>
-
-                        <div class="split"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sub-container">
-                <h1>Обработчики событий</h1>
-
-                <div class="text">
-                    Задаются в виде функции обратного вызова переданной в качестве втрого фактического параметра конструктора виджета.
-                </div>
-
-                <div class="spoiler hidden">
-                    <h2 class="spoiler-header">обработчик закрытия окна</h2>
-                    <div class="spoiler-content">
-                        <div class="text">
-                            Пользовательский обработчик закрытия окна выбора. При выборе значения в качестве фактического параметра получает идентификатор
-                            (slug) такового.
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            remove_red_eye
-                                        </i>
-                                        Пример
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="image-preview">
-                            <div class="buttons-demo-container-7"></div>
-                            <script>
-                                initButtons(null, null, {
-                                    selector: '.buttons-demo-container-7',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                                }, function (v) {
-                                    alert('Выбрано значение: ' + v);
-                                });
-                            </script>
-                        </div>
-
-                        <div class="nav-menu">
-                            <div>
-                                <ul>
-                                    <li class="active">
-                                        <i class="material-icons icon">
-                                            code
-                                        </i>
-                                        Пример кода
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="code">
-                    <pre>
-                        <code class="javascript">
-                            rcWidgets.buttons({
-                            selector: '.buttons-demo-container-7',
-                                    buttons: [
-                                        {
-                                            name: 'Отменить всё что можно',
-                                            slug: 'cancel',
-                                        }
-                                    ],
-                                    title: 'Изменить статус',
-                                    fields: [{
-                                        name: 'Отменить 1',
-                                        slug: '1',
-                                    }, {
-                                        name: 'Отменить 2',
-                                        slug: '2',
-                                    }]
-                        }, function (v) {
-                                    alert('Выбрано значение: ' + v);
-                                });
-                        </code>
-                    </pre>
-                        </div>
-
-                        <div class="split"></div>
-                    </div>
-                </div>
+                <div class="split"></div>
             </div>
         </div>
     </body>
