@@ -16,9 +16,9 @@ const initTemplates = function(el, config) {
     let mainItemTemplate = t.find(itemTemplateSelector);
 
     if (config.template) {
-        let id = $(el).parent().attr('id');
+        let id = $(el).attr('id');
         shared.addKendoTemplateToPage(`${itemTemplateSelector}-${id}`,
-            mainItemTemplate.html().replace('#: name #', config.template));
+            mainItemTemplate.html(mainItemTemplate.html().replace('#: name #', config.template)));
     } else {
         shared.addKendoTemplateToPage(itemTemplateSelector, mainItemTemplate);
     }

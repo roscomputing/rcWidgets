@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,6 +31,21 @@
 
             .config-property h3 {
                 font-weight: 800 !important;
+            }
+
+            .left-menu .menu li a.selected {
+                font-weight: 700 !important;
+            }
+
+            .line-of-codes .code {
+                margin: 20px 0;
+            }
+
+            .html-link {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
             }
         </style>
 
@@ -81,13 +95,13 @@
 
             <ul class="menu">
                 <li>
-                    <a href="javascript:;" data-widget="general">Getting started</a>
+                    <a href="javascript:;" class="general" data-widget="general">Getting started</a>
                 </li>
                 <li>
                     <a href="javascript:;">Components</a>
                     <ul>
                         <li>
-                            <a href="javascript:;" data-widget="buttons">Buttons</a>
+                            <a href="javascript:;" class="buttons" data-widget="buttons">Buttons</a>
                         </li>
                     </ul>
                 </li>
@@ -106,17 +120,17 @@
                     <a href="https://docs.telerik.com/kendo-ui/intro/installation/getting-started" target="_blank">Getting started with kendo-ui</a>
                     <a href="https://jquery.com/download/" target="_blank">Getting started with jQuery</a>
                 </div>
-                <div class="text">
+                <div class="text line-of-codes">
                     To use the library, reference the files in the script and link tags directly from the rc-widgets CDN domain.
                     <div class="code">
                         <pre>
-                            <code class="javascript">&lt;script src="https://rc-cdn/js/widgets.min.js"&gt&lt;/script&gt</code>
+                            <code class="html-link">&lt;script src="https://rc-cdn/js/widgets.min.js"&gt&lt;/script&gt</code>
                         </pre>
                     </div>
 
                     <div class="code">
                         <pre>
-                            <code class="javascript">&lt;link href="https://rc-cdn/js/rcWidgets.css" rel="stylesheet"/&gt</code>
+                            <code class="html-link">&lt;link href="https://rc-cdn/js/rcWidgets.css" rel="stylesheet"/&gt</code>
                         </pre>
                     </div>
                 </div>
@@ -130,7 +144,7 @@
                                 
                             </i>
                         </button>
-                        <pre>
+                        <pre class="highlight">
                             <code class="javascript">
 window.rc = rcWidgets({
     selector: '#widgets',
@@ -152,7 +166,7 @@ window.rc = rcWidgets({
                                 
                             </i>
                         </button>
-                        <pre>
+                        <pre class="highlight">
                             <code class="javascript">
 window.rc.buttons({
         pageX: e.pageX,
@@ -233,7 +247,9 @@ window.rc.buttons({
                                        slug: '3',
                                    }],
                                }, function(value) {
-                                   alert('Your selection is: ' + value);
+                                   setTimeout(function () {
+                                       alert('Your selection is: ' + value);
+                                   }, 16);
                                });
                            })
                        </script>
@@ -245,7 +261,7 @@ window.rc.buttons({
                                    
                                </i>
                            </button>
-                           <pre>
+                           <pre class="highlight">
                             <code class="javascript">
 document.getElementById('example-button')
 .addEventListener('click', function (e) {
@@ -294,7 +310,7 @@ document.getElementById('example-button')
                                     
                                 </i>
                             </button>
-                            <pre>
+                            <pre class="highlight">
                                 <code class="javascript">
     document.getElementById('example-button')
     .addEventListener('click', function (e) {
@@ -320,7 +336,7 @@ document.getElementById('example-button')
                                     
                                 </i>
                             </button>
-                            <pre>
+                            <pre class="highlight">
                                 <code class="javascript">
     document.getElementById('example-button')
     .addEventListener('click', function (e) {
@@ -348,7 +364,7 @@ document.getElementById('example-button')
                                     
                                 </i>
                             </button>
-                            <pre>
+                            <pre class="highlight">
                                 <code class="javascript">
     document.getElementById('example-button')
     .addEventListener('click', function (e) {
@@ -376,7 +392,7 @@ document.getElementById('example-button')
                                     
                                 </i>
                             </button>
-                            <pre>
+                            <pre class="highlight">
                                 <code class="javascript">
     document.getElementById('example-button')
     .addEventListener('click', function (e) {
@@ -392,6 +408,113 @@ document.getElementById('example-button')
                             </div>
                         </div>
                     </div>
+                    <div class="config-property">
+                        <h3>template</h3>
+                        <div class="text">Gives an ability to set custom button template</div>
+                        <div class="demo-code">
+                            <div class="nav-menu">
+                                <div>
+                                    <ul>
+                                        <li class="demo active">
+                                            <i class="material-icons icon">
+                                                remove_red_eye
+                                            </i>
+                                            demo
+                                        </li>
+                                        <li class="example-code">
+                                            <i class="material-icons icon">
+                                                code
+                                            </i>
+                                            code
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="demo content">
+                                <button type="button" class="blue-button" id="example-button-1">Buttons Menu</button>
+                                <script>
+                                    document.getElementById('example-button-1').addEventListener('click', function (e) {
+                                        window.rc.buttons({
+                                            template: '#: name # # if (typeof additional !== "undefined") {# ( #: additional # ) # } #',
+                                            pageX: e.pageX,
+                                            pageY: e.pageY,
+                                            buttons: [
+                                                {
+                                                    name: 'Cancel',
+                                                    slug: 'cancel',
+                                                }
+                                            ],
+                                            title: 'Buttons Widget',
+                                            fields: [{
+                                                name: 'Selection 1',
+                                                additional: 'XX',
+                                                slug: '1',
+                                            }, {
+                                                name: 'Selection 2',
+                                                slug: '2',
+                                            }, {
+                                                name: 'Selection 3',
+                                                additional: 'XXI',
+                                                slug: '3',
+                                            }],
+                                        }, function(value) {
+                                            setTimeout(function () {
+                                                alert('Your selection is: ' + value);
+                                            }, 16);
+                                        });
+                                    })
+                                </script>
+                            </div>
+                            <div class="example-code content" style="display: none;">
+                                <div class="code">
+                                    <button class="copy" type="button">
+                                        <i class="material-icons">
+                                            
+                                        </i>
+                                    </button>
+                                    <pre class="highlight">
+                            <code class="javascript">
+document.getElementById('example-button')
+.addEventListener('click', function (e) {
+    window.rc.buttons({
+        template: '#: name # # if (typeof additional !== "undefined") {# ( #: additional # ) # } #',
+        pageX: e.pageX,
+        pageY: e.pageY,
+        buttons: [
+            {
+                name: 'Cancel',
+                slug: 'cancel',
+            }
+        ],
+        title: 'Buttons Widget',
+        fields: [{
+            name: 'Selection 1',
+            additional: 'XX',
+            slug: '1',
+        }, {
+            name: 'Selection 2',
+            slug: '2',
+        }, {
+            name: 'Selection 3',
+            additional: 'XXI',
+            slug: '3',
+        }],
+    }, function(value) {
+        alert('Your selection is: ' + value);
+    });
+})
+                            </code>
+                        </pre>
+                                    <div class="links">
+                                        <a href="javascript:;">GitHub</a>
+                                        <a href="javascript:;">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
                 <div class="split"></div>
                 <div>
@@ -405,7 +528,7 @@ document.getElementById('example-button')
                                     
                                 </i>
                             </button>
-                            <pre>
+                            <pre class="highlight">
                                 <code class="javascript">
 window.rc.buttons({
     pageX: e.pageX,

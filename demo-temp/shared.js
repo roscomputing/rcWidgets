@@ -20,6 +20,23 @@ $.fn.animateRotate = function(startAngle, endAngle, duration, easing, complete){
 };
 
 $(document).ready(function() {
+    var leftLinkSelector = '.left-menu .menu li a';
+
+    function onLeftMenuClick (e) {
+        var target = $(e.target);
+        var widget = target.data('widget');
+        var selectedKey = 'selected';
+        if (widget) {
+            $('.main-container .widget').hide();
+            $('.main-container .' + widget).show();
+            $(leftLinkSelector).removeClass(selectedKey);
+            target.addClass(selectedKey);
+            window.location.hash = widget;
+            window.scrollTo(0,0);
+        }
+        return false;
+    }
+
     // Наброски
         // Rotate
             var deg = 0; 
@@ -32,25 +49,26 @@ $(document).ready(function() {
                         deg = deg % 360;
 
                     $('.theme-checkout button').animate({scrollTop: 44 * parseInt(deg / 180)}, '300', function() {
-                        if (parseInt(deg / 180) == 2)
+                        if (parseInt(deg / 180) === 2)
                             setTimeout(function() {
                                 $('.theme-checkout button').scrollTop(0);
                             })
                     });
 
-                    if (parseInt(deg / 180) == 1)
+                    if (parseInt(deg / 180) === 1)
                         $('body').addClass('theme-dark');
                     else
                         $('body').removeClass('theme-dark');
                 });
         // Scroll
 
-            window.onscroll = function(e) {
-                if (!$('.nav-menu').length)
+            window.onscroll = function() {
+                var navSelector = '.nav-menu';
+                if (!$(navSelector).length)
                     return true;
 
                 var scrollTop = Math.max(document.body.scrollTop, window.pageYOffset, document.documentElement.scrollTop, (document.scrollingElement ? document.scrollingElement.scrollTop || 0 : 0));
-                if (scrollTop > $('.nav-menu').offset().top)
+                if (scrollTop > $(navSelector).offset().top)
                     $('body').addClass('fixed-header');
                 else
                     $('body').removeClass('fixed-header');
@@ -61,7 +79,7 @@ $(document).ready(function() {
             $(window).trigger('scroll');
 
         // Code
-    $('pre code:not(.hljs)').each(function(i, block) {
+    $('pre.highlight code:not(.hljs)').each(function(i, block) {
         hljs.highlightBlock(block);
     });
 
@@ -70,15 +88,7 @@ $(document).ready(function() {
         $('html').toggleClass('opened');
     });
 
-    $('.left-menu .menu li a').on('click', function(e) {
-        var widget = $(e.target).data('widget');
-        if (widget) {
-            $('.main-container .widget').hide();
-            $('.main-container .' + widget).show();
-            window.scrollTo(0,0);
-        }
-        return false;
-    });
+    $(leftLinkSelector).on('click', onLeftMenuClick);
 
     $('.demo-code li').click(function() {
        var li = $(this);
@@ -107,6 +117,5 @@ $(document).ready(function() {
         }
     });
 
-    $('.main-container .general').show();
-    window.scrollTo(0,0);
+    onLeftMenuClick({ target: $(leftLinkSelector + '.' +(window.location.hash ? window.location.hash.substring(1) : 'general'))[0]});
 });

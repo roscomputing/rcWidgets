@@ -26,6 +26,7 @@
                 var buttons = [
                     {
                         name: 'Отменить всё что можно',
+                        date: '1111',
                         slug: 'cancel',
                     }
                 ];
@@ -43,6 +44,7 @@
                 document.getElementById('sb').addEventListener('click', function (e) {
                     if (!button) {
                         button = rcButtons({
+                            template: '#: name # # if (typeof date !== "undefined") {# (#: date # ) # } #',
                             selector: '.container',
                             buttons: buttons,
                             title: 'Изменить статус',
