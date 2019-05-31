@@ -78,12 +78,7 @@ const buttonsFactory = function(config) {
         }
     };
 
-    vm = new kendo.observable(vm);
-
-    kendo.bind(el.find('> .w-popup'), vm);
-    vm.init();
-
-    return vm
+    return shared.bindViewModel(el, vm);
 };
 
 module.exports = function(config, callback) {

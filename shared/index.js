@@ -1,3 +1,5 @@
+const consts = require('./consts');
+
 let baseEl;
 let externalLog;
 
@@ -103,10 +105,34 @@ const addKendoTemplateToPage = function (id ,template) {
     }
 };
 
+const bindViewModel = function (el, vm) {
+    vm = kendo.observable(vm);
+
+    kendo.bind(el.find('> .w-popup'), vm);
+    vm.init();
+
+    return vm;
+};
+
+const getHtml = function(data) {
+    if (!data.remote_id)
+        return '';
+
+    if (!consts.video.services[data.source])
+        return '';
+
+    let html = consts.video.services[data.source].html;
+
+    html = html.replace(/<%= remote_id %>/g, data.remote_id);
+    return html;
+};
+
 module.exports = {
     libraryInitialAction,
     anyWidgetInitialActions,
     findWidgetPos,
     addKendoTemplateToPage,
-    log
+    log,
+    bindViewModel,
+    getHtml
 };

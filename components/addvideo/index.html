@@ -1,0 +1,55 @@
+<div id='rc-addvideo-template'>
+    <div class="rc-addvideo w-popup">
+        <button
+                style="display: none;"
+                class="close-button"
+                data-bind="
+                click: close,
+            "
+                rc-tooltip="Закрыть"
+                type="button">
+            <i class="material-icons">
+                close
+            </i>
+        </button>
+
+        <h2
+                data-bind="text: title"
+                class="title">Прикрепить видео</h2>
+
+        <label
+                data-bind="text: description"
+                class="description">YouTube, Vimeo, Twitch, Coub, VK, Gfycat, Imgur, Giphy, OK</label>
+
+        <div>
+            <label class="input-with-icon url-panel">
+                <i class="material-icons icon">
+                    search
+                </i>
+                <input
+                        data-bind="
+                        value: url,
+                        events: {
+                            keyup: searchVideo,
+                            change: searchVideo,
+                        }
+                    "
+                        data-value-update="keyup"
+                        class="simple-input" placeholder="Ссылка" type="text">
+                <i class="line"></i>
+            </label>
+        </div>
+
+        <div class="bottom">
+            <div class="bottom-buttons">
+                <button
+                        data-bind="
+                        click: close
+                    "
+                        class="white-button" type="button">Отмена
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

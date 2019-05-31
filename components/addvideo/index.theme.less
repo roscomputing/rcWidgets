@@ -1,0 +1,67 @@
+@import '../../styles/theme.default.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.w-popup {
+  &.rc-addvideo {
+    .container-shadow();
+    background-color: @main-color;
+
+    & > .title {
+      .font-18-title();
+      color: @txt-normal-color;
+    }
+    & > .description {
+      .font-15-body();
+      color: @txt-placeholder-color;
+    }
+
+    .colomns {
+      & > div {
+        .webkit-scrollbar(@bg-color: @main-color);
+        border-color: @divider-color;
+        ul {
+          border-bottom-color: @divider-color;
+          li {
+            .font-13-body();
+            color: @txt-normal-color;
+
+            &.with-button {
+              button {
+                color: @txt-normal-color;
+                &:hover {
+                  background-color: @hover-color;
+                }
+              }
+            }
+
+            &:hover {
+              background-color: @hover-color;
+            }
+
+            &.selected {
+              background-color: @bg-main-color;
+            }
+            &.active {
+              background: @main-header-color;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      .bottom-buttons {
+        border-color: @border-color;
+        background-color: @main-2n-color;
+      }
+    }
+
+    &.popup-mode {
+      .close-button {
+        color: @txt-normal-color;
+        &:hover {
+          background-color: @hover-color;
+        }
+      }
+    }
+  }
+}
