@@ -127,6 +127,11 @@ const getHtml = function(data) {
     return html;
 };
 
+const initTemplates = function(el, template, templateSelector, isPopupMode) {
+    el.html(`<div class="w-popup-background${isPopupMode ? ' popup-mode' : ''}"></div>`);
+    el.append($(`<div>${template}</div>`).find(templateSelector).html());
+};
+
 module.exports = {
     libraryInitialAction,
     anyWidgetInitialActions,
@@ -134,5 +139,6 @@ module.exports = {
     addKendoTemplateToPage,
     log,
     bindViewModel,
-    getHtml
+    getHtml,
+    initTemplates
 };

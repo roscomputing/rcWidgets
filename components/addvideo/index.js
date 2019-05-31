@@ -7,12 +7,6 @@ const shared = require('../../shared/index');
 const consts = require('../../shared/consts');
 const template = require('./index.html');
 
-const initTemplates = function(el) {
-    el.html('<div class="w-popup-background popup-mode"></div>');
-    el.append($(`<div>${template}</div>`).find('#rc-addvideo-template').html());
-};
-
-
 const addvideoFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
 
@@ -20,7 +14,7 @@ const addvideoFactory = function(config) {
         return null;
     }
 
-    initTemplates(el);
+    shared.initTemplates(el, template, '#rc-addvideo-template', true);
 
     let vm = {
         getHtml: shared.getHtml,
