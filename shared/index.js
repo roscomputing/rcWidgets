@@ -99,10 +99,35 @@ const anyWidgetInitialActions = function (params) {
     return el;
 };
 
-const addKendoTemplateToPage = function (id ,template) {
-    if (!$(id).length) {
-        $('body').prepend(template)
+const initTemplates = function (el, template, templateSelector, isPopupMode, kendoTemplates) {
+    el.html(`<div class="w-popup-background${isPopupMode ? ' popup-mode' : ''}"></div>`);
+
+    let t = $(`<div>${template}</div>`);
+    let mainTemplate = t.find(templateSelector).html();
+
+    if (kendoTemplates && kendoTemplates.length) {
+        kendoTemplates.forEach((v) => {
+            let tn = v.templateName;
+            let id = `#${tn}`;
+            let kt = t.find(id);
+            let ut = v.userTemplate;
+
+            if (ut) {
+                let id = `${tn}-${$(el).attr('id')}`;
+                let newTemplateHtml = kt.html().replace('#: name #', ut);
+
+                mainTemplate = mainTemplate.replace(new RegExp(tn, 'g'), id);
+                kt.html(newTemplateHtml);
+                kt.attr('id', id);
+            }
+
+            if (!$(id).length) {
+                $('body').prepend(kt)
+            }
+        });
     }
+
+    el.append(mainTemplate);
 };
 
 const bindViewModel = function (el, vm) {
@@ -127,16 +152,10 @@ const getHtml = function(data) {
     return html;
 };
 
-const initTemplates = function(el, template, templateSelector, isPopupMode) {
-    el.html(`<div class="w-popup-background${isPopupMode ? ' popup-mode' : ''}"></div>`);
-    el.append($(`<div>${template}</div>`).find(templateSelector).html());
-};
-
 module.exports = {
     libraryInitialAction,
     anyWidgetInitialActions,
     findWidgetPos,
-    addKendoTemplateToPage,
     log,
     bindViewModel,
     getHtml,

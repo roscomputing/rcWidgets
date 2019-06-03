@@ -1,7 +1,7 @@
 require('../../shared/dev-styles');
-//require('./index.less');
-//require('./index.theme.less');
-//require('./index.theme.dark.less');
+require('./index.less');
+require('./index.theme.less');
+require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
@@ -13,7 +13,11 @@ const autocompleteFactory = function(config) {
         return null;
     }
 
-    shared.initTemplates(el, template, '#rc-autocomplete-template');
+    shared.initTemplates(el, template, '#rc-autocomplete-template', false, [{
+        templateName: 'rc-autocomplete-item-template',
+    }, {
+        templateName: 'rc-autocomplete-button-item-template'
+    }]);
 
     let vm = {
         // Buttons
@@ -71,19 +75,21 @@ const autocompleteFactory = function(config) {
                             result = config.onAjaxSuccess(result);
                         }
 
-                        this.set('findedBackup', result);
-                        this.set('finded', $.grep(result, (item) => ids.indexOf(item.Id) === -1));
+                        if (result) {
+                            this.set('findedBackup', result);
+                            this.set('finded', $.grep(result, (item) => ids.indexOf(item.Id) === -1));
 
-                        // Тут из невыделенного убирается выделенное
-                        this.set('finded', this.get('finded').filter((item) => {
-                            let retVal = true;
-                            $.each(this.values, (k, v) => {
-                                if (v.Id === item.Id) {
-                                    retVal = false;
-                                }
-                            });
-                            return retVal;
-                        }));
+                            // Тут из невыделенного убирается выделенное
+                            this.set('finded', this.get('finded').filter((item) => {
+                                let retVal = true;
+                                $.each(this.values, (k, v) => {
+                                    if (v.Id === item.Id) {
+                                        retVal = false;
+                                    }
+                                });
+                                return retVal;
+                            }));
+                        }
                     },
                     error: function(error) {
                         shared.log(error.responseJSON);
@@ -128,7 +134,7 @@ const autocompleteFactory = function(config) {
             this.getPossibleValues();
 
             if (config.callback)
-                el.find('.w-popup').on('onClose', function() {
+                el.find('.w-popup').on('onClose', () => {
                     config.callback(this.get('values'));
                 });
         },
@@ -154,6 +160,8 @@ module.exports = function(config, callback) {
     let autocomplete;
 
     let data = {
+        selector: config.selector,
+        log: config.log,
         pos: {
             x: config.pageX || 0,
             y: config.pageY || 0,

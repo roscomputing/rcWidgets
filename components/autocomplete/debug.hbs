@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main class="theme-dark">
+    <div class="container"></div>
+    <button id="sb">AUTOCOMPLETE</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcAutocomplete) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    rcAutocomplete({
+                        selector: '.container',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        method: 'GET',
+                        getAjaxData: function(params) {
+                            console.log(params); // skip, take, searchStr
+                            return JSON.stringify({});
+                        },
+                        onAjaxSuccess: function(result) {
+                            return result.seasons.map(function(item) {
+                                return {
+                                    Id: parseInt(Math.random() * 1000),
+                                    Text: item
+                                }
+                            });
+                        },
+                        clientSearch: false,
+                        url: 'https://cdn.rawgit.com/dpheitmeyer/e0c4480fe583663c51de/raw/8e19ab1765dc27b6eeeb480f0187f3fd5a6db6a9/seasons.json',
+                        finded: [],
+                        values: [],
+                    }, function (values) {
+                        console.log(values);
+                    });
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

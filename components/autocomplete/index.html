@@ -1,10 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<script id="rc-autocomplete-item-template" type="text/x-kendo-template">
+    <li
+            data-bind="click: selectValue"
+    >
+        #= Text #
+        <i class="material-icons">
+            check
+        </i>
+    </li>
+</script>
 
-</body>
-</html>
+<script id="rc-autocomplete-button-item-template" type="text/x-kendo-template">
+    <li
+            data-bind="click: onButtonClick"
+    >
+        #: name #
+    </li>
+</script>
+
+<div id='rc-autocomplete-template'>
+    <div class="rc-autocomplete w-popup">
+        <div class="search-input">
+            <button
+                    class="find-button"
+                    type="button">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+
+            <input
+                    data-value-update="keyup"
+                    data-bind="
+                    value: searchStr,
+                    events: {
+                        change: searchStrChange,
+                        keyup: searchStrChange
+                    }
+                "
+
+                    type="text"/>
+        </div>
+
+        <ul
+                data-template="rc-autocomplete-button-item-template"
+                data-bind="
+                visible: buttons,
+                source: buttons
+            "
+
+                class="buttons"
+        ></ul>
+
+        <span data-bind="invisible: valuesExists" class="empty-label">
+            Не задано
+        </span>
+
+        <ul
+                data-template="rc-autocomplete-item-template"
+                data-bind="
+                visible: valuesExists,
+                source: values
+            "
+
+                class="values">
+        </ul>
+
+        <span class="line"></span>
+
+        <ul
+                data-template="rc-autocomplete-item-template"
+                data-bind="source: finded"
+
+                class="finded">
+        </ul>
+    </div>
+</div>

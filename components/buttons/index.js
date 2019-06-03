@@ -6,31 +6,6 @@ require('./index.theme.dark.less');
 const shared = require('../../shared/index');
 const template = require('./index.html');
 
-const initTemplates = function(el, config) {
-    el.html('<div class="w-popup-background"></div>');
-
-    let t = $(`<div>${template}</div>`);
-    let mainTemplate = t.find('#rc-buttons-template').html();
-    let itemTemplateName = 'rc-buttons-button-item-template';
-    let itemTemplateSelector = `#${itemTemplateName}`;
-    let mainItemTemplate = t.find(itemTemplateSelector);
-
-    if (config.template) {
-        let id = `${itemTemplateName}-${$(el).attr('id')}`;
-        let newItemTemplateHtml = mainItemTemplate.html().replace('#: name #', config.template);
-
-        mainTemplate = mainTemplate.replace(/rc-buttons-button-item-template/g, id);
-        mainItemTemplate.html(newItemTemplateHtml);
-        mainItemTemplate.attr('id', id);
-
-        shared.addKendoTemplateToPage(`#${id}`, mainItemTemplate);
-    } else {
-        shared.addKendoTemplateToPage(itemTemplateSelector, mainItemTemplate);
-    }
-
-    el.append(mainTemplate);
-};
-
 const buttonsFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
 
@@ -38,7 +13,10 @@ const buttonsFactory = function(config) {
         return null;
     }
 
-    initTemplates(el, config);
+    shared.initTemplates(el, template, '#rc-buttons-template', false, [{
+        templateName: 'rc-buttons-button-item-template',
+        userTemplate: config.template
+    }]);
 
     let vm = {
         overflowMem: null,
