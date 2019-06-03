@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main>
+    <div class="container"></div>
+    <button id="sb">ГОРОДА</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcCity) {
+                var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+
+                function getCountries(params, callback) {
+                    console.log(params);
+                    var items = [];
+
+                    var i = 0;
+                    while (i < parseInt(Math.random() * 10)) {
+                        items.push({
+                            Code: Math.random().toString(36).substring(7),
+                            Id: i + 1,
+                            Title: 'Королевство ' + rrw[parseInt(Math.random() * rrw.length)]
+                        });
+                        i++;
+                    }
+
+                    if (callback)
+                        callback(items);
+                }
+
+                function getAreas(params, callback) {
+                    console.log(params);
+                    var items = [];
+
+                    var i = 0;
+                    while (i < parseInt(Math.random() * 50)) {
+                        items.push({
+                            Code: Math.random().toString(36).substring(7),
+                            Id: i + 1,
+                            CountryId: params.CountryId,
+                            Title: rrw[parseInt(Math.random() * rrw.length)] + ' область'
+                        });
+                        i++;
+                    }
+
+                    if (callback)
+                        callback(items);
+                }
+
+                function getCities (params, callback) {
+                    console.log(params);
+                    var items = [];
+
+                    var i = 0;
+                    while (i < parseInt(Math.random() * 50)) {
+                        items.push({
+                            Code: Math.random().toString(36).substring(7),
+                            Id: i + 1,
+                            RegionId: params.RegionId,
+                            Title: rrw[parseInt(Math.random() * rrw.length)]
+                        });
+                        i++;
+                    }
+
+                    if (callback)
+                        callback(items);
+                }
+
+
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    rcCity({
+                        selector: '.container',
+                        choiceMode: 1,
+                        getCountries: function(params, callback) {
+                            getCountries(params, callback);
+                        },
+                        getAreas    : function(params, callback) {
+                            getAreas(params, callback);
+                        },
+                        getCities   : function(params, callback) {
+                            getCities(params, callback);
+                        },
+                    }, function (cities, areas) {
+                        console.log(cities, areas)
+                    });
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>
