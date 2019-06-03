@@ -1,10 +1,9 @@
-require('../../shared/dev-styles');
+require('../../shared/dev-dependencies');
 require('./index.less');
 require('./index.theme.less');
 require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
-const consts = require('../../shared/consts');
 const template = require('./index.html');
 
 const cityFactory = function(config) {
