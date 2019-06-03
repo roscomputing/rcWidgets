@@ -1,0 +1,182 @@
+<script id="rc-calendar-slide-2-template" type="text/x-kendo-template">
+    <button
+            data-bind="click: choiceSlide2Item"
+            type="button" class="slide-2-item">
+        #: name #
+    </button>
+</script>
+
+<div id='rc-calendar-template'>
+    <div
+            data-bind="
+            css: {
+                with-blue-zone: getVisibleBlueZone
+            }
+        "
+            class="rc-calendar w-popup with-blue-zone">
+        <div class="h">
+            <div
+                    data-bind="
+                    visible: removeButtonVisible
+                "
+                    class="clear-it">
+                <button
+                        data-bind="click: removeIt"
+                        type="button">
+                    <i class="material-icons">
+                        clear
+                    </i>
+                </button>
+            </div>
+        </div>
+
+        <div class="title">
+            <div class="l">
+                <button
+                        data-bind="click: moin"
+                        type="button" class="nav">
+                    <i class="material-icons">
+                        chevron_left
+                    </i>
+                </button>
+
+                <ul>
+                    <li data-bind="
+                        invisible: getVisibleDayChoice,
+                        click: addSlide
+                    ">
+                        <label
+                                data-bind="text: leftTitle"
+                                class="month big"></label>
+                    </li>
+                    <li class="slide-1" data-bind="
+                        visible: getVisibleDayChoice,
+                        click: addSlide
+                    ">
+                        <label class="month"></label>
+                        <label class="year"></label>
+                    </li>
+                </ul>
+            </div>
+            <div class="r">
+                <button
+                        data-bind="click: plus"
+                        type="button"  class="nav">
+                    <i class="material-icons">
+                        chevron_right
+                    </i>
+                </button>
+                <ul>
+                    <li data-bind="
+                        invisible: getVisibleDayChoice,
+                        click: addSlide
+                    ">
+                        <label
+                                data-bind="text: rightTitle"
+                                class="month"></label>
+                    </li>
+                    <li class="slide-1" data-bind="
+                        visible: getVisibleDayChoice,
+                        click: addSlide
+                    ">
+                        <label class="month"></label>
+                        <label class="year"></label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SLIDE 2+ -->
+        <div
+                data-bind="
+                    invisible: getVisibleDayChoice,
+                "
+                class="calendar">
+
+            <div
+                    class="slide-2-container left"
+                    data-template="rc-calendar-slide-2-template"
+                    data-bind="source: leftArray"></div>
+        </div>
+
+        <div
+                data-bind="
+                    invisible: getVisibleDayChoice,
+                "
+                class="calendar">
+
+            <div
+                    class="slide-2-container right"
+                    data-template="rc-calendar-slide-2-template"
+                    data-bind="source: rightArray"></div>
+        </div>
+
+        <!-- SLIDE 1 -->
+        <div
+                data-bind="
+                    visible: getVisibleDayChoice,
+                    click: dayChoice
+                "
+                class="calendar">
+            <ul class="week-days">
+                <li>ПН</li>
+                <li>ВТ</li>
+                <li>СР</li>
+                <li>ЧТ</li>
+                <li>ПТ</li>
+                <li>СБ</li>
+                <li>ВС</li>
+            </ul>
+            <ul class="dates"></ul>
+        </div>
+
+        <div
+                data-bind="
+                    visible: getVisibleDayChoice,
+                    click: dayChoice
+                "
+                class="calendar right">
+            <ul class="week-days">
+                <li>ПН</li>
+                <li>ВТ</li>
+                <li>СР</li>
+                <li>ЧТ</li>
+                <li>ПТ</li>
+                <li>СБ</li>
+                <li>ВС</li>
+            </ul>
+            <ul class="dates"></ul>
+        </div>
+
+        <div
+                data-bind="visible: getVisibleBlueZone"
+                class="blue-zone"
+        >
+            <div class="from">
+                <label class="empty-label"></label>
+                <label
+                        data-bind="text: getFromDateLabel"
+                        class="date-label"></label>
+                <button class="choice-time" type="button">00:00</button>
+
+                <div class="time-choice  w-popup">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="to">
+                <label class="empty-label"></label>
+                <label
+                        data-bind="text: getToDateLabel"
+                        class="date-label"></label>
+                <button class="choice-time" type="button">00:00</button>
+
+                <div class="time-choice w-popup">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

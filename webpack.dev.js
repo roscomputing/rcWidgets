@@ -13,7 +13,8 @@ let mainDebugPage = new HtmlWebpackPlugin({
 let dependencies =  new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
-    kendo: 'kendo-ui-core/js/kendo.binder.js'
+    kendo: 'kendo-ui-core/js/kendo.binder.js',
+    moment: 'moment'
 });
 
 module.exports = function (isCdn) {

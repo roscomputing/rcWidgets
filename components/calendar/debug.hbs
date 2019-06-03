@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main class="theme-dark">
+    <div class="container"></div>
+    <button id="sb">CALENDAR</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcCalendar) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    rcCalendar({
+                        selector: '.container',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        onlyDate: true,
+                        type: 1,
+                        fromLabel: '',
+                        from: null,
+                        to: null,
+                    }, function(ids, values) {
+                        console.log(ids, values)
+                    });
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>
