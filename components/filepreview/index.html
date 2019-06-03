@@ -1,0 +1,173 @@
+<div id='rc-file-preview-template'>
+    <div
+            data-bind="
+            css: {
+                light-mode: checkLiteMode
+            }
+        "
+            class="rc-file-preview w-popup ">
+        <div class="head">
+            <label
+                    data-bind="text: name"
+                    class="name"></label>
+
+            <button
+                    rc-tooltip="Закрыть"
+                    data-bind="click: close"
+                    class="close">
+                <i class="material-icons">
+                    close
+                </i>
+            </button>
+
+            <div class="left-block">
+                <div
+                        data-bind="html: getHeaderInfo"
+                ></div>
+            </div>
+
+
+            <!-- PDF -->
+            <div
+                    class="center-button-panel">
+                <div
+                        data-bind="
+                        visible: isPdf
+                    "
+                        class="paginator" id="rc-file-review-pdf-paginator">
+                    <button
+                            class="prev"
+                            type="button">
+                        <i class="material-icons">
+                            keyboard_arrow_left
+                        </i>
+                    </button>
+                    <label data-bind="text: getPageLabel"></label>
+                    <button
+                            class="next"
+                            type="button">
+                        <i class="material-icons">
+                            keyboard_arrow_right
+                        </i>
+                    </button>
+                </div>
+
+                <button
+                        data-bind="
+                        invisible: isViewable,
+                        disabled: checkDisabledZoomMin,
+                        click: zoomOut
+                    "
+                        type="button">
+                    <i class="material-icons">
+                        zoom_out
+                    </i>
+                </button>
+                <button
+                        data-bind="
+                        invisible: isViewable,
+                        disabled: checkDisabledZoomMax,
+                        click: zoomIn
+                    "
+                        type="button">
+                    <i class="material-icons">
+                        zoom_in
+                    </i>
+                </button>
+
+            </div>
+
+            <div
+                    class="right-button-panel">
+                <!-- <a
+                    data-bind="
+                        attr: {
+                            href: getPrintLink
+                        }
+                    "
+                    target="_blank"
+                    href="">
+                    <i class="material-icons">
+                        print
+                    </i>
+                </a> -->
+                <a
+                        data-bind="
+                        attr: {
+                            href: href
+                        }
+                    "
+                        target="_blank"
+                        href="">
+                    <i class="material-icons">
+                        get_app
+                    </i>
+                </a>
+            </div>
+        </div>
+        <div class="body white-scroll">
+            <!-- Loader -->
+            <div
+                    data-bind="visible: inLoadProcess"
+                    class="load-please-wait">
+                <div class="rc-loader">
+                    <div class="wrapper size-2">
+                        <div class="pie spinner"></div>
+                        <div class="pie filler"></div>
+                        <div class="mask"></div>
+                    </div>
+                </div>
+                <label>Подождите, файл загружается</label>
+            </div>
+
+
+            <!-- Image -->
+            <div
+                    data-bind="
+                    visible: isViewable
+                "
+                    class="image-preview">
+                <img
+                        data-bind="
+                        style: {
+                            zoom: zoom,
+                            -moz-transform: scaleZoom,
+                            -o-transform: scaleZoom,
+                            -webkit-transform: scaleZoom,
+                            transform: scaleZoom
+                        },
+                        attr: {
+                            src: imgSrc,
+                            alt: name
+                        }
+                    "
+                        src=""/>
+            </div>
+
+
+            <!-- PDF -->
+            <div
+                    data-bind="
+                    visible: isPdf
+                "
+                    class="pdf-preview"
+            >
+                <div
+                        data-bind="
+                        style: {
+                            zoom: pdfZoom,
+                            -moz-transform: pdfScaleZoom,
+                            -o-transform: pdfScaleZoom,
+                            -webkit-transform: pdfScaleZoom,
+                            transform: pdfScaleZoom
+                        },
+                        invisible: inLoadProcess
+                    "
+                >
+                    <canvas
+                            id="rc-file-preview-pdf-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
