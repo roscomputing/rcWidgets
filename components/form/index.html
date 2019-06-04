@@ -1,0 +1,389 @@
+<script id="rc-form-field-item-template" type="text/x-kendo-template">
+    <div class="
+        rc-form-field
+        # if (typeof(className) != 'undefined') { # #: className # # } #
+        # if ((typeof(hidden) != 'undefined') && (hidden) ) { # hidden # } #
+        # if (required) { # required # } #
+        #: control #-field
+    " style="">
+
+        # if (control == 'editor') { #
+        <div
+                placeholder="#: title #"
+                name="#: name #"
+                class="editor"
+        >#: value #</div>
+        # } #
+
+        # if (control == 'time') { #
+        <label data-bind="text: title"></label>
+        <div>
+            <div>
+                <input
+                        placeholder="0"
+                        value="#: values.hours #"
+                        type="numeric"
+                        onkeypress="return isNumberKey(event)"
+                        name="#: name#-hours" />
+                <ul
+                        class="white-scroll"
+                        data-bind="
+                            events: {
+                                mousedown: setIntTimeField
+                            }
+                        ">
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                    <li>6</li>
+                    <li>7</li>
+                    <li>8</li>
+                    <li>9</li>
+                    <li>10</li>
+                    <li>11</li>
+                    <li>12</li>
+                    <li>13</li>
+                    <li>14</li>
+                    <li>15</li>
+                    <li>16</li>
+                    <li>17</li>
+                    <li>18</li>
+                    <li>19</li>
+                    <li>20</li>
+                    <li>21</li>
+                    <li>22</li>
+                    <li>23</li>
+                    <li>24</li>
+                    <li>25</li>
+                </ul>
+
+                <span>ч</span>
+            </div>
+            <div>
+                <input
+                        placeholder="0"
+                        value="#: values.minutes #"
+                        type="numeric"
+                        onkeypress="return isNumberKey(event)"
+                        name="#: name#-minutes" />
+
+                <ul
+
+                        class="white-scroll"
+                        data-bind="
+                            events: {
+                                mousedown: setIntTimeField
+                            }
+                        ">
+                    <li>5</li>
+                    <li>10</li>
+                    <li>15</li>
+                    <li>20</li>
+                    <li>25</li>
+                    <li>30</li>
+                    <li>35</li>
+                    <li>40</li>
+                    <li>45</li>
+                    <li>50</li>
+                    <li>55</li>
+                </ul>
+                <span>мин</span>
+            </div>
+        </div>
+        # } #
+
+        # if (control == 'date') { #
+        <label data-bind="text: title"></label>
+        <div data-bind="click: setDateToDateField">
+            # if (value) { #
+            <span
+                    name="#: name #"
+                    data-format="#: value.format('YYYY-MM-DDT00:00:00') #"
+            >
+                        #: value.format('DD MMM YYYY') #
+                    </span>
+            # } else { #
+            <span
+                    name="#: name #"
+            ></span>
+            # } #
+        </div>
+        # } #
+
+        # if (control == 'autocomplete') { #
+        <label data-bind="text: title"></label>
+        <div data-bind="click: setAutoCompleteField">
+            # if (value) { #
+            <span
+                    name="#: name #"
+
+                    # if (type != 'multiValue') { #
+                    data-value="#: value.Id  || '' #"
+                    # } else { #
+                    data-value="#: JSON.stringify(value) || '[]' #"
+                    # } #
+            >
+                        # if (type != 'multiValue') { #
+                            #= value.Text || ''#
+                        # } else { #
+                            #= ($.map(value, function(item) { return item.Text })).join(', ') #
+                        # } #
+                    </span>
+            # } else { #
+            <span
+                    name="#: name #"
+            ></span>
+            # } #
+        </div>
+        # } #
+
+        # if (control == 'tree') { #
+        <label data-bind="text: title"></label>
+        <div data-bind="click: setTreeField">
+            # if (value) { #
+            <span
+                    name="#: name #"
+
+                    # if (type != 'multiValue') { #
+                    data-value="#: value.Id  || '' #"
+                    # } else { #
+                    data-value="#: JSON.stringify(value) || '[]' #"
+                    # } #
+            >
+                        # if (type != 'multiValue') { #
+                            #= value.Text || ''#
+                        # } else { #
+                            #= ($.map(value, function(item) { return item.Text })).join(', ') #
+                        # } #
+                    </span>
+            # } else { #
+            <span
+                    name="#: name #"
+            ></span>
+            # } #
+        </div>
+        # } #
+
+        # if (control == 'users') { #
+        <label data-bind="text: title"></label>
+        <div data-bind="click: setUsersField">
+            # if (value) { #
+            <span
+                    name="#: name #"
+
+                    # if (type != 'multiValue') { #
+                    data-value="#: value.Id  || '' #"
+                    # } else { #
+                    data-value="#: JSON.stringify(value) || '[]' #"
+                    # } #
+            >
+                        # if (type != 'multiValue') { #
+                            #= value.Text || ''#
+                        # } else { #
+                            #= ($.map(value, function(item) { return item.Text })).join(', ') #
+                        # } #
+                    </span>
+            # } else { #
+            <span
+                    name="#: name #"
+            ></span>
+            # } #
+        </div>
+        # } #
+
+        # if (control == 'datetime') { #
+        <label data-bind="text: title"></label>
+        <div data-bind="click: setDateToDatetimeField">
+            # if (value) { #
+            <span
+                    name="#: name #"
+                    data-format="#: value.format('YYYY-MM-DDTHH:mm:00') #">
+                        #: value.format('DD MMM YYYY, HH:mm') #
+                    </span>
+            # } else { #
+            <span
+                    name="#: name #"
+            ></span>
+            # } #
+        </div>
+
+        # } #
+
+        # if (control == 'textarea') { #
+        <label data-bind="text: title"></label>
+
+        <div
+        >
+                <textarea
+                        data-value-update="keyup"
+                        data-bind="
+                        events: {
+                            change: changeFields
+                        }
+                    "
+                        placeholder="#: placeholder #"
+                        type="#: type #"
+                        name="#: name #">#: value #</textarea>
+        </div>
+        # } #
+
+        # if (control == 'input') { #
+        <label data-bind="text: title"></label>
+
+        <div
+                # if (typeof(className) != 'undefined') { #
+                class="#: className #"
+                # } #
+        >
+            <input
+                    data-value-update="keyup"
+                    data-bind="
+                        events: {
+                            change: changeFields
+                        }
+                    "
+                    # if (typeof(maxLength) != 'undefined') { #
+                    maxlength="#: maxLength #"
+                    # } #
+                    value="#: value #"
+                    type="#: type #"
+                    name="#: name #"/>
+        </div>
+        # } #
+
+        # if (control == 'checkbox') { #
+        <div>
+            <input
+                    # if (value) { #
+                    checked
+                    # } #
+
+                    # if ((typeof(className) != 'undefined' && className == "disabled") || (typeof(disabled) != 'undefined' && disabled)) { #
+            disabled="disable"
+            # } #
+
+            data-bind="
+            events: {
+            change: changeFields
+            }
+            "
+            type="checkbox"
+            name="#: name #"
+            id="rc-form-#: name #"/>
+            <label
+                    data-bind="text: title"
+                    for="rc-form-#: name #"></label>
+        </div>
+        # } #
+
+        # if (control == 'dropdownlist') { #
+        <label data-bind="text: title"></label>
+        <input class="dropdown-list"
+               name="#: name #"
+               data-role="dropdownlist"
+               data-bind="
+                        source: dataSource,
+                        value: dataValue,
+                        events: {
+                            change: dataChange
+                        }
+                   "
+               data-text-field="#: dataTextField #"
+               data-value-field="#: dataValueField #"
+        />
+        # } #
+
+        # if ((typeof(clearButton) != 'undefined') && clearButton) { #
+        <button
+                data-bind="click: clearField"
+                type="button"
+                rc-tooltip="Очистить"
+                class="clear-button">
+            <i class="roscomputing-icon-clear-small"></i>
+        </button>
+        # } #
+
+        # if (control == 'addFileButton') { #
+        <button
+                data-bind="click: addFile"
+                type="button"
+                rc-tooltip="добавить файл"
+                class="add-file-button">
+            добавить файл
+        </button>
+
+        <div
+                data-template="ic-files-item-template-short-preview"
+                data-bind="source: files"
+        >
+        </div>
+        # } #
+    </div>
+</script>
+
+<script id="rc-form-button-item-template" type="text/x-kendo-template">
+    <li
+            data-bind="click: onButtonClick"
+    >
+        #: name #
+    </li>
+</script>
+
+<div id='rc-form-template'>
+    <div
+            data-bind="
+            css: {
+                popup-mode: popupMode
+            }
+        "
+            class="rc-form w-popup">
+
+        <button
+                style="display: none;"
+                class="close-button"
+                data-bind="
+                visible: popupMode,
+                click: close
+            "
+                rc-tooltip="Закрыть"
+                type="button">
+            <i class="roscomputing-icon-close-big"></i>
+        </button>
+
+        <label class="title" data-bind="
+            visible: title,
+            text: title
+        "></label>
+
+        <div
+                data-bind="
+                visible: description,
+                html: description
+            "
+                class="description">
+
+        </div>
+
+        <div
+                data-template="rc-form-field-item-template"
+                data-bind="source: fields"
+
+                class="fields"
+        ></div>
+
+        <ul
+                data-template="rc-form-button-item-template"
+                data-bind="
+                css: {
+                    only-one-button: onlyOneButton
+                },
+                source: buttons
+            "
+
+                class="buttons"
+        ></ul>
+
+    </div>
+</div>

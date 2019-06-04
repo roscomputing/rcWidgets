@@ -1,0 +1,359 @@
+@import '../../styles/theme.default.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.w-popup {
+  &.rc-form {
+    .container-shadow();
+    .webkit-scrollbar(@bg-color: @main-color);
+    background-color: @main-color;
+    border-color: @border-color;
+
+    & > .title {
+      .font-18-title();
+      color: @txt-normal-color;
+    }
+
+    & > .description {
+      .font-13-body();
+      color: @txt-normal-color;
+
+      b {
+        color: @txt-cntrst-color;
+      }
+
+      div.quote {
+        border-left-color: @border-color;
+        color: @txt-normal-color;
+        font-style: italic;
+      }
+    }
+
+    & > ul {
+      background-color: @main-color;
+    }
+
+    .fields {
+      background-color: @main-color;
+
+      .webkit-scrollbar(@bg-color: @main-color);
+
+      .rc-form-field {
+        input[type="checkbox"]:disabled:checked + label {
+          color: @txt-disabled-color;
+
+          &:before{
+            color: @txt-disabled-color;
+          }
+        }
+
+        input[type="checkbox"] + label {
+          color: @ic-normal-color;
+        }
+
+        input[type="checkbox"]:checked + label {
+          color: @btn-normal-color;
+        }
+
+        & > label {
+          .font-11-caption();
+          color: @txt-normal-color;
+
+          &[for] {
+            .font-13-body();
+            color: @txt-normal-color;
+            text-transform: none;
+          }
+        }
+
+        & > div {
+          .font-13-body();
+          color: @txt-normal-color;
+
+          textarea,
+          input, span {
+            .font-13-body();
+            background-color: @main-color;
+            border-color: @divider-color;
+            color: @txt-normal-color;
+
+            &:active,
+            &:focus {
+              border-color: @txt-link-color;
+            }
+          }
+        }
+
+        button.clear-button {
+          i {
+            color: @txt-placeholder-color;
+          }
+        }
+
+        & > .k-header {
+          background-color: @main-color;
+          // color: rgba(255,255,255,.4);
+          background-image: none;
+          background: @main-color;
+
+          & > .k-dropdown-wrap {
+            background: none;
+
+            & > .k-input {
+              .font-13-body();
+              line-height: 22px;
+              color: @txt-normal-color;
+            }
+
+            & > .k-select {
+              // & > .k-icon {
+              //     vertical-align: initial;
+              // }
+              display: none;
+            }
+          }
+        }
+
+        &.editor-field {
+          & > div.k-widget.k-window.k-editor-widget {
+            background-color: @main-color;
+
+            & > div {
+              background-color: @main-color;
+              color: @txt-normal-color;
+            }
+          }
+
+          & > div.editor {
+            background-color: @main-color;
+            border-color: @txt-link-color;
+          }
+        }
+
+        &.time-field {
+          & > div {
+            & > div {
+              & > span {
+                .font-13-body();
+                color: @txt-normal-color;
+              }
+
+              & > ul {
+                .container-shadow();
+                background-color: @main-color;
+                border-color: @border-color;
+
+                li {
+                  .font-13-body();
+                  color: @txt-normal-color;
+
+                  &:hover {
+                    background-color: @hover-color;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &.addFileButton-field {
+
+          button.add-file-button {
+            border-color: @divider-color;
+          }
+
+          & > div {
+            .webkit-scrollbar(@main-color);
+            .file-item {
+              border-color: @divider-color;
+              background-color: @main-color;
+
+              .name {
+                .font-13-body();
+                color: @txt-normal-color;
+              }
+
+              .size {
+                .font-13-body();
+                color: @txt-normal-color;
+              }
+
+              .source {
+                &.no-img {
+                  a {
+                    span,
+                    i {
+                      color: @txt-normal-color;
+                    }
+                    &:hover {
+                      span,
+                      i {
+                        color: white;
+                      }
+                    }
+                  }
+                }
+              }
+
+              button {
+                i {
+                  &:before {
+                    color: @ic-normal-color;;
+                  }
+                }
+
+                &:hover {
+                  background-color: @hover-color;
+                }
+              }
+            }
+          }
+        }
+
+        &.required {
+          label:before,
+          &:before {
+            background-color: @txt-attention-color;
+          }
+        }
+
+        &.error {
+          &:before {
+            background-color: @txt-error-color;
+          }
+
+          input, textarea, span {
+            border-color: @txt-error-color;
+          }
+
+        }
+
+        &.with-bottom-line {
+          border-bottom-color: @divider-color;
+        }
+
+        &:hover {
+          background-color: @hover-color;
+        }
+
+        &.editor-field,
+        &.time-field {
+          &:hover {
+            background-color: transparent;
+          }
+        }
+
+        &.hidden {
+          &:after {
+            background-color: @hover-color;
+          }
+        }
+        &.disabled {
+          &:after {
+            background-color: @hover-color;
+          }
+        }
+      }
+    }
+
+    .buttons {
+      li {
+        .button-standart();
+
+        &:after {
+          border-left-color: @border-color;
+        }
+      }
+
+      &.only-one-button {
+        li {
+          .font-13-button();
+          background-color: @btn-normal-color;
+          color: white;
+
+          &:hover {
+            .btn-hover-saturation();
+          }
+        }
+      }
+    }
+
+    &.popup-mode {
+      .title {
+        background-color: @nastroika-otcheta-head-color;
+        .font-22-headline-1();
+        color: #fff;
+      }
+      .buttons {
+        border-top-color: @divider-color;
+        background-color: @main-footer-color;
+      }
+      .close-button {
+        color: #fff;
+        &:hover {
+          background-color: @hover-color;
+        }
+      }
+
+      .fields {
+        .rc-form-field {
+          &.checkbox-field {
+            &:hover {
+              background: transparent;
+              div {
+                background: transparent;
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+
+  // Editor
+  .white-scroll,
+  .k-editor {
+    .webkit-scrollbar(@main-color);
+  }
+  .k-editor-widget {
+    .font-13-body();
+    .header-shadow();
+    background-color: @main-color;
+    color: @txt-normal-color;
+
+    .k-header.editorToolbarWindow  {
+      background-color: @main-color;
+      & > ul {
+        & > li {
+          a {
+            .k-tool-icon {
+              &:before {
+                color: @txt-normal-color;
+              }
+            }
+
+            &:hover {
+              background-color: @hover-color;
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.k-widget {
+  a {
+    color: @txt-link-color;
+  }
+}
+
+[contenteditable=true] {
+  border-color: @border-color;
+}
+
+[contenteditable=true]:active, [contenteditable=true]:hover {
+  border-color: @txt-placeholder-color;
+}

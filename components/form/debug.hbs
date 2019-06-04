@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main>
+    <div class="container"></div>
+    <button id="sb">ФОРМА</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcForm) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    var fields = [
+                        {
+                            name: 'Email',
+                            title: 'Email',
+                            required: true,
+                            control: 'input',
+                            type: 'text',
+                            value: '',
+                            checkValid: function(val) {
+                                if (!val.trim().length) {
+                                    return false;
+                                }
+
+                                // ...
+                                return true;
+                            }
+                        }, {
+                            name: 'Name',
+                            title: 'Название',
+                            required: true,
+                            className: 'hello-checkbox',
+                            control: 'input',
+                            type: 'text',
+                            value: '123',
+                            change: function(val, el) {
+                                console.log(val);
+                            },
+                        }, {
+                            name: 'Name',
+                            title: 'Название',
+                            required: false,
+                            hidden: true,
+                            control: 'input',
+                            type: 'text',
+                            value: '123',
+                            change: function(val, el) {
+                                console.log(val);
+                            },
+                        }, {
+                            name: 'Period',
+                            title: 'Время года',
+                            required: false,
+                            control: 'autocomplete',
+                            type: 'oneValue',
+                            value: {},
+                            finded: [
+                                {
+                                    Id: 1,
+                                    Text: 'Лето'
+                                }, {
+                                    Id: 2,
+                                    Text: 'Осень'
+                                }, {
+                                    Id: 3,
+                                    Text: 'Зима'
+                                }, {
+                                    Id: 4,
+                                    Text: 'Весна'
+                                }
+                            ],
+                            checkValid: function(val) {
+                                return !!val;
+                            }
+                        }, {
+                            name: 'Report',
+                            title: 'Отчет о текущем состоянии',
+                            required: false,
+                            control: 'checkbox',
+                            type: 'bool',
+                            value: false,
+                            checkValid: function (val, el) {
+                                return true;
+                            },
+                            change: function (val, el, vm, name) {
+                                if (val) {
+                                    el.find('.hello-checkbox input').val('Какие надо зависимости');
+                                } else {
+                                    el.find('.hello-checkbox input').val('Можно делать');
+                                }
+                            },
+                        }, {
+                            name: 'Integer',
+                            title: 'Целое число',
+                            required: false,
+                            control: 'input',
+                            type: 'number',
+                            value: '',
+                            change: function(val, el) {
+                            },
+                            checkValid: function(val, el) {
+                                if (!val)
+                                    return true;
+                                if ((val < 0) || (val > 100)) {
+                                    console.log('Число принимает значение от 0 до 100')
+                                    return false;
+                                }
+
+                                return true;
+                            }
+                        }
+                    ];
+
+                    rcForm({
+                        selector: '.container',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        popupMode: true,
+                        buttons: [
+                            {
+                                name: 'Создать',
+                                slug: 'create',
+                                needCheck: true,
+                            }, {
+                                name: 'Отмена',
+                                slug: 'cancel',
+                                needCheck: false,
+                            }
+                        ],
+                        title: 'Введите что-нибудь',
+                        fields: fields
+                    }, function(fields, answer) {
+                        console.log(fields, answer)
+                    });
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

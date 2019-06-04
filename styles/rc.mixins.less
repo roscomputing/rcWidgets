@@ -1,0 +1,97 @@
+@import 'rc.fontfaces.less';
+
+.checkbox() {
+  input[type="checkbox"] {
+    opacity: 0;
+    width: 21px;
+    height: 20px;
+    margin: 0;
+    top: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: -2;
+    &:focus,
+    &:active {
+      box-shadow: none;
+      border-color: transparent;
+    }
+  }
+
+  input[type="checkbox"] + label {
+    min-height: 20px;
+    display: inline-block;
+    cursor: pointer;
+    background: 0 0;
+    position: relative;
+    padding-left: 24px;
+    padding-top: 4px;
+    word-break: normal;
+
+    &:before {
+      font-family: @material !important;
+      content: "check_box_outline_blank";
+      font-style: normal!important;
+      font-weight: 400!important;
+      font-variant: normal!important;
+      text-transform: none!important;
+      speak: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-size: 24px;
+      position: absolute;
+      background: 0 0;
+      border: none;
+      box-shadow: none;
+      border-color: transparent;
+      left: -3px;
+      top: -1px;
+    }
+    &:after {
+      left: 12px;
+      top: 11px;
+      width: 11px;
+      height: 11px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      &:before {
+        box-shadow: none;
+        border-color: transparent;
+      }
+    }
+  }
+  input[type="checkbox"].modified + label {
+    &:before {
+      font-family: @material !important;
+      content: "indeterminate_check_box";
+      font-style: normal!important;
+      font-weight: 400!important;
+      font-variant: normal!important;
+      text-transform: none!important;
+      speak: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-size: 24px;
+      position: absolute;
+      background: 0 0;
+      border: none;
+      box-shadow: none;
+      border-color: transparent;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  input[type="checkbox"]:checked + label {
+
+    &:before {
+      color: #DF8600;
+      content: "check_box";
+    }
+  }
+}
