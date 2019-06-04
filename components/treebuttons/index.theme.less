@@ -1,0 +1,92 @@
+@import '../../styles/theme.default.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.w-popup {
+  &.rc-treebuttons {
+    .container-shadow();
+    background-color: @card-bg-color;
+    .webkit-scrollbar(@card-bg-color);
+
+    .close-it {
+      color: rgba(255,255,255,.6);
+    }
+
+    & > .title {
+      .font-22-headline-1();
+      color: #fff;
+      background-color: #539ed7;
+    }
+
+    .fields {
+      .webkit-scrollbar(@bg-color: @card-bg-color);
+      background-color: @card-bg-color;
+    }
+
+    ul {
+      background-color: @card-bg-color;
+
+      &.col {
+        border-right-color: @divider-color;
+        border-left-color: @divider-color;
+
+        li {
+          .font-11-caption();
+          color: @mini-title-color;
+          background-color: @main-color;
+
+          .head:hover {
+            background-color: @hover-color;
+          }
+
+          .icon {
+
+            &::before {
+              color: @txt-placeholder-color;
+            }
+          }
+
+          .body {
+            border-top-color: @divider-color;
+
+            .reasons {
+              background-color: @main-color;
+
+              li {
+                .button-standart();
+                -moz-box-shadow: 0 1px 2px @sh-btn-normal-color;
+                -webkit-box-shadow: 0 1px 2px @sh-btn-normal-color;
+                box-shadow: 0 1px 2px @sh-btn-normal-color;
+
+                &:hover {
+                  background-color: @btn-normal-color;
+                }
+              }
+            }
+          }
+
+          &.width-default-button {
+            .head {
+              & > button {
+                .font-11-caption();
+                color: @btn-normal-color;
+                border-left-color: @divider-color;
+
+                &:hover {
+                  background-color: @hover-color;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .buttons {
+      border-top-color: @divider-color;
+
+      li {
+        .button-standart();
+      }
+    }
+  }
+}

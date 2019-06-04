@@ -9,6 +9,8 @@ const filepreview = require('./components/filepreview/index');
 const form = require('./components/form/index');
 const select = require('./components/select/index');
 const tooltip = require('./components/tooltip/index');
+const tree = require('./components/tree/index');
+const treebuttons = require('./components/treebuttons/index');
 
 module.exports = function (params) {
    shared.libraryInitialAction(params);
@@ -25,6 +27,8 @@ module.exports = function (params) {
       field,
       filepreview,
       form,
-      select
+      select,
+      tree,
+      treebuttons
    }
 };

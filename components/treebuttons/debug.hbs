@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main class="theme-dark">
+    <div class="container"></div>
+    <button id="sb">КНОПКИ</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTreebuttons) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    function getRandomSubButtons() {
+                        var items = [];
+                        var i = 0;
+                        while (i < 3 + parseInt(Math.random() * 10)) {
+                            items.push({
+                                slug: i + 1,
+                                name: rrw[parseInt(Math.random() * rrw.length)]
+                            });
+                            i++;
+                        }
+                        return items;
+                    }
+
+
+                    var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+
+
+                    var buttons = [
+                        {
+                            name: 'Отменить всё что можно',
+                            slug: 'cancel',
+                            close: true,
+                        }
+                    ];
+
+                    var items = [];
+
+                    var i = 0;
+                    while (i < 20 + parseInt(Math.random() * 10)) {
+                        items.push({
+                            slug: i + 1,
+                            name: rrw[parseInt(Math.random() * rrw.length)],
+                            buttons: getRandomSubButtons(),
+                        });
+                        i++;
+                    }
+
+                    rcTreebuttons({
+                        selector: '.container',
+                        buttons: buttons,
+                        title: 'Изменить статус',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        fields: items
+                    }, function(button, subbutton, actionButton) {
+                        console.log(button, subbutton, actionButton);
+                    })
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

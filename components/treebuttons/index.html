@@ -1,0 +1,89 @@
+<script id="rc-treebuttons-action-buttons-item-template" type="text/x-kendo-template">
+    <li data-bind="click: onActionButtonClick">
+        #: name #
+    </li>
+</script>
+<script id="rc-treebuttons-item-template" type="text/x-kendo-template">
+    <li data-bind="click: onButtonClick">
+        #: name #
+    </li>
+</script>
+
+<script id="rc-treebuttons-fields-item-template" type="text/x-kendo-template">
+    <li
+            data-status-id="#: slug #"
+            class="
+            # if (buttons.length > 1) { #
+                width-default-button
+            # } #
+        "
+    >
+
+        <div
+                data-bind="click: onFieldClick"
+                class="head">
+            <span>#: name #</span>
+            # if (buttons.length > 1) { #
+            <i class="material-icons icon down">
+                keyboard_arrow_down
+            </i>
+            <i class="material-icons icon up">
+                keyboard_arrow_up
+            </i>
+            # } #
+
+            # if (buttons.length > 1) { #
+            <button
+                    data-bind="click: onFirstButton"
+                    type="button">#: buttons[0].name #</button>
+            # } #
+        </div>
+        <div class="body">
+            <ul data-template="rc-treebuttons-item-template"
+                data-bind="source: buttons"
+                class="reasons">
+            </ul>
+        </div>
+    </li>
+</script>
+<script id="rc-treebuttons-col-fields-item-template" type="text/x-kendo-template">
+    <ul data-template="rc-treebuttons-fields-item-template"
+        data-bind="source: fields"
+        class="col">
+    </ul>
+</script>
+
+
+<div id="rc-treebuttons-template">
+    <div
+            data-bind="
+            visible: checkColsExists,
+            css: {
+                popup-mode: checkPopupMode
+            }
+        "
+            class="rc-treebuttons w-popup">
+        <div class="head">
+            <button class="close-it" rc-tooltip="Закрыть" data-bind="click: close" type="button">
+                <i class="material-icons">
+                    close
+                </i>
+            </button>
+            <div class="title" data-bind="text: title"></div>
+        </div>
+
+        <div
+                data-template="rc-treebuttons-col-fields-item-template"
+                data-bind="source: cols"
+                class="fields">
+        </div>
+
+        <ul
+                data-template="rc-treebuttons-action-buttons-item-template"
+                data-bind="
+                source: buttons
+            "
+                class="buttons"
+        ></ul>
+    </div>
+</div>
