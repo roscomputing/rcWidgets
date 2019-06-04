@@ -11,6 +11,7 @@ const select = require('./components/select/index');
 const tooltip = require('./components/tooltip/index');
 const tree = require('./components/tree/index');
 const treebuttons = require('./components/treebuttons/index');
+const upload = require('./components/upload/index');
 
 module.exports = function (params) {
    shared.libraryInitialAction(params);
@@ -29,6 +30,7 @@ module.exports = function (params) {
       form,
       select,
       tree,
-      treebuttons
+      treebuttons,
+      upload
    }
 };

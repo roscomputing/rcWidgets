@@ -1,0 +1,62 @@
+@import '../../styles/theme.default.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.w-popup {
+  &.rc-upload {
+    .container-shadow();
+    background-color: @main-color;
+    border-color: @border-color;
+
+    .rc-upload-file-drop-zone-bg,
+    .rc-upload-file-drop-zone {
+      p {
+        .font-13-body();
+        color: @txt-normal-color;
+
+        & > i {
+          border-color: @txt-placeholder-color;
+          color: @btn-normal-color;
+        }
+      }
+
+      &.k-dropzone-active {
+        .rc-upload-dropzone-active-shadow();
+        background-color: @main-color;
+      }
+
+      &.k-dropzone-hovered {
+        .rc-upload-dropzone-hovered-shadow();
+        background-color: @main-color;
+      }
+
+      p.k-dropzone-hovered {
+        background-color: @main-color;
+      }
+    }
+
+    .k-widget.k-upload {
+      // background-color: @card-bg-color;
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .k-dropzone {
+      .k-button {
+        .font-11-caption();
+        background-color: @btn-normal-color;
+      }
+    }
+
+    .load-process {
+      background-color: @main-color;
+
+      .wrapper {
+      }
+    }
+
+    button.default-upload {
+      .font-13-button();
+      background-color: @btn-normal-color;
+    }
+  }
+}

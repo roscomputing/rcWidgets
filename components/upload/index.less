@@ -1,0 +1,158 @@
+@import '../../styles/rc.fontfaces.less';
+@import '../../styles/rc.widgets.less';
+
+.w-popup {
+  &.rc-upload {
+    width: 300px;
+    height: 320px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(215, 215, 215, 1);
+    border-radius: 4px;
+    -moz-box-shadow: 0 5px 30px rgba(80, 118, 156, 0.498039215686275);
+    -webkit-box-shadow: 0 5px 30px rgba(80, 118, 156, 0.498039215686275);
+    box-shadow: 0 5px 30px rgba(80, 118, 156, 0.498039215686275);
+    padding: 20px;
+
+    .rc-upload-file-drop-zone-bg,
+    .rc-upload-file-drop-zone {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      p {
+        font-family: @roboto;
+        font-weight: 400;
+        font-style: italic;
+        font-size: 14px;
+        color: #665;
+        text-align: left;
+        display: block;
+        padding: 0 0 0 80px;
+        margin: 0;
+        position: absolute;
+        bottom: 30px;
+        line-height: 1.25;
+
+        & > i {
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          left: 20px;
+          bottom: -2px;
+          border: dashed 1px;
+          border-radius: 50%;
+          text-align: center;
+          box-sizing: border-box;
+          font-size: 29px;
+          padding-top: 9px;
+        }
+      }
+
+      &.k-dropzone-active {
+        background: #fff;
+        box-shadow: 0 0 11px 0 #222;
+      }
+
+      &.k-dropzone-hovered {
+        background: #fff;
+        box-shadow: 0 0 31px 0 #3ea4fd;
+      }
+
+      p.k-dropzone-hovered {
+        background: #fff;
+      }
+    }
+
+    .k-dropzone {
+      padding: 0;
+
+      .k-button {
+        font-family: @roboto;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 12px;
+        color: #FFFFFF;
+        width: 256px;
+        height: 40px;
+        background: inherit;
+        background-color: #6699ff;
+        border: none;
+        border-radius: 2px;
+        display: block;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        padding: 10px 0;
+        position: relative;
+        overflow: hidden;
+
+        span {
+          box-sizing: border-box;
+          display: block;
+          padding-top: 2px;
+          text-align: center;
+        }
+      }
+    }
+
+    .k-upload-files {
+      display: none;
+    }
+
+    .load-process {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      background-color: #fff;
+
+      .wrapper {
+        margin-top: 110px;
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+    button.default-upload {
+      font-family: @roboto;
+      font-weight: 500;
+      font-style: normal;
+      font-size: 12px;
+      color: #FFFFFF;
+      width: 260px;
+      height: 40px;
+      background: inherit;
+      background-color: #6699ff;
+      border: none;
+      border-radius: 2px;
+      display: block;
+      text-transform: uppercase;
+    }
+  }
+
+  .k-upload-button input {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    font: 170px monospace!important;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .k-dropzone em {
+    visibility: hidden;
+    margin-left: .6em;
+  }
+}
