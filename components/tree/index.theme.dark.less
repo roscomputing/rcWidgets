@@ -1,0 +1,100 @@
+@import '../../styles/theme.dark.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.theme-dark {
+  .w-popup {
+    &.tree-container {
+      .container-shadow();
+      .webkit-scrollbar(@bg-color: @main-color);
+
+      background-color: @main-color;
+      border-color: @border-color;
+
+      ul.buttons {
+        li {
+          .font-13-body();
+          border-bottom-color: @border-color;
+          color: @txt-placeholder-color;
+
+          &:hover {
+            background-color: @hover-color;
+          }
+
+          &:after {
+            border-left-color: @divider-color;
+          }
+        }
+      }
+
+      .select-all {
+        .font-13-body();
+        input[type="checkbox"]:disabled:checked + label {
+          color: @txt-disabled-color;
+
+          &:before{
+            color: @txt-disabled-color;
+          }
+        }
+
+        input[type="checkbox"] + label {
+          color: @ic-normal-color;
+        }
+
+        input[type="checkbox"]:checked + label {
+          color: @btn-normal-color;
+        }
+
+        & > label {
+          &[for] {
+            .font-13-body();
+            color: @txt-normal-color;
+            text-transform: none;
+          }
+        }
+
+        border-bottom-color: @border-color;
+      }
+
+      & > .tree-widget {
+        .webkit-scrollbar(@bg-color: @main-color);
+        background-color: @main-color;
+      }
+    }
+
+    // Simple tree
+    .simple-tree {
+      li {
+        .font-13-body();
+        color: @txt-normal-color;
+
+        .toggle-item {
+          i {
+            color: @txt-placeholder-color;
+          }
+          &:hover {
+            background-color: @hover-color;
+          }
+        }
+
+        label {
+          i {
+            &:before {
+              .font-13-body();
+              color: @txt-placeholder-color;
+            }
+          }
+        }
+
+        label:hover {
+          background-color: @hover-color;
+        }
+
+        &.selected {
+          & > label {
+            background-color: @pressed-color;
+          }
+        }
+      }
+    }
+  }
+}

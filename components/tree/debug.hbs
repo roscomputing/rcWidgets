@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main class="theme-dark">
+    <div class="container"></div>
+    <button id="sb">ДЕРЕВО</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTree) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    var data = [
+                        {
+                            id: 1,
+                            name: '1 колонка',
+                            children: [],
+                        }, {
+                            id: 2,
+                            name: '2 колонки',
+                            children: [
+                                {
+                                    id: 11,
+                                    name: '1 колонка',
+                                    children: [],
+                                }, {
+                                    id: 12,
+                                    name: '2 колонки',
+                                    children: [],
+                                }, {
+                                    id: 13,
+                                    name: '3 колонки',
+                                    children: [],
+                                }, {
+                                    id: 14,
+                                    name: '4 колонки',
+                                    children: [
+                                        {
+                                            id: 16,
+                                            name: '1 колонка',
+                                            children: [],
+                                        }, {
+                                            id: 17,
+                                            name: '2 колонки',
+                                            children: [],
+                                        }, {
+                                            id: 18,
+                                            name: '3 колонки',
+                                            children: [],
+                                        }
+                                    ],
+                                }, {
+                                    id: 15,
+                                    name: '5 колонкок',
+                                    children: [],
+                                }
+                            ],
+                        }, {
+                            id: 3,
+                            name: '3 колонки',
+                            children: [],
+                        }, {
+                            id: 4,
+                            name: '4 колонки',
+                            children: [],
+                        }, {
+                            id: 5,
+                            name: '5 колонкок',
+                            children: [],
+                        }
+                    ];
+
+                    var values = [
+                        {
+                            id: 3,
+                            name: '3 колонки',
+                            children: [],
+                        }
+                    ];
+
+                    rcTree({
+                        selector: '.container',
+                        className: 'kittens-list',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        template: '<img src="https://placekitten.com/50/50?image=#: id #"/> - #: name #',
+                        data: data,
+                        values: values,
+                        maxValuesCount: 5,
+                    }, function(ids, values) {
+                        console.log(ids, values)
+                    });
+
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

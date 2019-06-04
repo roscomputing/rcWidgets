@@ -112,11 +112,13 @@ const initTemplates = function (el, template, templateSelector, isPopupMode, ken
             let kt = t.find(id);
             let ut = v.userTemplate;
 
+
             if (ut) {
                 let id = `${tn}-${$(el).attr('id')}`;
-                let newTemplateHtml = kt.html().replace('#: name #', ut);
+                let re = new RegExp(tn, 'g');
+                let newTemplateHtml = kt.html().replace('#: name #', ut).replace(re, id);
 
-                mainTemplate = mainTemplate.replace(new RegExp(tn, 'g'), id);
+                mainTemplate = mainTemplate.replace(re, id);
                 kt.html(newTemplateHtml);
                 kt.attr('id', id);
             }

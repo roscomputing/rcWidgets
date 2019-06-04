@@ -1,0 +1,23 @@
+<script id="rc-tree-item-template" type="text/kendo-ui-template">
+    <li data-bind="css: { selected: checkSelected }, click: onSelect" class="expanded">
+        # if ((typeof children !== 'undefined') && children && children.length) { #
+        <button data-bind="click: toggleTreeItem" type="button" class="toggle-item">
+            <i class="material-icons">
+                chevron_right
+            </i>
+        </button>
+        # } #
+        <label>
+            #: name #
+        </label>
+
+        # if ((typeof children !== 'undefined') && children && children.length) { #
+        <ul data-template="rc-tree-item-template" data-bind="source: children" class="simple-tree"></ul>
+        # } #
+    </li>
+</script>
+<div id='rc-tree-template'>
+    <div class="w-popup tree-container">
+        <ul data-template="rc-tree-item-template" data-bind="source: items" class="simple-tree"></ul>
+    </div>
+</div>
