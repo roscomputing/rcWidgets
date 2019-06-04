@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
     <title>{{htmlWebpackPlugin.options.title}}</title>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
@@ -19,21 +18,15 @@
 <main>
     <div class="container"></div>
     <label rc-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod">Hover it</label>
-{{#if htmlWebpackPlugin.options.requireScript}}
-    <script>
-        require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcWidgets) {
-            window.rc = rcWidgets({
-                selector: '.container',
-                log: function(message) {
-                    if (message) {
-                        console.log(message)
-                    }
-                }
-            });
-
-        })
-    </script>
-{{/if}}
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTooltip) {
+                rcTooltip({
+                    selector: '.container',
+                })
+            })
+        </script>
+    {{/if}}
 </main>
 </body>
 </html>

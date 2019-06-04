@@ -1,0 +1,23 @@
+@import '../../styles/theme.dark.less';
+@import '../../styles/rc.widgets.theme.less';
+
+.theme-dark {
+  .rc-tooltip {
+    background-color: @tooltip-color;
+    .font-13-body();
+    color: rgba(255, 255, 255, .8);
+
+    &.move-mode {
+      .container-shadow();
+      background: @card-bg-color;
+    }
+
+    a {
+      color: #3aadee;
+      max-width: 100%;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.rc-tooltip {
+  position: fixed;
+  padding: 10px;
+  max-width: 320px;
+  z-index: 1044; /* assume magnific popup z-index + 1 */
+  left: -1000px;
+  display: none;
+  transition: none !important;
+  &.move-mode {
+    display: block !important;
+    border-radius: 3px;
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes rc-tooltip-fadeIn {
+  99% {
+    visibility: hidden;
+  }
+
+  100% {
+    visibility: visible;
+  }
+}
