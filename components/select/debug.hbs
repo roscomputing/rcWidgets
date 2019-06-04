@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main class="theme-dark">
+    <div class="container"></div>
+    <button id="sb">ВЫБОР</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcSelect) {
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    var buttons = [
+                        {
+                            slug: 3,
+                            name: 'Создать задачу',
+                            icon: 'add',
+                        }, {
+                            slug: 2,
+                            name: 'Посмотреть задачи',
+                            icon: 'visibility',
+                            disabled: true
+                        }, {
+                            slug: 1,
+                            classname: 'topline',
+                            icon: 'delete',
+                            name: 'Удалить задачу'
+                        }
+                    ];
+
+
+                    rcSelect({
+                        selector: '.container',
+                        buttons: buttons,
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                    }, function(values) {
+                        console.log(values);
+                    })
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<script id="rc-select-item-template" type="text/x-kendo-template">
+    <li
+            class="
+            # if (typeof(classname) != 'undefined') { #
+                #: classname #
+            # } #
+            # if (typeof(disabled) != 'undefined' && disabled) { #
+                disabled
+            # } #
+            # if (typeof(active) != 'undefined' && active) { #
+                active
+            # } #
+        "
+            data-slug="#: slug #"
+            data-bind="click: onButtonClick"
+    >
+        # if (typeof(icon) != 'undefined') { #
+        <i class="material-icons icon">
+            #: icon #
+        </i>
+        # } #
+        # if (typeof(img) != 'undefined') { #
+        <img
+                src="#: img #"
+                # if (typeof(tooltip) != 'undefined') { #
+                alt="#: tooltip #"
+                # } else {#
+                alt="#: name #"
+                # } #/>
+        # } #
+        #= name #
+    </li>
+</script>
+
+<div id='rc-select-template'>
+    <div
+            data-bind="
+            css: {
+                popup-mode: popupMode
+            }
+        "
+            class="rc-select w-popup white-scroll"
+    >
+
+        <button
+                style="display: none;"
+                class="close-button"
+                data-bind="
+                visible: popupMode,
+                click: close
+            "
+                rc-tooltip="Закрыть"
+                type="button">
+            <i class="material-icons">
+                close
+            </i>
+        </button>
+
+        <label class="title" data-bind="
+            visible: title,
+            text: title
+        "></label>
+
+
+        <ul
+                data-template="rc-select-item-template"
+                data-bind="source: buttons"
+                class="buttons"
+        ></ul>
+
+        <ul
+                data-template="rc-select-item-template"
+                data-bind="
+                visible: actionButtonsVisible,
+                source: actionButtons
+            "
+                class="action-buttons"
+        ></ul>
+    </div>
+</div>
