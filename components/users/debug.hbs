@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    <style>
+        .user-icon {
+            width: 22px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+    </style>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    {{/if}}
+    {{#if htmlWebpackPlugin.options.cdnScript}}
+        <script type="text/javascript" src="{{htmlWebpackPlugin.options.cdnScript}}"></script>
+    {{/if}}
+</head>
+<body>
+<header>
+    <h1>{{htmlWebpackPlugin.options.title}}</h1>
+</header>
+<main>
+    <div class="container"></div>
+    <button id="sb">ПОЛЬЗОВАТЕЛИ</button>
+    {{#if htmlWebpackPlugin.options.requireScript}}
+        <script>
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcUsers) {
+                var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+
+                function getRandomUsers (params, callback) {
+                    var items = [];
+
+                    console.log(params);
+
+                    var i = 0;
+                    while (i < 10 + parseInt(Math.random() * 50)) {
+                        items.push({
+                            Id: i + 1,
+                            Name: rrw[parseInt(Math.random() * rrw.length)] + ' ' + rrw[parseInt(Math.random() * rrw.length)] + 'ич'
+                        });
+                        i++;
+                    }
+
+
+                    if (callback)
+                        callback(items);
+                }
+
+
+                document.getElementById('sb').addEventListener('click', function (e) {
+                    var values = []; // [{Id: 1, Name: '123'}, ...]
+                    var buttons = [];
+
+                    rcUsers({
+                        selector: '.container',
+                        getUsers: function(params, callback) {
+                            getRandomUsers(params, callback);
+                        },
+                        template: '<img class="user-icon" src="https://placekitten.com/50/50?image=#: Id #"/> #: Name #',
+                        pageX: e.pageX,
+                        pageY: e.pageY,
+                        buttons: buttons,
+                        maxValuesCount: true,
+                        values: values,
+                    }, function(users, slug) {
+                        console.log(users, slug);
+                    })
+                })
+            })
+        </script>
+    {{/if}}
+</main>
+</body>
+</html>

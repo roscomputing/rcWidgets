@@ -12,6 +12,7 @@ const tooltip = require('./components/tooltip/index');
 const tree = require('./components/tree/index');
 const treebuttons = require('./components/treebuttons/index');
 const upload = require('./components/upload/index');
+const users = require('./components/users/index');
 
 module.exports = function (params) {
    shared.libraryInitialAction(params);
@@ -31,6 +32,7 @@ module.exports = function (params) {
       select,
       tree,
       treebuttons,
-      upload
+      upload,
+      users
    }
 };

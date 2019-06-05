@@ -157,6 +157,7 @@ module.exports = function(config, callback) {
 
     let data = {
         selector: config.selector,
+        log: config.log,
         pos: {
             x: config.pageX || 0,
             y: config.pageY || 0,
