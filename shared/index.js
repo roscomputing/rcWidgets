@@ -84,6 +84,9 @@ const libraryInitialAction = function (params) {
     if (!params || !params.selector || !$(params.selector).length) {
         return false;
     }
+
+    externalLog = params.log;
+
     baseEl = $(params.selector).addClass('rc-widgets')[0];
 
     initListener();
