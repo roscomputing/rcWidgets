@@ -1,7 +1,7 @@
 require('../../shared/dev-dependencies');
 require('./index.less');
-require('./index.theme.less');
 require('./index.theme.dark.less');
+require('./index.theme.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
@@ -36,9 +36,9 @@ const autocompleteFactory = function(config) {
             return !!this.get('values').length;
         },
 
-        // Finded
-        finded: config.finded ? config.finded : [],
-        findedBackup: config.finded ? config.finded : [],
+
+        found: config.found ? config.found : [],
+        foundBackup: config.found ? config.found : [],
         searchStr: '',
         searchStrTimeout: null,
         searchStrChange: function() {
@@ -48,25 +48,26 @@ const autocompleteFactory = function(config) {
             }, 300);
         },
         getPossibleValues: function() {
-            let ids = $.map(this.get('values'), item => item.Id);
+            let ids = this.get('values').map(item => item.Id);
 
-            if (config.url && (!this.finded.length || !config.clientSearch)) {
+            if (config.url && (!this.found.length || !config.clientSearch)) {
+                let searchStr = this.get('searchStr');
                 let url = config.url;
                 let data = JSON.stringify({
-                    searchStr: this.get('searchStr')
+                    searchStr: searchStr
                 });
 
                 if (config.getAjaxData) {
                     data = config.getAjaxData({
                         skip: this.dataParams ? this.dataParams.take : 0,
                         take: this.dataParams ? this.dataParams.take : 40,
-                        searchStr: this.get('searchStr').trim(),
+                        searchStr: searchStr.trim(),
                     });
                 }
 
                 $.ajax({
                     data: {
-                        searchStr: this.get('searchStr')
+                        searchStr: searchStr
                     },
                     method: config.method || 'GET',
                     url: url,
@@ -76,19 +77,22 @@ const autocompleteFactory = function(config) {
                         }
 
                         if (result) {
-                            this.set('findedBackup', result);
-                            this.set('finded', $.grep(result, (item) => ids.indexOf(item.Id) === -1));
+                            if (result && result.length) {
+                                this.set('foundBackup', result);
+                                this.set('found', result.filter((item) => ids.indexOf(item.Id) === -1));
 
-                            // Тут из невыделенного убирается выделенное
-                            this.set('finded', this.get('finded').filter((item) => {
-                                let retVal = true;
-                                $.each(this.values, (k, v) => {
-                                    if (v.Id === item.Id) {
-                                        retVal = false;
-                                    }
-                                });
-                                return retVal;
-                            }));
+                                // Тут из невыделенного убирается выделенное
+                                this.set('found', this.get('found').filter((item) => {
+                                    let retVal = true;
+                                    $.each(this.values, (k, v) => {
+                                        if (v.Id === item.Id) {
+                                            retVal = false;
+                                        }
+                                    });
+                                    return retVal;
+                                }));
+                            }
+
                         }
                     },
                     error: function(error) {
@@ -96,10 +100,10 @@ const autocompleteFactory = function(config) {
                     }
                 });
             } else {
-                this.set('finded', $.grep(this.get('findedBackup'), (item) => {
-                    return (ids.indexOf(item.Id) === -1) &&
-                        (item.Text.toLowerCase().indexOf(this.get('searchStr').trim().toLowerCase()) !== -1);
-                }));
+                let trimmedAndLowered = (v) => v.toLowerCase().trim();
+                let searchString = trimmedAndLowered(this.get('searchStr'));
+                let found = this.get('foundBackup').filter((item) => ids.indexOf(item.Id) === -1 && trimmedAndLowered(item.Text).indexOf(searchString) !== -1);
+                this.set('found', found);
             }
         },
 
@@ -108,7 +112,7 @@ const autocompleteFactory = function(config) {
             let isOld = $(e.target).closest('li').parent().hasClass('values');
 
             if (isOld) {
-                this.finded.unshift(e.data);
+                this.found.unshift(e.data);
                 this.set('values', $.grep(this.get('values'), (item) => {
                     return item.Id !== e.data.Id;
                 }));
@@ -118,10 +122,10 @@ const autocompleteFactory = function(config) {
             this.values.unshift(e.data);
 
             if (config.maxValuesCount && (this.values.length > config.maxValuesCount))
-                this.finded.unshift(this.values.pop());
+                this.found.unshift(this.values.pop());
 
             // тут из невыделенного убирается выделенное
-            this.set('finded', this.get('finded').filter((item) => {
+            this.set('found', this.get('found').filter((item) => {
                 return this.values.indexOf(item) < 0;
             }));
 
@@ -139,8 +143,9 @@ const autocompleteFactory = function(config) {
                 });
         },
         show: function() {
-            if (config.pos)
+            if (config.pos) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
+            }
 
             el.find('> .w-popup').addClass('showing');
             el.find('input').focus();
@@ -169,7 +174,7 @@ module.exports = function(config, callback) {
             y: config.pageY || 0,
         },
         values: config.values,
-        finded: config.finded,
+        found: config.found,
         method: config.method,
         getAjaxData: config.getAjaxData,
         onAjaxSuccess: config.onAjaxSuccess,

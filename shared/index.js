@@ -31,8 +31,9 @@ const findWidgetPos = function(wPopup, pos) {
         if (pos.y < frame) {
             y = pos.y;
         } else {
-            let framesCount = Math.floor(pos.y / frame);
-            y = pos.y - (frame * framesCount);
+            let framesCount = Math.ceil(pos.y / frame);
+            let topOfCurrentFrame = (frame * (framesCount - 1));
+            y = pos.y - window.scrollY;
         }
     }
 

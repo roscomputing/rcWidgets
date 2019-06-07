@@ -26,22 +26,36 @@
                         selector: '.container',
                         pageX: e.pageX,
                         pageY: e.pageY,
-                        method: 'GET',
-                        getAjaxData: function(params) {
-                            console.log(params); // skip, take, searchStr
-                            return JSON.stringify({});
-                        },
-                        onAjaxSuccess: function(result) {
-                            return result.seasons.map(function(item) {
-                                return {
-                                    Id: parseInt(Math.random() * 1000),
-                                    Text: item
-                                }
-                            });
-                        },
-                        clientSearch: false,
-                        url: 'https://cdn.rawgit.com/dpheitmeyer/e0c4480fe583663c51de/raw/8e19ab1765dc27b6eeeb480f0187f3fd5a6db6a9/seasons.json',
-                        finded: [],
+                        //method: 'GET',
+                        //getAjaxData: function(params) {
+                        //    console.log(params); // skip, take, searchStr
+                        //    return JSON.stringify({});
+                        //},
+                        //onAjaxSuccess: function(result) {
+                        //    return result.seasons.map(function(item) {
+                        //        return {
+                        //            Id: parseInt(Math.random() * 1000),
+                        //            Text: item
+                        //        }
+                        //    });
+                        //},
+                        //clientSearch: false,
+                        //url: 'https://cdn.rawgit.com/dpheitmeyer/e0c4480fe583663c51de/raw/8e19ab1765dc27b6eeeb480f0187f3fd5a6db6a9/seasons.json',
+                        found: [
+                            {
+                                Id: 4,
+                                Text: '4 колонки'
+                            }, {
+                                Id: 3,
+                                Text: '3 колонка'
+                            }, {
+                                Id: 2,
+                                Text: '2 колонки'
+                            }, {
+                                Id: 1,
+                                Text: '1 колонка'
+                            }
+                        ],
                         values: [],
                     }, function (values) {
                         console.log(values);
