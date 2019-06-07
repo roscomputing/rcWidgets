@@ -140,12 +140,14 @@ const uploadFactory = function(config) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

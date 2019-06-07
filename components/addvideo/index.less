@@ -1,199 +1,202 @@
 @import '../../styles/rc.fontfaces.less';
 @import '../../styles/rc.widgets.less';
 
-.w-popup {
-  &.rc-addvideo {
-    -moz-box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
-    -webkit-box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
-    box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
-    background-color: #ffffff;
-    border-radius: 3px;
-    width: calc(~"100% - 40px");
-    margin: 0 auto;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    top: 50%;
-    box-sizing: border-box;
-    padding: 20px;
-    max-height: 906px;
-    max-width: 340px;
-    height: auto;
-    padding-bottom: 90px;
+.rc-widgets {
+  .w-popup {
+    &.rc-addvideo {
+      -moz-box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
+      -webkit-box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
+      box-shadow: 0 10px 35px rgba(80, 118, 156, 0.35);
+      background-color: #ffffff;
+      border-radius: 3px;
+      width: calc(~"100% - 40px");
+      margin: 0 auto;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      top: 50%;
+      box-sizing: border-box;
+      padding: 20px;
+      max-height: 906px;
+      max-width: 340px;
+      height: auto;
+      padding-bottom: 90px;
 
-    & > .title {
-      font-family: @roboto;
-      font-weight: 700;
-      font-style: normal;
-      font-size: 18px;
-      color: #665;
-      display: block;
-      text-align: center;
-      margin: 0 0 10px;
-    }
-
-    & > .description {
-      font-family: @roboto;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 14px;
-      color: #665;
-      line-height: 18px;
-      display: block;
-      text-align: center;
-
-      b {
+      & > .title {
         font-family: @roboto;
         font-weight: 700;
+        font-style: normal;
+        font-size: 18px;
+        color: #665;
+        display: block;
+        text-align: center;
+        margin: 0 0 10px;
       }
-    }
 
-    .colomns {
-      font-size: 0;
-      box-sizing: border-box;
-      padding: 20px 0 0;
-      height: calc(~"100% - 160px");
+      & > .description {
+        font-family: @roboto;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+        color: #665;
+        line-height: 18px;
+        display: block;
+        text-align: center;
 
-      & > div {
-        display: inline-block;
-        vertical-align: top;
-        width: 33%;
-        height: calc(~"100%");
-        overflow-y: auto;
-        border-left: solid 1px #222;
-        &:first-child {
-          border-left: none;
+        b {
+          font-family: @roboto;
+          font-weight: 700;
         }
+      }
 
-        ul {
-          padding-bottom: 20px;
-          margin-bottom: 20px;
-          border-bottom: solid 1px #222;
-          li {
-            display: block;
-            cursor: pointer;
-            min-height: 30px;
-            box-sizing: border-box;
-            padding: 7px 10px;
-            border-radius: 2px;
-            position: relative;
+      .colomns {
+        font-size: 0;
+        box-sizing: border-box;
+        padding: 20px 0 0;
+        height: calc(~"100% - 160px");
 
-            .color-label {
-              position: absolute;
-              right: 0;
-              top: 0;
-              bottom: 0;
-              width: 6px;
-              border-top-right-radius: 3px;
-              border-bottom-right-radius: 3px;
+        & > div {
+          display: inline-block;
+          vertical-align: top;
+          width: 33%;
+          height: calc(~"100%");
+          overflow-y: auto;
+          border-left: solid 1px #222;
+          &:first-child {
+            border-left: none;
+          }
 
-
-            }
-
-            &.with-button {
+          ul {
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: solid 1px #222;
+            li {
+              display: block;
+              cursor: pointer;
+              min-height: 30px;
+              box-sizing: border-box;
+              padding: 7px 10px;
+              border-radius: 2px;
               position: relative;
-              button {
+
+              .color-label {
                 position: absolute;
+                right: 0;
                 top: 0;
-                width: 30px;
-                height: 30px;
-                i {
-                  font-size: 17px;
-                  transform: translateY(1px);
-                  &.remove {
-                    display: none;
-                    transform: translateY(-1px);
-                  }
-                }
+                bottom: 0;
+                width: 6px;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+
+
               }
 
-              &.left-button {
-                padding-left: 40px;
+              &.with-button {
+                position: relative;
                 button {
-                  left: 0;
-                }
-              }
-              &.right-button {
-                padding-right: 40px;
-                button {
-                  right: 0;
-                }
-              }
-              &.selected {
-                button {
+                  position: absolute;
+                  top: 0;
+                  width: 30px;
+                  height: 30px;
                   i {
-                    &.add {
-                      display: none;
-                    }
+                    font-size: 17px;
+                    transform: translateY(1px);
                     &.remove {
-                      display: block;
+                      display: none;
+                      transform: translateY(-1px);
+                    }
+                  }
+                }
+
+                &.left-button {
+                  padding-left: 40px;
+                  button {
+                    left: 0;
+                  }
+                }
+                &.right-button {
+                  padding-right: 40px;
+                  button {
+                    right: 0;
+                  }
+                }
+                &.selected {
+                  button {
+                    i {
+                      &.add {
+                        display: none;
+                      }
+                      &.remove {
+                        display: block;
+                      }
                     }
                   }
                 }
               }
             }
+            &:last-child {
+              margin-bottom: 0;
+              border-bottom: none;
+              padding-bottom: 0;
+            }
           }
-          &:last-child {
-            margin-bottom: 0;
-            border-bottom: none;
-            padding-bottom: 0;
-          }
-        }
 
-        .input-with-icon {
-          display: block;
-          input {
-            max-width: none;
+          .input-with-icon {
+            display: block;
+            input {
+              max-width: none;
+            }
+            i {
+              max-width: none;
+            }
           }
-          i {
-            max-width: none;
+          .small-gray-label {
+            padding: 20px 10px 5px;
           }
-        }
-        .small-gray-label {
-          padding: 20px 10px 5px;
-        }
 
-        .input-with-icon + ul {
-          padding-top: 20px;
+          .input-with-icon + ul {
+            padding-top: 20px;
+          }
         }
       }
-    }
 
-    .bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      .bottom-buttons {
-        text-align: right;
-        padding: 10px;
-        border: solid 1px;
-        border-radius: 0;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        margin-top: 10px;
-      }
-
-      .bottom-label {
-        padding-top: 5px;
-      }
-    }
-
-    &.popup-mode {
-      .close-button {
+      .bottom {
         position: absolute;
+        bottom: 0;
+        left: 0;
         right: 0;
-        top: 0;
-        z-index: 1;
-        padding: 2px;
-        cursor: pointer;
-        height: 30px;
-      }
-    }
+        .bottom-buttons {
+          text-align: right;
+          padding: 10px;
+          border: solid 1px;
+          border-radius: 0;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          margin-top: 10px;
+        }
 
-    .url-panel {
-      display: block;
-      margin-top: 20px;
+        .bottom-label {
+          padding-top: 5px;
+        }
+      }
+
+      &.popup-mode {
+        .close-button {
+          position: absolute;
+          right: 0;
+          top: 0;
+          z-index: 1;
+          padding: 2px;
+          cursor: pointer;
+          height: 30px;
+        }
+      }
+
+      .url-panel {
+        display: block;
+        margin-top: 20px;
+      }
     }
   }
 }
+

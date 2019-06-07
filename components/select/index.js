@@ -68,9 +68,11 @@ const selectFactory = function(config) {
             }
         },
         show: function() {
+            let wPopup = el.find('> .w-popup');
+
             if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-                this.updateHeight(el.find('> .w-popup'), el.find('> .w-popup'), config.pos);
+                shared.findWidgetPos(wPopup, config.pos);
+                this.updateHeight(wPopup, el.find('> .w-popup'), config.pos);
             }
 
             if (config.class) {
@@ -78,7 +80,12 @@ const selectFactory = function(config) {
             }
 
             if (!this.popupMode) {
-                el.find('> .w-popup').addClass('showing');
+                wPopup.addClass('showing');
+            }
+            shared.setMainOverflow(true);
+
+            if (this.popupMode) {
+                shared.setYCenterPosition(wPopup);
             }
         },
         destroy: function() {
@@ -86,6 +93,7 @@ const selectFactory = function(config) {
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         },
         updateHeight: function (wPopupList, wPopup, pos) {
             if (!wPopupList || !wPopup || !pos) {

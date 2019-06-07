@@ -506,6 +506,7 @@ const formFactory = function(config) {
 
             this.checkPos();
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             if (el.find('.editor').length) {
@@ -515,6 +516,7 @@ const formFactory = function(config) {
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

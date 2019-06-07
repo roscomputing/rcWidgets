@@ -19,7 +19,6 @@ const buttonsFactory = function(config) {
     }]);
 
     let vm = {
-        overflowMem: null,
         isDark: config.isDark,
         fields: config.fields,
         title: config.title,
@@ -39,20 +38,18 @@ const buttonsFactory = function(config) {
             }
         },
         show: function() {
-            let html = $('html');
             if (config.pos) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
-            this.set('overflowMem', html.css('overflow'));
-            html.css('overflow', 'hidden');
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
-            $('html').css('overflow', this.get('overflowMem'));
+            shared.setMainOverflow(false);
         }
     };
 

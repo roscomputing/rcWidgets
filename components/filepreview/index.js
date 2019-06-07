@@ -208,12 +208,14 @@ const filepreviewFactory = function(config) {
             }
             el.find('> .w-popup').addClass('showing');
             el.find('input').focus();
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

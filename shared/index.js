@@ -2,6 +2,7 @@ const consts = require('./consts');
 
 let baseEl;
 let externalLog;
+let overflowMem;
 
 const log = function (v) {
     typeof (externalLog === 'function' && externalLog(v)) || console.log(v);
@@ -22,7 +23,6 @@ const findWidgetPos = function(wPopup, pos) {
         return false;
     }
 
-    let height = pos.height || wPopup.outerHeight();
     let left = parseInt(wPopup.css('left'));
     let y = 0;
 
@@ -42,6 +42,10 @@ const findWidgetPos = function(wPopup, pos) {
 
     $(wPopup).css('top', Math.max(y, 10));
     $(wPopup).css('left', left);
+};
+
+const setYCenterPosition = function (wPopup) {
+    $(wPopup).css('top', (window.scrollY || 0) + (window.innerHeight / 2));
 };
 
 const initListener = function() {
@@ -157,6 +161,16 @@ const getHtml = function(data) {
     return html;
 };
 
+const setMainOverflow = function (isShow) {
+    let html = $('html');
+    if (isShow) {
+        overflowMem = html.css('overflow');
+        html.css('overflow', 'hidden');
+    } else {
+        html.css('overflow', overflowMem);
+    }
+};
+
 module.exports = {
     libraryInitialAction,
     anyWidgetInitialActions,
@@ -164,5 +178,7 @@ module.exports = {
     log,
     bindViewModel,
     getHtml,
-    initTemplates
+    initTemplates,
+    setMainOverflow,
+    setYCenterPosition
 };

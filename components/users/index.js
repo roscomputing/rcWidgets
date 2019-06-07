@@ -198,6 +198,7 @@ const usersFactory = function(config) {
             if (config.loadDataAfterScroll) {
                 this.getDataAfterEndScroll();
             }
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
@@ -211,6 +212,7 @@ const usersFactory = function(config) {
             if (showingEl.length) {
                 showingEl.trigger('onClose');
             }
+            shared.setMainOverflow();
         }
     };
 

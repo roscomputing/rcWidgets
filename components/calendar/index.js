@@ -823,6 +823,7 @@ const calendarFactory = function(config) {
             }
 
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
 
         destroy: function() {
@@ -835,6 +836,7 @@ const calendarFactory = function(config) {
             el.find('.title .l button').off('click');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

@@ -188,6 +188,7 @@ const treebuttonsFactory = function(config) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
         destroy: function () {
             window.removeEventListener('resize', onResize);
@@ -197,6 +198,7 @@ const treebuttonsFactory = function(config) {
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

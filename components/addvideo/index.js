@@ -60,8 +60,8 @@ const addvideoFactory = function(config) {
             el.find('> .w-popup').trigger('onClose');
         },
 
-        title: 'Прикрепить видео',
-        description: 'YouTube, Vimeo, Twitch, Coub, VK, Gfycat, Imgur, Giphy, OK',
+        title: config.title || 'Прикрепить видео',
+        description: config.description || 'YouTube, Vimeo, Twitch, Coub, VK, Gfycat, Imgur, Giphy, OK',
 
         url: '',
         searchVideoTimeout: null,
@@ -99,17 +99,22 @@ const addvideoFactory = function(config) {
             }
         },
         show: function() {
-            el.find('> .w-popup').addClass('showing');
+            let wPopup = el.find('> .w-popup');
+            wPopup.addClass('showing');
 
             setTimeout(() => {
                 el.find('input').focus();
             }, 100);
+            shared.setMainOverflow(true);
+            shared.setYCenterPosition(wPopup);
         },
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
+            let wPopup = el.find('> .w-popup');
+            kendo.unbind(wPopup);
+            wPopup.off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

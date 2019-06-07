@@ -212,14 +212,16 @@ const cityFactory = function(config) {
             if (!this.popupMode) {
                 el.find('> .w-popup').addClass('showing');
             }
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
-    }
+    };
 
     return shared.bindViewModel(el, vm);
 };

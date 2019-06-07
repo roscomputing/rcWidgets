@@ -13,7 +13,7 @@ const treeFactory = function(config) {
         return null;
     }
 
-    shared.initTemplates(el, template, '#rc-tree-template', config.popupMode, [{
+    shared.initTemplates(el, template, '#rc-tree-template', false, [{
         templateName: 'rc-tree-item-template',
         userTemplate: config.template
     }]);
@@ -126,12 +126,14 @@ const treeFactory = function(config) {
                 shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
             el.find('> .w-popup').addClass('showing');
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 

@@ -228,6 +228,7 @@ const fieldFactory = function(config) {
             setTimeout(function() {
                 el.find('input').focus();
             }, 200);
+            shared.setMainOverflow(true);
         },
         destroy: function() {
             el.find('.rc-field .w-popup-background').off('click');
@@ -235,6 +236,7 @@ const fieldFactory = function(config) {
             el.find('> .w-popup').off('mouseup');
             el.off();
             el.remove();
+            shared.setMainOverflow();
         }
     };
 
