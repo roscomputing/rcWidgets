@@ -1,0 +1,150 @@
+@import 'theme.dark.less';
+
+.theme-dark {
+  .radio() {
+    input[type="radio"] + label {
+      .font-13-body();
+      background: none;
+      color: @txt-normal-color;
+
+      &:before {
+        color: @ic-normal-color;
+      }
+    }
+
+    input[type="radio"]:checked + label:before {
+      color: @checkbox-color;
+    }
+  }
+  .checkbox() {
+    input[type="checkbox"] + label {
+      .font-13-body();
+      background: none;
+      color: @txt-normal-color;
+
+      &:before {
+        color: @ic-normal-color;
+      }
+    }
+
+    input[type="checkbox"]:checked + label:before {
+      color: @checkbox-color;
+    }
+  }
+
+  .k-maskedtextbox input,
+  .simple-input {
+    background: none;
+    .font-15-body();
+    color: @txt-normal-color;
+    border-color: @border-color;
+
+    &:focus {
+      background: none;
+    }
+    &::placeholder {
+      color: @txt-placeholder-color;
+    }
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: @txt-placeholder-color;
+      opacity: .5;
+    }
+    & + i.line {
+      border-bottom-color: @btn-normal-color;
+    }
+  }
+
+  .simple-textarea {
+    &:focus {
+      border-color: @focus-placeholder-color;
+    }
+    &:hover:not(:focus) {
+      border-color: @border-color;
+    }
+    &[disabled] {
+      border: none;
+    }
+    &::placeholder {
+      color: @txt-placeholder-color;
+    }
+  }
+
+  .w-popup {
+    .rc-loader {
+      .wrapper {
+        .pie {
+          background-color: @main-color;
+        }
+      }
+    }
+
+    .input-with-icon {
+      .icon {
+        color: @txt-disabled-color;
+      }
+    }
+
+    .white-button {
+      color: @btn-normal-color;
+      border-color: @btn-normal-color;
+      .font-11-caption();
+      &:hover {
+        background-color: @btn-normal-color;
+        color: #fff;
+      }
+
+      &.attention-mode {
+        color: @txt-attention-color;
+        border-color: @txt-attention-color;
+        &:hover {
+          background-color: @txt-attention-color;
+          color: #fff;
+        }
+      }
+    }
+
+    .search-input {
+      border-bottom-color: @border-color;
+
+      & > button {
+        .font-15-title();
+        color: @txt-normal-color;
+
+        & > i {
+          color: @txt-placeholder-color;
+        }
+
+        &.find-button {
+          &:before {
+            color: @txt-placeholder-color;
+          }
+        }
+
+        &.close-button {
+          &:before {
+            color: @txt-placeholder-color;
+          }
+
+          &:hover {
+            background-color: @hover-color;
+          }
+        }
+
+        i:not(.material-icons) {
+          .font-13-body();
+          color: @txt-placeholder-color;
+        }
+      }
+
+      & > input {
+        .font-13-body();
+        color: @txt-normal-color;
+      }
+
+      & > input + span {
+        border-bottom-color: @divider-color;
+      }
+    }
+  }
+}
+

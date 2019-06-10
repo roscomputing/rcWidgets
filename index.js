@@ -1,3 +1,9 @@
+// #if process.env.NODE_ENV === 'production'
+require('./styles/rc.widgets.less');
+require('./styles/rc.widgets.theme.less');
+require('./styles/rc.widgets.theme.dark.less');
+// #endif
+
 const shared = require('./shared/index');
 const buttons = require('./components/buttons/index');
 const addvideo = require('./components/addvideo/index');

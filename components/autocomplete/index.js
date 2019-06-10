@@ -1,7 +1,7 @@
 require('../../shared/dev-dependencies');
 require('./index.less');
-require('./index.theme.dark.less');
 require('./index.theme.less');
+require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
@@ -47,58 +47,56 @@ const autocompleteFactory = function(config) {
                 this.getPossibleValues();
             }, 300);
         },
+        onGetPossibleValuesSuccess(ids, result) {
+            if (config.onAjaxSuccess) {
+                result = config.onAjaxSuccess(result);
+            }
+
+            if (result && result.length) {
+                this.set('foundBackup', result);
+                this.set('found', result.filter((item) => ids.indexOf(item.Id) === -1));
+
+                // Тут из невыделенного убирается выделенное
+                this.set('found', this.get('found').filter((item) => {
+                    let retVal = true;
+                    $.each(this.values, (k, v) => {
+                        if (v.Id === item.Id) {
+                            retVal = false;
+                        }
+                    });
+                    return retVal;
+                }));
+            } else {
+                this.set('foundBackup', []);
+                this.set('found', []);
+            }
+        },
+        onGetPossibleValuesError(error) {
+            error && error['responseJSON'] && shared.log(error['responseJSON']);
+        },
         getPossibleValues: function() {
             let ids = this.get('values').map(item => item.Id);
 
             if (config.url && (!this.found.length || !config.clientSearch)) {
                 let searchStr = this.get('searchStr');
                 let url = config.url;
-                let data = JSON.stringify({
-                    searchStr: searchStr
-                });
 
                 if (config.getAjaxData) {
-                    data = config.getAjaxData({
+                    let data = config.getAjaxData({
                         skip: this.dataParams ? this.dataParams.take : 0,
                         take: this.dataParams ? this.dataParams.take : 40,
                         searchStr: searchStr.trim(),
                     });
+                    this.onGetPossibleValuesSuccess(ids, data);
+                } else {
+                    $.ajax({
+                        data: { searchStr: searchStr },
+                        method: config.method || 'GET',
+                        url: url,
+                        success: this.onGetPossibleValuesSuccess.bind(this, ids),
+                        error: this.onGetPossibleValuesError
+                    });
                 }
-
-                $.ajax({
-                    data: {
-                        searchStr: searchStr
-                    },
-                    method: config.method || 'GET',
-                    url: url,
-                    success: (result) => {
-                        if (config.onAjaxSuccess) {
-                            result = config.onAjaxSuccess(result);
-                        }
-
-                        if (result) {
-                            if (result && result.length) {
-                                this.set('foundBackup', result);
-                                this.set('found', result.filter((item) => ids.indexOf(item.Id) === -1));
-
-                                // Тут из невыделенного убирается выделенное
-                                this.set('found', this.get('found').filter((item) => {
-                                    let retVal = true;
-                                    $.each(this.values, (k, v) => {
-                                        if (v.Id === item.Id) {
-                                            retVal = false;
-                                        }
-                                    });
-                                    return retVal;
-                                }));
-                            }
-
-                        }
-                    },
-                    error: function(error) {
-                        shared.log(error.responseJSON);
-                    }
-                });
             } else {
                 let trimmedAndLowered = (v) => v.toLowerCase().trim();
                 let searchString = trimmedAndLowered(this.get('searchStr'));
@@ -121,8 +119,9 @@ const autocompleteFactory = function(config) {
 
             this.values.unshift(e.data);
 
-            if (config.maxValuesCount && (this.values.length > config.maxValuesCount))
+            if (config.maxValuesCount && (this.values.length > config.maxValuesCount)) {
                 this.found.unshift(this.values.pop());
+            }
 
             // тут из невыделенного убирается выделенное
             this.set('found', this.get('found').filter((item) => {
