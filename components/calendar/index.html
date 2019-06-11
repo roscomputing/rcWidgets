@@ -148,30 +148,20 @@
             <ul class="dates"></ul>
         </div>
 
-        <div
-                data-bind="visible: getVisibleBlueZone"
-                class="blue-zone"
-        >
+        <div data-bind="visible: getVisibleBlueZone" class="blue-zone">
             <div class="from">
                 <label class="empty-label"></label>
-                <label
-                        data-bind="text: getFromDateLabel"
-                        class="date-label"></label>
+                <label data-bind="text: getFromDateLabel" class="date-label"></label>
                 <button class="choice-time" type="button">00:00</button>
-
                 <div class="time-choice  w-popup">
                     <ul>
                     </ul>
                 </div>
             </div>
-
             <div class="to">
                 <label class="empty-label"></label>
-                <label
-                        data-bind="text: getToDateLabel"
-                        class="date-label"></label>
+                <label data-bind="text: getToDateLabel" class="date-label"></label>
                 <button class="choice-time" type="button">00:00</button>
-
                 <div class="time-choice w-popup">
                     <ul>
                     </ul>

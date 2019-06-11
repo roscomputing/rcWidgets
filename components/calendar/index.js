@@ -18,15 +18,7 @@ const calendarFactory = function(config) {
     }]);
 
     let vm = {};
-
     let to = config.to ? config.to.date : null;
-    let from = config.from ? config.from.date : null;
-
-    let toDisabled = config.to ? !! config.to.disabled: false;
-    let fromDisabled = config.from ? !! config.from.disabled: false;
-
-    let fromKey, toKey;
-
     let type = config.type ? config.type : 2;
 
     // Месяцы, которые рисуем
@@ -69,7 +61,7 @@ const calendarFactory = function(config) {
         return str;
     };
 
-    var generateRegulations = function() {
+    let generateRegulations = function() {
         if (!config.regulations)
             return false;
 
@@ -313,28 +305,33 @@ const calendarFactory = function(config) {
 
 
     let getTimeRange = function(date) {
-        let timeRange = {
+        if (!date) {
+            return false;
+        }
+
+        let defaultTimeRange = {
             iMin: 0,
             iMax: 23,
             jMin: 0,
             jMax: 59
         };
+        let baseDays = config.regulations && config.regulations.BaseDays;
 
-        if (!date) {
-            return false;
+        if (baseDays && baseDays.length) {
+            date = moment(date).day();
+            let getNumber = (o, p, d) => (o && !Number.isNaN(o[p])) ? o[p] : d;
+            let ranges = baseDays.filter((d) => d.DayId === date).map((d) => {
+                return {
+                    iMin: getNumber(d.StartWorkingTime, 'Hour', 0),
+                    iMax: getNumber(d.EndWorkingTime, 'Hour', 23),
+                    jMin: getNumber(d.StartWorkingTime, 'Minutes', 0),
+                    jMax: getNumber(d.EndWorkingTime, 'Minutes', 59)
+                }
+            });
+            return (ranges && ranges.length && ranges[0]) || defaultTimeRange;
         }
 
-        date = moment(date);
-
-        let setRange = function(range) {
-            timeRange.iMin = range.StartWorkingTime.Hour;
-            timeRange.iMax = range.EndWorkingTime.Hour;
-
-            timeRange.jMin = range.StartWorkingTime.Minutes;
-            timeRange.jMax = range.EndWorkingTime.Minutes;
-        };
-
-        return timeRange;
+        return defaultTimeRange;
     };
 
     let showTimeChoice = function(e) {
@@ -346,7 +343,7 @@ const calendarFactory = function(config) {
 
         let tRange = getTimeRange(date);
 
-        if (tRange.iMax == -1) {
+        if (tRange.iMax === -1) {
             return false;
         }
 
@@ -783,14 +780,14 @@ const calendarFactory = function(config) {
         getFromDateLabel: function() {
             let from = this.get('from');
 
-            if (from)
+            if (from) {
                 return moment(from).format('DD MMM YYYY');
+            }
 
             return '';
         },
 
         getToDateLabel: function() {
-            let from = this.get('from');
             let to = this.get('to');
 
             if (to) {
@@ -840,7 +837,9 @@ const calendarFactory = function(config) {
         }
     };
 
-    return shared.bindViewModel(el, vm);
+    vm = shared.bindViewModel(el, vm);
+
+    return vm;
 };
 
 module.exports = function(config, callback) {

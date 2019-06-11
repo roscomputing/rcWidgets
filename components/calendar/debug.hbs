@@ -22,15 +22,100 @@
         <script>
             require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcCalendar) {
                 document.getElementById('sb').addEventListener('click', function (e) {
+                    var baseDays = [
+                        {
+                            DayId: 0,
+                            IsWorking:  false,
+                        } , {
+                            DayId: 1,
+                            IsWorking: true,
+                            StartWorkingTime: {
+                                Hour: 9,
+                                Minutes: 0
+                            },
+                            EndWorkingTime: {
+                                Hour: 18,
+                                Minutes: 0
+                            }
+                        }, {
+                            DayId:2,
+                            IsWorking: true,
+                            StartWorkingTime: {
+                                Hour: 9,
+                                Minutes: 0
+                            },
+                            EndWorkingTime: {
+                                Hour: 18,
+                                Minutes: 0
+                            }
+                        }, {
+                            DayId:3,
+                            IsWorking: true,
+                            StartWorkingTime: {
+                                Hour: 9,
+                                Minutes: 0
+                            },
+                            EndWorkingTime: {
+                                Hour: 18,
+                                Minutes: 0
+                            }
+                        }, {
+                            DayId:4,
+
+                            IsWorking: true,
+                            StartWorkingTime: {
+                                Hour: 9,
+                                Minutes: 0
+                            },
+                            EndWorkingTime: {
+                                Hour: 18,
+                                Minutes: 0
+                            }
+                        }, {
+                            DayId:5,
+                            IsWorking: true,
+                            StartWorkingTime: {
+                                Hour: 10,
+                                Minutes: 0
+                            },
+                            EndWorkingTime: {
+                                Hour: 17,
+                                Minutes: 0
+                            }
+                        }, {
+                            DayId:6,
+                            IsWorking: false
+                        }
+                    ];
+
+                    var regulations = {
+                        BaseDays: baseDays,
+                        SpecialDays: [
+                            {
+                                Date: '2019-06-12',
+                                IsWorking: false,
+                                StartWorkingTime: {
+                                    Hour: 12,
+                                    Minutes: 0
+                                },
+                                EndWorkingTime: {
+                                    Hour: 14,
+                                    Minutes: 0
+                                }
+                            }
+                        ]
+                    };
+
                     rcCalendar({
                         selector: '.container',
                         pageX: e.pageX,
                         pageY: e.pageY,
-                        onlyDate: true,
                         type: 1,
-                        fromLabel: '',
-                        from: null,
-                        to: null,
+                        //fromLabel: 'ничего',
+                        //toLabel: 'ничего 2',
+                        //from: '2019-06-01',
+                        //to: '2019-06-10',
+                        //regulations: regulations
                     }, function(ids, values) {
                         console.log(ids, values)
                     });
