@@ -13,7 +13,7 @@ const cityFactory = function(config) {
         return null;
     }
 
-    shared.initTemplates(el, template, '#rc-city-template');
+    shared.initTemplates(el, template, '#rc-city-template', true);
 
     let vm = {
         popupMode: !!config.popupMode,
@@ -206,13 +206,12 @@ const cityFactory = function(config) {
         },
 
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
+            let wPopup = el.find('> .w-popup');
             if (!this.popupMode) {
-                el.find('> .w-popup').addClass('showing');
+                wPopup.addClass('showing');
             }
             shared.setMainOverflow(true);
+            shared.setYCenterPosition(wPopup);
         },
         destroy: function() {
             kendo.unbind(el.find('> .w-popup'));
