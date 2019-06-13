@@ -24,11 +24,13 @@
                 document.getElementById('sb').addEventListener('click', function (e) {
                     var field = {
                         Placeholder: 'Введите текст',
-                        Type: 'text',
-                        Maxlength: null, // Опционально
-                        Minlength: null, // Опционально
-                        Tooltip: 'Подсказка над полем выше. Текст', // Опционально
-                        Mask: "(999) 0000" // Опционально
+                        Type: 'time',
+                        MaxTime: "13:00",
+                        MinTime: "10:00",
+                        //Maxlength: 3, // Опционально
+                        //Minlength: 1, // Опционально
+                        Tooltip: 'Подсказка над полем выше. Текст'//, // Опционально
+                        //Mask: "(999) 0000" // Опционально
                     };
 
                     rcField({

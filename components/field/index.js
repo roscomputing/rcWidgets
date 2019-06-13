@@ -41,15 +41,17 @@ const fieldFactory = function(config) {
                 return false;
             };
 
-            if (val && f.Type === 'text') {
-                if ((f.Maxlength != null) && (f.Maxlength < val.length)) {
+            if (f.Type === 'text') {
+                let maxLength = f.Maxlength;
+                let minLength = f.Minlength;
+                if (val && !Number.isNaN(maxLength) && (maxLength < val.length)) {
                     errorCount++;
-                    source.log('Длина текста не может быть больше ' + f.Maxlength);
+                    shared.log(`Длина текста не может быть больше ${maxLength}`);
                 }
 
-                if ((f.Minlength != null) && (f.Minlength > val.length)) {
+                if (!Number.isNaN(minLength) && (!val || (minLength > val.length))) {
                     errorCount++;
-                    source.log('Минимальное количество символов не может быть меньше ' + f.Minlength);
+                    shared.log(`Минимальное количество символов не может быть меньше ${minLength}`);
                 }
             }
 
@@ -110,7 +112,7 @@ const fieldFactory = function(config) {
                     }
             }
 
-            if (val && (f.Type == 'integer')) {
+            if (val && (f.Type === 'integer')) {
                 if (f.MaxI)
                     if (f.MaxI < val) {
                         errorCount++;
@@ -124,7 +126,7 @@ const fieldFactory = function(config) {
                     }
             }
 
-            if (val && (f.Type == 'float')) {
+            if (val && (f.Type === 'float')) {
                 if (f.MaxF)
                     if (f.MaxF < val) {
                         errorCount++;
@@ -151,10 +153,17 @@ const fieldFactory = function(config) {
             let input = el.find('input');
 
             // Type
-            if (['text', 'date', 'datetime', 'time'].indexOf(config.field.Type) != -1)
+            if (['text', 'date', 'datetime', 'time'].indexOf(config.field.Type) !== -1) {
                 input.attr('type', 'text');
-            if (['integer', 'float'].indexOf(config.field.Type) != -1)
+            }
+
+            if (['integer', 'float'].indexOf(config.field.Type) !== -1) {
                 input.attr('type', 'number');
+            }
+
+            if (config.field.Placeholder) {
+                input.attr('placeholder', config.field.Placeholder);
+            }
 
             // Mask
             if (config.field.Mask) {

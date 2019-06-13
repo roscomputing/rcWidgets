@@ -5,7 +5,7 @@ let externalLog;
 let overflowMem;
 
 const log = function (v) {
-    typeof (externalLog === 'function' && externalLog(v)) || console.log(v);
+    (typeof externalLog === 'function' && externalLog(v)) || console.log(v);
 };
 
 const getGuid = function () {
