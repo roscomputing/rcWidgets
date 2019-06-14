@@ -219,6 +219,10 @@ const filepreviewFactory = function(config) {
         }
     };
 
+    if (config.getHeaderInfo) {
+        vm.getHeaderInfo = config.getHeaderInfo;
+    }
+
     return shared.bindViewModel(el, vm);
 };
 
