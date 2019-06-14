@@ -31,7 +31,7 @@ const usersFactory = function(config) {
                 config.callback([], e.data.slug || null, params, (items, params) => {
                     if (params) {
                         if (!params.addAfterValues) {
-                            this.finded = [];
+                            this.found = [];
                         }
                     }
 
@@ -59,8 +59,8 @@ const usersFactory = function(config) {
 
         dataParams: config.userOptions.dataParams || '',
 
-        // Finded
-        finded: config.finded ? config.finded : [],
+        // Found
+        found: config.found ? config.found : [],
         showLoader: false,
         usersTypeUrlExtens: config.usersTypeUrlExtens || '',
         searchStr: '',
@@ -76,7 +76,7 @@ const usersFactory = function(config) {
                     this.set('total', 0);
                 }
 
-                this.set('finded', []);
+                this.set('found', []);
                 this.getPossibleUsers();
             }, 300);
         },
@@ -97,14 +97,14 @@ const usersFactory = function(config) {
                     newItems = items;
                 }
 
-                this.set('finded', $.merge($.extend([], this.finded), newItems));
+                this.set('found', $.merge($.extend([], this.found), newItems));
             } else {
                 this.set('total', this.total + items.length);
                 items = $.grep(items, function(item) {
                     return (ids.indexOf(item.Id) === -1) && (item.Name != null || item.FullName != null) && (valIds.indexOf(item.Id) === -1);
                 });
 
-                this.set('finded', $.grep(items.splice(0, 40), function(item) {
+                this.set('found', $.grep(items.splice(0, 40), function(item) {
                     return ids.indexOf(item.Id) === -1 && (item.Name != null || item.FullName != null);
                 }));
             }
@@ -119,7 +119,7 @@ const usersFactory = function(config) {
             let hasSearchString = !!this.searchStr;
             if (hasSearchString) {
                 this.total = 0;
-                this.set('finded', []);
+                this.set('found', []);
             }
 
             config.getUsers({
@@ -132,7 +132,7 @@ const usersFactory = function(config) {
         getDataAfterEndScroll: function() {
             let scrollEndTimeout = null;
 
-            el.find('ul.finded').on('scroll', (e) => {
+            el.find('ul.found').on('scroll', (e) => {
                 let thatScrEv = e.target;
                 //по достижению конца, подгружаем ещё пользователей
                 if (scrollEndTimeout) {
@@ -155,7 +155,7 @@ const usersFactory = function(config) {
             let isOld = $(e.target).closest('li').parent().hasClass('values');
 
             if (isOld) {
-                this.finded.unshift(e.data);
+                this.found.unshift(e.data);
                 this.set('values', $.grep(this.get('values'), item => item.Id !== e.data.Id));
                 return false;
             }
@@ -163,12 +163,12 @@ const usersFactory = function(config) {
             this.values.unshift(e.data);
 
             if (!config.maxValuesCount && this.values.length > 1) {
-                this.finded.unshift(this.values.pop());
+                this.found.unshift(this.values.pop());
             } else if ((typeof(config.maxValuesCount) == 'number') && this.values.length > config.maxValuesCount) {
-                this.finded.unshift(this.values.pop());
+                this.found.unshift(this.values.pop());
             }
 
-            this.set('finded', $.grep(this.get('finded'), item => item.Id !== e.data.Id));
+            this.set('found', $.grep(this.get('found'), item => item.Id !== e.data.Id));
 
             if (!config.maxValuesCount && this.values.length > 0) {
                 el.find('> .w-popup').removeClass('showing');

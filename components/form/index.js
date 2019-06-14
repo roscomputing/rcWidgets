@@ -22,6 +22,7 @@ const formFactory = function(config) {
     }]);
 
     let vm = {
+        isNumberKey: shared.isNumberKey,
         popupMode: !!config.popupMode,
 
         fields: config.fields,
@@ -133,9 +134,9 @@ const formFactory = function(config) {
                 pageX: e.pageX,
                 pageY: e.pageY,
                 maxValuesCount: e.data.type !== 'multiValue' ? 1 : false,
-                finded:  valuesIds.length ? $.grep(e.data.finded , function(item) {
+                found:  valuesIds.length ? $.grep(e.data.found , function(item) {
                     return valuesIds.indexOf(item.Id) === -1;
-                }) : e.data.finded,
+                }) : e.data.found,
                 values: values,
                 clientSearch: true,
             }, (values, answer) => {
@@ -238,11 +239,11 @@ const formFactory = function(config) {
             $.each(this.fields, (k,v) => {
                 if (v.change) {
                     if (v.control === 'users') {
-                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.finded, el, this);
+                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.found, el, this);
                     }
 
                     if (v.control === 'autocomplete' || v.control === 'tree') {
-                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.finded, el, this);
+                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.found, el, this);
                     }
 
                     if (v.control === 'checkbox') {
@@ -279,7 +280,7 @@ const formFactory = function(config) {
 
             // Email
             $.each(el.find('.email input'), function(k, v) {
-                if ($(v).val().trim().length && (!source.checkEmail($(v).val())))
+                if ($(v).val().trim().length && (!shared.checkEmail($(v).val())))
                     $(v).closest('.rc-form-field').addClass('error');
             });
 
@@ -289,7 +290,7 @@ const formFactory = function(config) {
                     if ((v.control === 'users') || (v.control === 'autocomplete') || (v.control === 'tree')) {
                         if (v.checkValid && !v.checkValid(
                             el.find('[name=' + v.name + ']').attr('data-value'),
-                            v.finded,
+                            v.found,
                             el)) {
                             el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
                         }
@@ -447,7 +448,7 @@ const formFactory = function(config) {
                     all: false,
                     css: true,
                     custom: function (html) {
-                        return source.pasteCleanup(html);
+                        return shared.pasteCleanup(html);
                     },
                     keepNewLines: false,
                     msAllFormatting: false,
@@ -490,7 +491,7 @@ const formFactory = function(config) {
                 if (editor) {
                     let toolbar = editor.toolbar.element.closest(".k-window");
 
-                    editor.value(source.htmlDecode(editor.value(), true) || null);
+                    editor.value(shared.htmlDecode(editor.value(), true) || null);
 
                     toolbar.prependTo($(v).parent());
                     toolbar.addClass('fixed');

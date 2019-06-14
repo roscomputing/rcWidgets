@@ -1,8 +1,30 @@
+Date.prototype.toDateTimeString = function () {
+    return (this.getHours() < 10 ? "0" + this.getHours() : this.getHours()) + ":" + (this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes())
+        + " " + (this.getDate() < 10 ? "0" + this.getDate() : this.getDate()) + "." + (this.getMonth() + 1 < 10 ? "0" + (this.getMonth() + 1) : this.getMonth() + 1) + "." + this.getFullYear();
+};
+
+Date.prototype.toLocalUTCString = function () {
+    return this.getFullYear()
+        + "-" + pad(this.getMonth() + 1)
+        + "-" + pad(this.getDate())
+        + "T" + pad(this.getHours())
+        + ":" + pad(this.getMinutes())
+        + ":" + pad(this.getSeconds())
+        + "." + String((this.getMilliseconds() / 1000).toFixed(3)).slice(2, 5)
+        + "Z";
+};
+
+Date.prototype.toJSON = function() {
+    return moment(this).format('YYYY-MM-DD[T]HH:mm:ss');
+};
+
 const consts = require('./consts');
 
 let baseEl;
 let externalLog;
 let overflowMem;
+
+const reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const log = function (v) {
     (typeof externalLog === 'function' && externalLog(v)) || console.log(v);
@@ -31,8 +53,6 @@ const findWidgetPos = function(wPopup, pos) {
         if (pos.y < frame) {
             y = pos.y;
         } else {
-            let framesCount = Math.ceil(pos.y / frame);
-            let topOfCurrentFrame = (frame * (framesCount - 1));
             y = pos.y - window.scrollY;
         }
     }
@@ -82,8 +102,6 @@ const initListener = function() {
     window.addEventListener('touchstart', globalMouseDownListener);
     window.addEventListener('mouseup', globalMouseDownListener);
 };
-
-
 
 const libraryInitialAction = function (params) {
     if (!params || !params.selector || !$(params.selector).length) {
@@ -172,6 +190,81 @@ const setMainOverflow = function (isShow) {
     }
 };
 
+const checkEmail = function (val) {
+    return val && reEmail.test(val);
+};
+
+const removeAttributes = function (contents) {
+    let whitelist = ["src", "href", "style"];
+    let temp = document.createElement('div');
+    temp = $(temp).html(contents);
+
+    $(temp).find('*').each(function () {
+        let attributes = this.attributes;
+        let i = attributes.length;
+        while( i-- ) {
+            let attr = attributes[i];
+            if( $.inArray(attr.name,whitelist) === -1 )
+                this.removeAttributeNode(attr);
+        }
+    });
+    return $(temp).html();
+};
+
+const pasteCleanup = function(html) {
+    let result;
+
+    // Функция убирает все атрибуты всех тэгов
+    // https://stackoverflow.com/a/36618964/4222953
+    result = removeAttributes(html);
+
+    // Убираем все комментарии
+    // https://stackoverflow.com/a/5654032/4222953
+    result = result.replace(/<!--[\s\S]*?-->/g, "");
+
+    // Заменяем тег <p> тегом <div>
+    result = result.replace(/<p>/g, "<div>");
+    result = result.replace(/<\/p>/g, "</div>");
+
+    // Удаляем все теги кроме div, br, b, u, i, strong, strike, em, li, ol, ul, a
+    result = result.replace(/<(?!\s*\/?\s*(div|br|b|u|i|strike|s|del|strong|em|li|ol|ul|a)\b)[^>]*>/gi, ' ');
+
+    // В html символы "\n" съедаются и слова "схлопываются" в одно.
+    // Заменяем символ строки "\n" на пробел.
+    result = result.replace(/\n/gi, " ");
+
+    return result;
+};
+
+const htmlDecode =  function(input, keepHtml) {
+    let result;
+
+    // Преобразовуем HTTP мнемоники в обычные символы:
+    // https://stackoverflow.com/a/1912522/4222953
+    let e = document.createElement('div');
+    e.innerHTML = input;
+    result = (e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue) || input;
+
+    if (!!input) {
+        if (!keepHtml) {
+            // Удаляем все теги
+            result = result.replace(/(<([^>]+)>)/gi, ' ') || '';
+        }
+
+        // Заменяем дополнительно
+        result = result.replace(/\n/gi, ' ') || '';
+        result = result.replace(/&nbsp;/gi, '') || '';
+    }
+
+    return result;
+};
+
+const isNumberKey = function(evt) {
+    let charCode = (evt.which) ? evt.which : evt.keyCode;
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+};
+
+
 module.exports = {
     libraryInitialAction,
     anyWidgetInitialActions,
@@ -181,5 +274,9 @@ module.exports = {
     getHtml,
     initTemplates,
     setMainOverflow,
-    setYCenterPosition
+    setYCenterPosition,
+    htmlDecode,
+    checkEmail,
+    pasteCleanup,
+    isNumberKey
 };
