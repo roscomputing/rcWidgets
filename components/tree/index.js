@@ -18,15 +18,17 @@ const treeFactory = function(config) {
         userTemplate: config.template
     }]);
 
+    if (config.className) {
+        el.addClass(config.className);
+    }
+
     let vm = {
         showLoader: false,
 
-        valuesIds: $.map(config.values || [], function(item) {
-            return item.Id;
-        }),
-        values: config.values || [],
+        valuesIds: [],
+        values: [],
         checkSelected: function(e) {
-            return this.get('valuesIds').indexOf(e.Id) !== -1;
+            return this.get('valuesIds').indexOf(e.id) !== -1;
         },
 
         maxValuesCount: config.maxValuesCount,
@@ -35,17 +37,17 @@ const treeFactory = function(config) {
                 return false;
             }
 
-            if (this.get('valuesIds').indexOf(e.data.Id) !== -1) {
+            if (this.get('valuesIds').indexOf(e.data.id) !== -1) {
                 this.set('values', $.grep(this.get('values'), function(item) {
-                    return item.Id !== e.data.Id;
+                    return item.id !== e.data.id;
                 }));
                 this.set('valuesIds', $.grep(this.get('valuesIds'), function(item) {
-                    return item !== e.data.Id;
+                    return item !== e.data.id;
                 }));
             }
             else {
                 this.values.unshift(e.data);
-                this.valuesIds.unshift(e.data.Id);
+                this.valuesIds.unshift(e.data.id);
             }
 
             if (this.maxValuesCount && (this.values.length > this.maxValuesCount)) {
@@ -70,7 +72,27 @@ const treeFactory = function(config) {
         },
 
         prepareAndSet: function(result) {
-            this.set('items', result || []);
+            result = result || [];
+
+            this.set('items', result);
+
+            if (result.length && config.values && config.values.length) {
+                let values = [];
+                let valuesIds = config.values.map((v) => v.id);
+                let fillValues = (r) => {
+                    values.push(...r.filter((v) => {
+                        v.children && v.children.length && fillValues(v.children);
+                        return valuesIds.find((vid) => vid === v.id);
+                    }));
+                };
+
+                fillValues (result);
+
+                if (values && values.length) {
+                    this.set('values', values);
+                    this.set('valuesIds', values.map((v) => v.id));
+                }
+            }
 
             setTimeout(function() {
                 if (config.pos) {
