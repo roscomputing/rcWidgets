@@ -40,8 +40,8 @@
                     var i = 0;
                     while (i < 10 + parseInt(Math.random() * 50)) {
                         items.push({
-                            Id: i + 1,
-                            Name: rrw[parseInt(Math.random() * rrw.length)] + ' ' + rrw[parseInt(Math.random() * rrw.length)] + 'ич'
+                            id: i + 1,
+                            name: rrw[parseInt(Math.random() * rrw.length)] + ' ' + rrw[parseInt(Math.random() * rrw.length)] + 'ич'
                         });
                         i++;
                     }
@@ -61,7 +61,7 @@
                         getUsers: function(params, callback) {
                             getRandomUsers(params, callback);
                         },
-                        template: '<img class="user-icon" src="https://placekitten.com/50/50?image=#: Id #"/> #: Name #',
+                        //template: '<img class="user-icon" src="https://placekitten.com/50/50?image=#: id #"/> #: name #',
                         pageX: e.pageX,
                         pageY: e.pageY,
                         buttons: buttons,

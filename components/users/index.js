@@ -71,7 +71,7 @@ const usersFactory = function(config) {
                 clearTimeout(this.searchStrTimeout);
             }
 
-            this.searchStrTimeout = setTimeout(function() {
+            this.searchStrTimeout = setTimeout(() => {
                 if (!this.searchStr) {
                     this.set('total', 0);
                 }
@@ -82,8 +82,8 @@ const usersFactory = function(config) {
         },
 
         getUsersSuccess: function(items) {
-            let ids = $.map(this.get('values'), item => item.Id);
-            let valIds = $.map(this.values, item => parseInt(item.Id));
+            let ids = $.map(this.get('values'), item => item.id);
+            let valIds = $.map(this.values, item => parseInt(item.id));
 
             if (this.total) {
                 this.set('total', this.total + items.length);
@@ -91,7 +91,7 @@ const usersFactory = function(config) {
                 let newItems = [];
                 if (ids.length || valIds.length) {
                     newItems = $.grep(items, function (item) {
-                        return (ids.indexOf(item.Id) === -1) && (item.Name != null || item.FullName != null) && (valIds.indexOf(item.Id) === -1);
+                        return (ids.indexOf(item.id) === -1) && (item.name != null || item.fullName != null) && (valIds.indexOf(item.id) === -1);
                     });
                 } else {
                     newItems = items;
@@ -101,11 +101,11 @@ const usersFactory = function(config) {
             } else {
                 this.set('total', this.total + items.length);
                 items = $.grep(items, function(item) {
-                    return (ids.indexOf(item.Id) === -1) && (item.Name != null || item.FullName != null) && (valIds.indexOf(item.Id) === -1);
+                    return (ids.indexOf(item.id) === -1) && (item.name != null || item.fullName != null) && (valIds.indexOf(item.id) === -1);
                 });
 
                 this.set('found', $.grep(items.splice(0, 40), function(item) {
-                    return ids.indexOf(item.Id) === -1 && (item.Name != null || item.FullName != null);
+                    return ids.indexOf(item.id) === -1 && (item.name != null || item.fullName != null);
                 }));
             }
         },
@@ -156,7 +156,7 @@ const usersFactory = function(config) {
 
             if (isOld) {
                 this.found.unshift(e.data);
-                this.set('values', $.grep(this.get('values'), item => item.Id !== e.data.Id));
+                this.set('values', $.grep(this.get('values'), item => item.id !== e.data.id));
                 return false;
             }
 
@@ -168,7 +168,7 @@ const usersFactory = function(config) {
                 this.found.unshift(this.values.pop());
             }
 
-            this.set('found', $.grep(this.get('found'), item => item.Id !== e.data.Id));
+            this.set('found', $.grep(this.get('found'), item => item.id !== e.data.id));
 
             if (!config.maxValuesCount && this.values.length > 0) {
                 el.find('> .w-popup').removeClass('showing');
