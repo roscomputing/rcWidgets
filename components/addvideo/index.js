@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const consts = require('../../shared/consts');
+const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
 const addvideoFactory = function(config) {
@@ -42,7 +43,7 @@ const addvideoFactory = function(config) {
         urlPastedCallback: function(url, pattern) {
             let execArray = pattern.regex.exec(url),
                 id = this.getRemoteId(pattern.type, execArray);
-            let data = {
+            this.video = {
                 source: pattern.type,
                 remote_id: id,
                 url: url,
@@ -51,13 +52,7 @@ const addvideoFactory = function(config) {
                 caption: '',
             };
 
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', function() {
-                config.callback(data);
-            });
-
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            componentsShared.performClose(el);
         },
 
         title: config.title || 'Прикрепить видео',
@@ -83,20 +78,11 @@ const addvideoFactory = function(config) {
 
         video: {},
 
-        close: function() {
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', function() {
-                config.callback();
-            });
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+        onClose() {
+            config.callback(this.get('video'));
         },
         init: function() {
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('video'));
-                });
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
             let wPopup = el.find('> .w-popup');

@@ -4,6 +4,7 @@ require('./index.theme.less');
 require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
+const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
 const autocompleteFactory = function(config) {
@@ -19,14 +20,13 @@ const autocompleteFactory = function(config) {
         templateName: 'rc-autocomplete-button-item-template'
     }]);
 
+    let selectedSlug;
+
     let vm = {
         // Buttons
         onButtonClick: function(e) {
-            el.find('.w-popup').off('onClose').on('onClose', function() {
-                config.callback([], e.data.slug);
-            });
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            selectedSlug =  e.data.slug;
+            componentsShared.performClose(el);
         },
         buttons: config.buttons ? config.buttons : [],
 
@@ -129,17 +129,20 @@ const autocompleteFactory = function(config) {
             }));
 
             if (config.maxValuesCount && (this.values.length === config.maxValuesCount)) {
-                el.find('> .w-popup').removeClass('showing');
-                el.find('> .w-popup').trigger('onClose');
+                componentsShared.performClose(el);
+            }
+        },
+        onClose() {
+            if (!shared.isNullOrUndefined(selectedSlug)) {
+                config.callback([], selectedSlug);
+                selectedSlug = null;
+            } else {
+                config.callback(this.get('values'));
             }
         },
         init: function() {
             this.getPossibleValues();
-
-            if (config.callback)
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('values'));
-                });
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
             if (config.pos) {

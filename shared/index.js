@@ -264,6 +264,7 @@ const isNumberKey = function(evt) {
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 };
 
+const isNullOrUndefined = (v) => v === null || v === undefined;
 
 module.exports = {
     libraryInitialAction,
@@ -278,5 +279,6 @@ module.exports = {
     htmlDecode,
     checkEmail,
     pasteCleanup,
-    isNumberKey
+    isNumberKey,
+    isNullOrUndefined
 };

@@ -4,6 +4,7 @@ require('./index.theme.less');
 require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
+const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
 const calendarFactory = function(config) {
@@ -797,13 +798,12 @@ const calendarFactory = function(config) {
             return '';
         },
 
+        onClose() {
+            config.callback(this.get('from'), this.get('to'), null);
+        },
 
         init: function() {
-            if (config.callback)
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('from'), this.get('to'), null);
-                });
-
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
             setMonths();
         },
 
