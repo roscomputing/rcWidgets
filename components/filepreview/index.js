@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const filepreviewFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -163,8 +164,10 @@ const filepreviewFactory = function(config) {
         },
 
         close: function() {
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            componentsShared.performClose(el);
+        },
+        onClose() {
+            config.callback();
         },
         init: function() {
             this.set('name', config.name);
@@ -196,11 +199,7 @@ const filepreviewFactory = function(config) {
                 this.set('imgSrc', '');
             }
 
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', function() {
-                    config.callback();
-                })
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
             if (config.pos) {

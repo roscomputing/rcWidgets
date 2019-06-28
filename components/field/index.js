@@ -35,10 +35,8 @@ const fieldFactory = function(config) {
                 if (val.indexOf('_') !== -1) {
                     return true;
                 }
-                if (moment(val, format).format() === "Invalid date") {
-                    return true;
-                }
-                return false;
+                return moment(val, format).format() === "Invalid date";
+
             };
 
             if (f.Type === 'text') {
