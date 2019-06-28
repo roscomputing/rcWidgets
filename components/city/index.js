@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const cityFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -14,6 +15,8 @@ const cityFactory = function(config) {
     }
 
     shared.initTemplates(el, template, '#rc-city-template', true);
+
+    let isSaveClicked;
 
     let vm = {
         popupMode: !!config.popupMode,
@@ -161,7 +164,7 @@ const cityFactory = function(config) {
 
             this.searchCityTimeout = setTimeout(() => {
                 let str = this.searchStr.toLowerCase().trim();
-                this.set('cities', $.grep(this.get('allCities'), item => item.Title.toLowerCase().trim().indexOf(str) != -1));
+                this.set('cities', $.grep(this.get('allCities'), item => item.Title.toLowerCase().trim().indexOf(str) !== -1));
             }, 300);
         },
 
@@ -175,28 +178,24 @@ const cityFactory = function(config) {
 
         // Save
         saveIt: function() {
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', () => {
-                config.callback(this.get('selectedCities'), this.get('selectedAreas'));
-            });
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            isSaveClicked = true;
+            componentsShared.performClose(el);
         },
 
         close: function() {
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', function() {
+            componentsShared.performClose(el);
+        },
+
+        onClose() {
+            if (isSaveClicked) {
+                config.callback(this.get('selectedCities'), this.get('selectedAreas'));
+            } else {
                 config.callback();
-            });
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            }
         },
 
         init: function() {
-            if (config.callback)
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('values'));
-                });
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
             if (this.popupMode) {
                 el.find('.w-popup').addClass('no-close');
