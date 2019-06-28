@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const treeFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -134,14 +135,13 @@ const treeFactory = function(config) {
             }
         },
 
+        onClose() {
+            config.callback(this.get('valuesIds'), this.get('values'));
+        },
+
         init: function() {
             this.getDataForTree();
-
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('valuesIds'), this.get('values'));
-                });
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
             if (config.pos) {

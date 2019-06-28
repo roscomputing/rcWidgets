@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const selectFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -29,39 +30,27 @@ const selectFactory = function(config) {
         },
 
         onButtonClick: function(e) {
-            el.find('.w-popup').off('onClose').on('onClose', function() {
-                config.callback(e.data);
-            });
+            let button = $(e.target);
 
-            $(e.target).closest('.rc-select').find('.active').removeClass('active');
-            $(e.target).closest('li').addClass('active');
+            button.closest('.rc-select').find('.active').removeClass('active');
+            button.closest('li').addClass('active');
 
             if (!config.onlyBackgroundClose) {
-                el.find('> .w-popup').removeClass('showing');
-                el.find('> .w-popup').trigger('onClose');
+                componentsShared.performClose(el, [e.data]);
             } else {
                 config.callback(e.data, {
                     dontClose: true
                 });
             }
         },
-
         close: function() {
-            el.find('.w-popup').removeClass('no-close');
-
-            el.find('.w-popup').off('onClose').on('onClose', function() {
-                config.callback();
-            });
-
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            componentsShared.performClose(el);
         },
-
+        onClose(e, ...onCloseParams) {
+            config.callback(...onCloseParams);
+        },
         init: function() {
-            if (config.callback)
-                el.find('.w-popup').on('onClose', function() {
-                    config.callback();
-                });
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
             if (this.popupMode) {
                 el.find('.w-popup').addClass('no-close');

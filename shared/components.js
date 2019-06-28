@@ -4,8 +4,8 @@ const onCloseSetup = function (config, el, onClose) {
     }
 };
 
-const performClose = function(el) {
-    el.find('> .w-popup').trigger('onClose');
+const performClose = function(el, onCloseParams) {
+    el.find('> .w-popup').trigger('onClose', onCloseParams);
     el.find('> .w-popup').removeClass('showing');
     el.find('.w-popup').removeClass('no-close');
     el.find('.w-popup').off('onClose');

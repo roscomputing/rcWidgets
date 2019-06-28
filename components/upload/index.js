@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const uploadFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -111,12 +112,12 @@ const uploadFactory = function(config) {
             }
         },
 
+        onClose() {
+            config.callback(null, inUpload);
+        },
+
         init: function() {
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', function() {
-                    config.callback(null, inUpload);
-                });
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
             el.find('[name=filesInput]').kendoUpload({
                 multiple: true,

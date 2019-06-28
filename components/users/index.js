@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const usersFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -40,11 +41,7 @@ const usersFactory = function(config) {
                     }
                 });
             } else {
-                el.find('.w-popup').off('onClose').on('onClose', function() {
-                    config.callback([], e.data.slug || null);
-                });
-                el.find('> .w-popup').removeClass('showing');
-                el.find('> .w-popup').trigger('onClose');
+                componentsShared.performClose(el, [[], e.data.slug || null]);
             }
         },
 
@@ -171,20 +168,21 @@ const usersFactory = function(config) {
             this.set('found', $.grep(this.get('found'), item => item.id !== e.data.id));
 
             if (!config.maxValuesCount && this.values.length > 0) {
-                el.find('> .w-popup').removeClass('showing');
-                el.find('> .w-popup').trigger('onClose');
+                componentsShared.performClose(el);
             }
         },
 
+        onClose(e, ...onCloseParams) {
+            if (onCloseParams && onCloseParams.length) {
+                config.callback(...onCloseParams);
+            } else {
+                config.callback(this.get('values'));
+            }
+        },
 
         init: function() {
             this.getPossibleUsers();
-
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('values'));
-                });
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
             if (config.pos) {

@@ -7,6 +7,7 @@ const shared = require('../../shared/index');
 const template = require('./index.html');
 const calendar = require('../calendar/index');
 const autocomplete = require('../autocomplete/index');
+const componentsShared = require('../../shared/components');
 
 const formFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -375,27 +376,13 @@ const formFactory = function(config) {
             return true;
         },
         onButtonClick: function(e) {
-            if (e.data.needCheck) {
-                if (!this.checkFields()) {
-                    return false;
-                }
+            if (e.data.needCheck && !this.checkFields()) {
+                return false;
             }
-
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', () => {
-                config.callback(this.get('fields'), e.data.slug, this.get('files'));
-            });
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            componentsShared.performClose(el, [this.get('fields'), e.data.slug, this.get('files')]);
         },
         close: function() {
-            el.find('.w-popup').removeClass('no-close');
-            el.find('.w-popup').off('onClose').on('onClose', () => {
-                config.callback(this.get('fields'), 'cancel');
-            });
-
-            el.find('> .w-popup').removeClass('showing');
-            el.find('> .w-popup').trigger('onClose');
+            componentsShared.performClose(el, [this.get('fields'), 'cancel']);
         },
 
         // Data updates
@@ -417,12 +404,15 @@ const formFactory = function(config) {
             });
         },
 
-        init: function() {
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', () => {
-                    config.callback(this.get('values'));
-                });
+        onClose(e, ...onCloseParams) {
+            if (onCloseParams && onCloseParams.length) {
+                config.callback(...onCloseParams);
+            } else {
+                config.callback(this.get('values'));
             }
+        },
+        init: function() {
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
             el.find('.w-popup').addClass('no-close');
             el.find('.phone input').kendoMaskedTextBox({

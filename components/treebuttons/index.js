@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const treebuttonsFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -168,17 +169,15 @@ const treebuttonsFactory = function(config) {
         },
 
         close: function () {
-            el.find('.w-popup').removeClass('showing');
-            el.find('.w-popup').trigger('onClose');
+            componentsShared.performClose(el);
         },
 
+        onClose() {
+            config.callback();
+        },
 
         init: function () {
-            if (config.callback) {
-                el.find('.w-popup').on('onClose', function () {
-                    config.callback();
-                });
-            }
+            componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
             this.generateColumns();
             window.addEventListener('resize', onResize);
