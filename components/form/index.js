@@ -33,15 +33,18 @@ const formFactory = function(config) {
 
         checkPos: function() {
             setTimeout(function() {
-                var p = el.find('.w-popup');
-                var delta = $(window).height() - (p.offset().top + p.outerHeight());
+                let p = el.find('.w-popup');
+                let delta = $(window).height() - (p.offset().top + p.outerHeight());
 
-                if (delta < 0)
+                if (delta < 0) {
                     p.css('top', p.offset().top + delta);
+                }
 
                 delta = $(window).width() - (p.offset().left + p.outerWidth());
-                if (delta < 0)
+
+                if (delta < 0) {
                     p.css('left', p.offset().left + delta);
+                }
             });
         },
 
@@ -211,9 +214,9 @@ const formFactory = function(config) {
                 data.autoSetTime = e.data.autoSetTime;
             }
 
-            calendar(data, function(from, to, option) {
+            calendar(data, function(from) {
                 if (from) {
-                    let date = moment(from).format('YYYY-MM-DDTHH:mm:00')
+                    let date = moment(from).format('YYYY-MM-DDTHH:mm:00');
                     element.attr('data-format', date);
                     date = moment(date);
                     element.text(date.format('DD MMM YYYY, HH:mm'))
@@ -491,23 +494,14 @@ const formFactory = function(config) {
             });
         },
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-
+            componentsShared.show(el, false, config.pos);
             this.checkPos();
-            el.find('> .w-popup').addClass('showing');
-            shared.setMainOverflow(true);
         },
         destroy: function() {
             if (el.find('.editor').length) {
                 el.find('.editor').data('kendoEditor').destroy();
             }
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

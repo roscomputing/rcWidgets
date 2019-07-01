@@ -205,19 +205,11 @@ const cityFactory = function(config) {
         },
 
         show: function() {
-            let wPopup = el.find('> .w-popup');
-            if (!this.popupMode) {
-                wPopup.addClass('showing');
-            }
-            shared.setMainOverflow(true);
-            shared.setYCenterPosition(wPopup);
+            componentsShared.show(el, true, null, true);
         },
+
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

@@ -143,19 +143,13 @@ const treeFactory = function(config) {
             this.getDataForTree();
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
+
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-            el.find('> .w-popup').addClass('showing');
-            shared.setMainOverflow(true);
+            componentsShared.show(el, false, config.pos);
         },
+
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

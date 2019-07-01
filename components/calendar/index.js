@@ -816,24 +816,17 @@ const calendarFactory = function(config) {
         show: function() {
             if (config.pos) {
                 config.pos.height = 500;
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
             }
-
-            el.find('> .w-popup').addClass('showing');
-            shared.setMainOverflow(true);
+            componentsShared.show(el, false, config.pos);
         },
 
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
             el.find('.choice-time').off('click');
-            el.find('> .w-popup').off('mouseup');
             el.find('.time-choice li').off('click');
             el.find('.calendar').off('click');
             el.find('.title .r button').off('click');
             el.find('.title .l button').off('click');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

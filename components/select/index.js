@@ -58,31 +58,17 @@ const selectFactory = function(config) {
         },
         show: function() {
             let wPopup = el.find('> .w-popup');
-
+            componentsShared.show(el, this.popupMode, config.pos, this.popupMode);
             if (config.pos) {
-                shared.findWidgetPos(wPopup, config.pos);
-                this.updateHeight(wPopup, el.find('> .w-popup'), config.pos);
+                //TODO: I've left this call as it was in the original impl.
+                this.updateHeight(wPopup, wPopup, config.pos);
             }
-
             if (config.class) {
                 el.find('> .w-popup > ul').addClass(config.class);
             }
-
-            if (!this.popupMode) {
-                wPopup.addClass('showing');
-            }
-            shared.setMainOverflow(true);
-
-            if (this.popupMode) {
-                shared.setYCenterPosition(wPopup);
-            }
         },
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         },
         updateHeight: function (wPopupList, wPopup, pos) {
             if (!wPopupList || !wPopup || !pos) {

@@ -182,22 +182,15 @@ const treebuttonsFactory = function(config) {
             this.generateColumns();
             window.addEventListener('resize', onResize);
         },
+
         show: function () {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-            el.find('> .w-popup').addClass('showing');
-            shared.setMainOverflow(true);
+            componentsShared.show(el, false, config.pos);
         },
+
         destroy: function () {
             window.removeEventListener('resize', onResize);
-
-            kendo.unbind(el.find('> .w-popup'));
             kendo.unbind(el.find('> .w-popup-background'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

@@ -5,6 +5,7 @@ require('./index.theme.dark.less');
 
 const shared = require('../../shared/index');
 const template = require('./index.html');
+const componentsShared = require('../../shared/components');
 
 const fieldFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
@@ -228,22 +229,14 @@ const fieldFactory = function(config) {
         },
 
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-            el.find('> .w-popup').addClass('showing');
+            componentsShared.show(el, false, config.pos);
             setTimeout(function() {
                 el.find('input').focus();
             }, 200);
-            shared.setMainOverflow(true);
         },
         destroy: function() {
             el.find('.rc-field .w-popup-background').off('click');
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

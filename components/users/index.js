@@ -185,32 +185,18 @@ const usersFactory = function(config) {
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-
-            el.find('> .w-popup').addClass('showing');
-            el.find('input').focus();
-
+            componentsShared.show(el, false, config.pos);
             //доступ к скроллу в общем виде
             if (config.loadDataAfterScroll) {
                 this.getDataAfterEndScroll();
             }
-            shared.setMainOverflow(true);
         },
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-
-            el.off();
-            el.remove();
-
             let showingEl = $('.rc-select.w-popup.showing');
-
             if (showingEl.length) {
                 showingEl.trigger('onClose');
             }
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

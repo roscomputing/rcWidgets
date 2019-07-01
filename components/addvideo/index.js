@@ -77,7 +77,9 @@ const addvideoFactory = function(config) {
         },
 
         video: {},
-
+        close: function() {
+            componentsShared.performClose(el);
+        },
         onClose() {
             config.callback(this.get('video'));
         },
@@ -85,22 +87,13 @@ const addvideoFactory = function(config) {
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
-            let wPopup = el.find('> .w-popup');
-            wPopup.addClass('showing');
-
+            componentsShared.show(el, true);
             setTimeout(() => {
                 el.find('input').focus();
             }, 100);
-            shared.setMainOverflow(true);
-            shared.setYCenterPosition(wPopup);
         },
         destroy: function() {
-            let wPopup = el.find('> .w-popup');
-            kendo.unbind(wPopup);
-            wPopup.off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 

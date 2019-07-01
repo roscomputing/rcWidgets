@@ -202,19 +202,10 @@ const filepreviewFactory = function(config) {
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
         },
         show: function() {
-            if (config.pos) {
-                shared.findWidgetPos(el.find('> .w-popup'), config.pos);
-            }
-            el.find('> .w-popup').addClass('showing');
-            el.find('input').focus();
-            shared.setMainOverflow(true);
+            componentsShared.show(el, false, config.pos);
         },
         destroy: function() {
-            kendo.unbind(el.find('> .w-popup'));
-            el.find('> .w-popup').off('mouseup');
-            el.off();
-            el.remove();
-            shared.setMainOverflow();
+            componentsShared.destroy(el);
         }
     };
 
