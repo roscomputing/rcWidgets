@@ -56,93 +56,53 @@ const calendarFactory = function(config) {
         i = 1;
 
         while (i <= d.daysInMonth()) {
-            str += '<li class="item" data-id="' + key + i + '">' + i + '</li>';
+            str += `<li class="item" data-id="${key + i}">${i}</li>`;
             i++;
         }
         return str;
     };
 
     let generateRegulations = function() {
-        if (!config.regulations)
+        if (!config.regulations) {
             return false;
+        }
 
-        $.each(config.regulations.BaseDays, function (k, v) {
-            if (config.regulations.OffHoursSelectable) {
-                let sunday = 0;
-                let saturday = 6;
-                if (k !== sunday && k !== saturday && !v.IsWorking) {
-                    el.find('.calendar .dates li:nth-child(7n + ' + (v.DayId) + ')').addClass('disabled');
-                }
-            } else if (!v.IsWorking) {
-                el.find('.calendar .dates li:nth-child(7n + ' + (v.DayId) + ')').addClass('disabled');
-            }
-        });
-
-        $.each(config.regulations.SpecialDays, function(k,v) {
-            if (!v.IsWorking) {
-                var dayId = moment(v.Date).format('YYYY-M-D');
-                el.find('.calendar .dates li[data-id=' + dayId + ']').addClass('disabled');
-            }
-        });
-
-        if (config.minDate) {
-            let dayId = moment(config.minDate).format('YYYY-M-D');
-            let dayFromLeft;
+        let processTheMinMaxDay = (day, isMinDay) => {
+            let dayId = moment(day).format('YYYY-M-D');
+            let dayFromLeft = el.find(`.calendar .dates li[data-id=${dayId}]`);
+            let compareDateToPred = isMinDay ? (v) => v <= 0 : (v) => v >= 0;
 
             // Найдем от какого дня
-            if (el.find('.calendar .dates li[data-id=' + dayId + ']').length) {
-                dayFromLeft = el.find('.calendar .dates li[data-id=' + dayId + ']').prev();
+            if (dayFromLeft.length) {
+                dayFromLeft = dayFromLeft[isMinDay ? 'prev' : 'next']();
             } else {
-                let lastDayId = el.find('.calendar .dates li:last').attr('data-id');
-                if (moment(lastDayId, 'YYYY-M-D').diff(moment(config.minDate)) < 0) {
-                    dayFromLeft = el.find('.calendar .dates li:last');
+                let lastDayId = el.find(`.calendar .dates li:${isMinDay ? 'last' : 'first'}`).attr('data-id');
+                if (moment(lastDayId, 'YYYY-M-D').diff(moment(day)) < 0) {
+                    dayFromLeft = el.find(`.calendar .dates li:${isMinDay ? 'last' : 'first'}`);
                 }
             }
 
             // И пойдем от него влево
             if (dayFromLeft && dayFromLeft.length) {
                 let compareDateFrom = moment($(dayFromLeft).attr('data-id'), 'YYYY-M-D');
-
-                $.each(el.find('.calendar .dates li'), function(k,v) {
-                    if ($(v).attr('data-id')) {
-                        let compareDateTo = moment($(v).attr('data-id'), 'YYYY-M-D');
-                        if (compareDateTo.diff(compareDateFrom) <= 0) {
-                            $(v).addClass('disabled');
-                        }
+                el.find('.calendar .dates li').forEach((v) => {
+                    v = $(v);
+                    if (v.attr('data-id')) {
+                        let compareDateTo = moment(v.attr('data-id'), 'YYYY-M-D');
+                        compareDateToPred(compareDateTo.diff(compareDateFrom)) && v.addClass('disabled');
                     }
                 });
             }
+        };
+        let sevenDisable = (el, v, pred) => pred && el.find(`.calendar .dates li:nth-child(7n + ${v.DayId})`).addClass('disabled');
+        let specialDisable = (el, v, pred) => pred && el.find(`.calendar .dates li[data-id=${moment(v.Date).format('YYYY-M-D')}]`).addClass('disabled');
+        let sunday = 0;
+        let saturday = 6;
 
-        }
-
-        if (config.maxDate) {
-            let dayId = moment(config.maxDate).format('YYYY-M-D');
-            let dayFromRight;
-
-            // Найдем от какого дня
-            if (el.find('.calendar .dates li[data-id=' + dayId + ']').length) {
-                dayFromRight = el.find('.calendar .dates li[data-id=' + dayId + ']').next();
-            } else {
-                let firstDayId = el.find('.calendar .dates li:first').attr('data-id');
-                if (moment(firstDayId, 'YYYY-M-D').diff(moment(config.maxDate)) > 0) {
-                    dayFromRight = el.find('.calendar .dates li:first');
-                }
-            }
-
-            // И пойдем от него влево
-            if (dayFromRight && dayFromRight.length) {
-                let compareDateFrom = moment($(dayFromRight).attr('data-id'), 'YYYY-M-D');
-
-                $.each(el.find('.calendar .dates li'), function(k,v) {
-                    if ($(v).attr('data-id')) {
-                        let compareDateTo = moment($(v).attr('data-id'), 'YYYY-M-D');
-                        if (compareDateTo.diff(compareDateFrom) >= 0)
-                            $(v).addClass('disabled');
-
-                    }
-                });
-            }
-        }
+        config.regulations.BaseDays.forEach((v,k) => sevenDisable(el, v, config.regulations.OffHoursSelectable ? (k !== sunday && k !== saturday && !v.IsWorking) : !v.IsWorking));
+        config.regulations.SpecialDays.forEach((v) => specialDisable(el, v, !v.IsWorking));
+        config.minDate && processTheMinMaxDay(config.minDate, true);
+        config.maxDate && processTheMinMaxDay(config.maxDate);
     };
 
     let setMonths = function() {

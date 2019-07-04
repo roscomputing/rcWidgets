@@ -265,6 +265,7 @@ const isNumberKey = function(evt) {
 };
 
 const isNullOrUndefined = (v) => v === null || v === undefined;
+const isFunction = (v) => typeof v === 'function';
 
 module.exports = {
     libraryInitialAction,
@@ -280,5 +281,6 @@ module.exports = {
     checkEmail,
     pasteCleanup,
     isNumberKey,
-    isNullOrUndefined
+    isNullOrUndefined,
+    isFunction
 };

@@ -17,28 +17,22 @@ const addvideoFactory = function(config) {
 
     shared.initTemplates(el, template, '#rc-addvideo-template', true);
 
+    let services = consts.video.services;
+
+    let remoteIds = {
+        ['yandex-music-track']: (v) => v[2]+'/'+v[1],
+        ['yandex-music-playlist']: (v) => v[1]+'/'+v[2],
+        ['giphy']: (v) => v[1] || v[2]
+    };
+
     let vm = {
         getHtml: shared.getHtml,
         getRemoteId: function(source, execArray) {
-            let id;
-            switch(source) {
-                case 'yandex-music-track':
-                    id = execArray[2]+'/'+execArray[1];
-                    break;
-                case 'yandex-music-playlist':
-                    id = execArray[1]+'/'+execArray[2];
-                    break;
-                case 'giphy':
-                    id = execArray[1] || execArray[2];
-                    break;
-                default:
-                    id = execArray[1];
-            }
-
-            return id;
+            let idGetter = remoteIds[source];
+            return (shared.isFunction(idGetter) && idGetter(execArray)) || execArray[1];
         },
         getHtmlWithEmbedId: function (type, id) {
-            return consts.video.services[type].html.replace(/<\%\= remote\_id \%\>/g, id);
+            return services[type].html.replace(/<\%\= remote\_id \%\>/g, id);
         },
         urlPastedCallback: function(url, pattern) {
             let execArray = pattern.regex.exec(url),
@@ -47,8 +41,8 @@ const addvideoFactory = function(config) {
                 source: pattern.type,
                 remote_id: id,
                 url: url,
-                height: consts.video.services[pattern.type].height,
-                width: consts.video.services[pattern.type].width,
+                height: services[pattern.type].height,
+                width: services[pattern.type].width,
                 caption: '',
             };
 
@@ -61,18 +55,11 @@ const addvideoFactory = function(config) {
         url: '',
         searchVideoTimeout: null,
         searchVideo: function() {
-            if (this.searchVideoTimeout) {
-                clearTimeout(this.searchVideoTimeout);
-            }
-
+            this.searchVideoTimeout && clearTimeout(this.searchVideoTimeout);
             this.searchVideoTimeout = setTimeout(() => {
                 let url = this.get('url');
-
-                $.each(consts.video.pastePatterns, (k,v) => {
-                    if (v.regex.test(url)) {
-                        this.urlPastedCallback(url, v);
-                    }
-                });
+                let pattern = consts.video.pastePatterns.find((v) => v.regex.test(url));
+                pattern && this.urlPastedCallback(url, pattern);
             }, 300);
         },
 

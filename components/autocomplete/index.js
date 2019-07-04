@@ -55,17 +55,8 @@ const autocompleteFactory = function(config) {
             if (result && result.length) {
                 this.set('foundBackup', result);
                 this.set('found', result.filter((item) => ids.indexOf(item.Id) === -1));
-
                 // Тут из невыделенного убирается выделенное
-                this.set('found', this.get('found').filter((item) => {
-                    let retVal = true;
-                    $.each(this.values, (k, v) => {
-                        if (v.Id === item.Id) {
-                            retVal = false;
-                        }
-                    });
-                    return retVal;
-                }));
+                this.set('found', this.get('found').filter((item) => !this.values.some((a, v) => v.Id === item.Id)));
             } else {
                 this.set('foundBackup', []);
                 this.set('found', []);
@@ -108,29 +99,22 @@ const autocompleteFactory = function(config) {
         // Click
         selectValue: function(e) {
             let isOld = $(e.target).closest('li').parent().hasClass('values');
+            let data = e.data;
 
             if (isOld) {
-                this.found.unshift(e.data);
-                this.set('values', $.grep(this.get('values'), (item) => {
-                    return item.Id !== e.data.Id;
-                }));
+                let values = this.get('values');
+                this.found.unshift(data);
+                this.set('values', values.filter((v) => v.Id !== data.Id));
                 return false;
             }
 
-            this.values.unshift(e.data);
-
-            if (config.maxValuesCount && (this.values.length > config.maxValuesCount)) {
-                this.found.unshift(this.values.pop());
-            }
+            this.values.unshift(data);
+            config.maxValuesCount && (this.values.length > config.maxValuesCount) && this.found.unshift(this.values.pop());
 
             // тут из невыделенного убирается выделенное
-            this.set('found', this.get('found').filter((item) => {
-                return this.values.indexOf(item) < 0;
-            }));
+            this.set('found', this.get('found').filter((item) => this.values.indexOf(item) < 0));
 
-            if (config.maxValuesCount && (this.values.length === config.maxValuesCount)) {
-                componentsShared.performClose(el);
-            }
+            config.maxValuesCount && (this.values.length === config.maxValuesCount) && componentsShared.performClose(el);
         },
         onClose() {
             if (!shared.isNullOrUndefined(selectedSlug)) {
