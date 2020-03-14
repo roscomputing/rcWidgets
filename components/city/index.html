@@ -1,57 +1,57 @@
 <div id='rc-city-template'>
     <div
-            data-bind="
+        data-bind="
             css: {
                 popup-mode: popupMode
             }
         "
-            class="rc-city w-popup"
+        class="rc-city w-popup"
     >
         <button
-                style="display: none;"
-                class="close-button"
-                data-bind="
+            style="display: none;"
+            class="close-button"
+            data-bind="
                 visible: popupMode,
                 click: close,
             "
-                rc-tooltip="Закрыть"
-                type="button">
+            rc-tooltip="Закрыть"
+            type="button">
             <i class="material-icons">
                 close
             </i>
         </button>
 
         <h2
-                data-bind="text: title"
-                class="title">Выбор города</h2>
+            data-bind="text: title"
+            class="title">Выбор города</h2>
         <label
-                data-bind="text: description"
-                class="description">Выберите города, который вы хотите читать в ленте.</label>
+            data-bind="text: description"
+            class="description">Выберите города, который вы хотите читать в ленте.</label>
 
         <div class="colomns">
             <div>
                 <script id="widget-city-country-item-template" type="text/x-kendo-template">
                     <li
-                            data-bind="
+                        data-bind="
                             click: selectCountry,
                             css: {
                                 active: checkCountryIsActive
                             }
                         "
-                            title="#: Code #"
+                        title="#: Code #"
                     >#: Title #</li>
                 </script>
 
                 <ul
-                        data-template="widget-city-country-item-template"
-                        data-bind="source: countries"
+                    data-template="widget-city-country-item-template"
+                    data-bind="source: countries"
                 >
                 </ul>
 
 
                 <script id="widget-city-area-item-template" type="text/x-kendo-template">
                     <li
-                            data-bind="
+                        data-bind="
                             click: openArea,
                             css: {
                                 left-button: withAreasMode,
@@ -60,15 +60,15 @@
                                 selected: checkAreaIsSelected,
                             }
                         "
-                            title="#: Code #"
+                        title="#: Code #"
                     >
                         # if (Id) { #
                         <button
-                                data-bind="
-                                    click: selectArea,
-                                    visible: withAreasMode
-                                "
-                                type="button">
+                            data-bind="
+                                click: selectArea,
+                                visible: withAreasMode
+                            "
+                            type="button">
                             <i class="material-icons add">
                                 add
                             </i>
@@ -82,8 +82,8 @@
                 </script>
 
                 <ul
-                        data-template="widget-city-area-item-template"
-                        data-bind="source: areas"
+                    data-template="widget-city-area-item-template"
+                    data-bind="source: areas"
                 >
                 </ul>
             </div>
@@ -91,16 +91,16 @@
             <div>
                 <script id="widget-city-city-item-template" type="text/x-kendo-template">
                     <li
-                            data-bind="
+                        data-bind="
                             click: selectCity,
                             invisible: checkCitySelected
                         "
-                            title="#: Code #"
+                        title="#: Code #"
                     >#: Title #</li>
                 </script>
                 <ul
-                        data-template="widget-city-city-item-template"
-                        data-bind="source: cities">
+                    data-template="widget-city-city-item-template"
+                    data-bind="source: cities">
                 </ul>
             </div>
 
@@ -110,30 +110,29 @@
                         search
                     </i>
                     <input
-                            data-bind="
-                            value: searchStr,
-                            events: {
+                        data-bind="
+                        value: searchStr,
+                        events: {
                                 keyup: searchCity,
                                 change: searchCity,
                             }
                         "
-                            data-value-update="keyup"
-                            class="simple-input" name="city" placeholder="Поиск города" type="text">
+                        data-value-update="keyup"
+                        class="simple-input" name="city" placeholder="Поиск города" type="text">
                     <i class="line"></i>
                 </label>
 
                 <label class="small-gray-label">Выбрано:</label>
 
                 <script id="widget-city-selected-city-item-template" type="text/x-kendo-template">
-                    <li
-                            class="with-button right-button">
+                    <li class="with-button right-button">
                         #: Title #
 
                         <button
-                                data-bind="
+                            data-bind="
                                 click: unselectCity
                             "
-                                type="button">
+                            type="button">
                             <i class="material-icons">
                                 close
                             </i>
@@ -143,21 +142,21 @@
 
 
                 <ul
-                        data-template="widget-city-selected-city-item-template"
-                        data-bind="source: selectedCities"
+                    data-template="widget-city-selected-city-item-template"
+                    data-bind="source: selectedCities"
                 >
                 </ul>
 
                 <script id="widget-city-selected-area-item-template" type="text/x-kendo-template">
                     <li
-                            class="with-button right-button">
+                        class="with-button right-button">
                         #: Title #
 
                         <button
-                                data-bind="
+                            data-bind="
                                 click: unselectArea
                             "
-                                type="button">
+                            type="button">
                             <i class="material-icons">
                                 close
                             </i>
@@ -167,8 +166,8 @@
 
 
                 <ul
-                        data-template="widget-city-selected-area-item-template"
-                        data-bind="source: selectedAreas"
+                    data-template="widget-city-selected-area-item-template"
+                    data-bind="source: selectedAreas"
                 >
                 </ul>
             </div>
@@ -176,24 +175,22 @@
 
         <div class="bottom">
             <p class="small-text">
-                <span
-                        data-bind="html: help"
-                ></span>
+                <span data-bind="html: help" ></span>
             </p>
 
             <div class="bottom-buttons">
                 <button
-                        data-bind="
+                    data-bind="
                         click: close
                     "
-                        class="white-button lite-mode" type="button">Отмена
+                    class="white-button lite-mode" type="button">Отмена
                 </button>
 
                 <button
-                        data-bind="
+                    data-bind="
                         click: saveIt
                     "
-                        class="white-button" type="button">Сохранить
+                    class="white-button" type="button">Сохранить
                 </button>
             </div>
         </div>

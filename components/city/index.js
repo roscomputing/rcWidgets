@@ -8,7 +8,7 @@ const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
 const cityFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -18,7 +18,7 @@ const cityFactory = function(config) {
 
     let isSaveClicked;
 
-    let vm = {
+    const vm = {
         popupMode: !!config.popupMode,
 
         choiceMode: config.choiceMode || 1, // 1 - only city, 2 - city and areas
@@ -68,6 +68,7 @@ const cityFactory = function(config) {
         checkAreaIsActive: function(e) {
             return e.Id === this.get('selectedAreaId');
         },
+
         openArea: function(e) {
             this.set('selectedAreaId', e.data.Id);
             this.getCities();
@@ -83,6 +84,7 @@ const cityFactory = function(config) {
             this.set('selectedAreasIds', $.grep(this.get('selectedAreasIds'), item => item !== e.data.Id));
             this.set('selectedAreas', $.grep(this.get('selectedAreas'), item => item.Id !== e.data.Id));
         },
+
         getAreas: function() {
             if (!this.get('selectedCountryId')) {
                 this.set('areas', []);
@@ -219,7 +221,7 @@ const cityFactory = function(config) {
 module.exports = function(config, callback) {
     let city;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         getCountries: config.getCountries,

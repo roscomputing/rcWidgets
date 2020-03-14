@@ -8,7 +8,7 @@ const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
 const autocompleteFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -22,25 +22,20 @@ const autocompleteFactory = function(config) {
 
     let selectedSlug;
 
-    let vm = {
-        // Buttons
-        onButtonClick: function(e) {
-            selectedSlug =  e.data.slug;
-            componentsShared.performClose(el);
-        },
+    const vm = {
         buttons: config.buttons ? config.buttons : [],
-
-        // Values
         values: config.values ? config.values : [],
-        valuesExists: function() {
-            return !!this.get('values').length;
-        },
-
-
         found: config.found ? config.found : [],
         foundBackup: config.found ? config.found : [],
         searchStr: '',
         searchStrTimeout: null,
+        onButtonClick: function(e) {
+            selectedSlug = e.data.slug;
+            componentsShared.performClose(el);
+        },
+        valuesExists: function() {
+            return !!this.get('values').length;
+        },
         searchStrChange: function() {
             this.searchStrTimeout && clearTimeout(this.searchStrTimeout);
             this.searchStrTimeout = setTimeout(() => {
@@ -66,18 +61,19 @@ const autocompleteFactory = function(config) {
             error && error['responseJSON'] && shared.log(error['responseJSON']);
         },
         getPossibleValues: function() {
-            let ids = this.get('values').map(item => item.Id);
+            const ids = this.get('values').map(item => item.Id);
 
             if (config.url && (!this.found.length || !config.clientSearch)) {
-                let searchStr = this.get('searchStr');
-                let url = config.url;
+                const searchStr = this.get('searchStr');
+                const url = config.url;
 
                 if (config.getAjaxData) {
-                    let data = config.getAjaxData({
+                    const data = config.getAjaxData({
                         skip: this.dataParams ? this.dataParams.take : 0,
                         take: this.dataParams ? this.dataParams.take : 40,
                         searchStr: searchStr.trim(),
                     });
+
                     this.onGetPossibleValuesSuccess(ids, data);
                 } else {
                     $.ajax({
@@ -89,22 +85,25 @@ const autocompleteFactory = function(config) {
                     });
                 }
             } else {
-                let trimmedAndLowered = (v) => v.toLowerCase().trim();
-                let searchString = trimmedAndLowered(this.get('searchStr'));
-                let found = this.get('foundBackup').filter((item) => ids.indexOf(item.Id) === -1 && trimmedAndLowered(item.Text).indexOf(searchString) !== -1);
+                const trimmedAndLowered = (v) => v.toLowerCase().trim();
+                const searchString = trimmedAndLowered(this.get('searchStr'));
+                const found = this.get('foundBackup').filter((item) => ids.indexOf(item.Id) === -1 &&
+                    trimmedAndLowered(item.Text).indexOf(searchString) !== -1);
+
                 this.set('found', found);
             }
         },
 
         // Click
         selectValue: function(e) {
-            let isOld = $(e.target).closest('li').parent().hasClass('values');
-            let data = e.data;
+            // TODO: find another solution to remove jquery
+            const isOld = $(e.target).closest('li').parent().hasClass('values');
+            const data = e.data;
 
             if (isOld) {
-                let values = this.get('values');
                 this.found.unshift(data);
-                this.set('values', values.filter((v) => v.Id !== data.Id));
+                this.set('values', this.get('values').filter((v) => v.Id !== data.Id));
+
                 return false;
             }
 
@@ -142,7 +141,7 @@ const autocompleteFactory = function(config) {
 module.exports = function(config, callback) {
     let autocomplete;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {

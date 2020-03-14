@@ -21,7 +21,7 @@ const buttonsFactory = function(config) {
 
     let selectedSlug;
 
-    let vm = {
+    const vm = {
         isDark: config.isDark,
         fields: config.fields,
         title: config.title,
@@ -50,7 +50,7 @@ const buttonsFactory = function(config) {
 
 module.exports = function(config, callback) {
     let buttons;
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {

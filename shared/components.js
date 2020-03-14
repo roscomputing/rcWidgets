@@ -34,7 +34,7 @@ const show = function (el, isCentered, pos, isPopupMode) {
     }
 };
 
-module.exports = {
+export {
     onCloseSetup,
     performClose,
     destroy,

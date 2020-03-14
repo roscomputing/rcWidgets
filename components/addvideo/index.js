@@ -8,8 +8,8 @@ const consts = require('../../shared/consts');
 const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
-const addvideoFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+const addVideoFactory = (config) => {
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -17,19 +17,24 @@ const addvideoFactory = function(config) {
 
     shared.initTemplates(el, template, '#rc-addvideo-template', true);
 
-    let services = consts.video.services;
+    const services = consts.video.services;
 
-    let remoteIds = {
-        ['yandex-music-track']: (v) => v[2]+'/'+v[1],
-        ['yandex-music-playlist']: (v) => v[1]+'/'+v[2],
+    const remoteIds = {
+        ['yandex-music-track']: (v) => `${v[2]}/${v[1]}`,
+        ['yandex-music-playlist']: (v) => `${v[1]}/${v[2]}`,
         ['giphy']: (v) => v[1] || v[2]
     };
 
-    let vm = {
+    const vm = {
         getHtml: shared.getHtml,
-        getRemoteId: function(source, execArray) {
-            let idGetter = remoteIds[source];
-            return (shared.isFunction(idGetter) && idGetter(execArray)) || execArray[1];
+        title: config.title || 'Прикрепить видео',
+        description: config.description || 'YouTube, Vimeo, Twitch, Coub, VK, Gfycat, Imgur, Giphy, OK',
+        url: '',
+        searchVideoTimeout: null,
+        video: {},
+        getRemoteId: function (source, execArray) {
+            const idGetter = remoteIds[source];
+            return (shared.isFunction(remoteIds[source]) && idGetter(execArray)) || execArray[1];
         },
         getHtmlWithEmbedId: function (type, id) {
             return services[type].html.replace(/<\%\= remote\_id \%\>/g, id);
@@ -37,6 +42,7 @@ const addvideoFactory = function(config) {
         urlPastedCallback: function(url, pattern) {
             let execArray = pattern.regex.exec(url),
                 id = this.getRemoteId(pattern.type, execArray);
+
             this.video = {
                 source: pattern.type,
                 remote_id: id,
@@ -48,12 +54,6 @@ const addvideoFactory = function(config) {
 
             componentsShared.performClose(el);
         },
-
-        title: config.title || 'Прикрепить видео',
-        description: config.description || 'YouTube, Vimeo, Twitch, Coub, VK, Gfycat, Imgur, Giphy, OK',
-
-        url: '',
-        searchVideoTimeout: null,
         searchVideo: function() {
             this.searchVideoTimeout && clearTimeout(this.searchVideoTimeout);
             this.searchVideoTimeout = setTimeout(() => {
@@ -63,7 +63,6 @@ const addvideoFactory = function(config) {
             }, 300);
         },
 
-        video: {},
         close: function() {
             componentsShared.performClose(el);
         },
@@ -90,18 +89,18 @@ const addvideoFactory = function(config) {
 module.exports = function(config, callback) {
     let bpvideo;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         description: config.description,
         title: config.title,
-        callback: function(video) {
+        callback: (video) => {
             callback(video);
             bpvideo.destroy();
         }
     };
 
-    bpvideo = addvideoFactory(data);
+    bpvideo = addVideoFactory(data);
     bpvideo.show();
 
     return bpvideo;

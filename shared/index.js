@@ -120,6 +120,7 @@ const anyWidgetInitialActions = function (params) {
         libraryInitialAction(params);
     }
 
+    // TODO: find another solution to delete jquery
     let el = $(`<div id="${getGuid()}"></div>`);
     el.appendTo(baseEl);
     return el;
@@ -267,7 +268,7 @@ const isNumberKey = function(evt) {
 const isNullOrUndefined = (v) => v === null || v === undefined;
 const isFunction = (v) => typeof v === 'function';
 
-module.exports = {
+export {
     libraryInitialAction,
     anyWidgetInitialActions,
     findWidgetPos,

@@ -20,10 +20,10 @@
     <button id="sb">КНОПКИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcButtons) {
-                var button;
-                var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
-                var buttons = [
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcButtons => {
+                let button;
+                const rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+                const buttons = [
                     {
                         name: 'Отменить всё что можно',
                         date: '1111',
@@ -31,8 +31,8 @@
                     }
                 ];
 
-                var items = [];
-                var i = 0;
+                const items = [];
+                let i = 0;
                 while (i < 3 + parseInt(Math.random() * 10)) {
                     items.push({
                         slug: i + 1,
@@ -41,7 +41,7 @@
                     i++;
                 }
 
-                document.getElementById('sb').addEventListener('click', function (e) {
+                document.getElementById('sb').addEventListener('click', e => {
                     if (!button) {
                         button = rcButtons({
                             template: '#: name # # if (typeof date !== "undefined") {# (#: date # ) # } #',
@@ -51,7 +51,7 @@
                             fields: items,
                             pageX: e.pageX,
                             pageY: e.pageY,
-                        }, function(value) {
+                        }, value => {
                             console.log(value);
                             button = null;
                         });

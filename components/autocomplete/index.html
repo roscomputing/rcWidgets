@@ -1,6 +1,6 @@
 <script id="rc-autocomplete-item-template" type="text/x-kendo-template">
     <li
-            data-bind="click: selectValue"
+        data-bind="click: selectValue"
     >
         #= Text #
         <i class="material-icons">
@@ -11,7 +11,7 @@
 
 <script id="rc-autocomplete-button-item-template" type="text/x-kendo-template">
     <li
-            data-bind="click: onButtonClick"
+        data-bind="click: onButtonClick"
     >
         #: name #
     </li>
@@ -21,34 +21,32 @@
     <div class="rc-autocomplete w-popup">
         <div class="search-input">
             <button
-                    class="find-button"
-                    type="button">
+                class="find-button"
+                type="button">
                 <i class="material-icons">
                     search
                 </i>
             </button>
 
             <input
-                    data-value-update="keyup"
-                    data-bind="
+                data-value-update="keyup"
+                data-bind="
                     value: searchStr,
                     events: {
                         change: searchStrChange,
                         keyup: searchStrChange
                     }
                 "
-
-                    type="text"/>
+                type="text"/>
         </div>
 
         <ul
-                data-template="rc-autocomplete-button-item-template"
-                data-bind="
+            data-template="rc-autocomplete-button-item-template"
+            data-bind="
                 visible: buttons,
                 source: buttons
             "
-
-                class="buttons"
+            class="buttons"
         ></ul>
 
         <span data-bind="invisible: valuesExists" class="empty-label">
@@ -56,22 +54,20 @@
         </span>
 
         <ul
-                data-template="rc-autocomplete-item-template"
-                data-bind="
+            data-template="rc-autocomplete-item-template"
+            data-bind="
                 visible: valuesExists,
                 source: values
             "
-
-                class="values">
+            class="values">
         </ul>
 
         <span class="line"></span>
 
         <ul
-                data-template="rc-autocomplete-item-template"
-                data-bind="source: found"
-
-                class="found">
+            data-template="rc-autocomplete-item-template"
+            data-bind="source: found"
+            class="found">
         </ul>
     </div>
 </div>

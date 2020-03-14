@@ -20,62 +20,26 @@
     <button id="sb">ГОРОДА</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcCity) {
-                var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcCity => {
+                const rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
 
-                function getCountries(params, callback) {
-                    var items = [];
+                const getEntity = (params, callback, { beforeWords = '', afterWords = '', specialProperty = null }) => {
+                    const items = [];
+                    let i = 0;
 
-                    var i = 0;
                     while (i < parseInt(Math.random() * 10)) {
                         items.push({
                             Code: Math.random().toString(36).substring(7),
                             Id: i + 1,
-                            Title: 'Королевство ' + rrw[parseInt(Math.random() * rrw.length)]
+                            [specialProperty]: params[specialProperty],
+                            Title: beforeWords + rrw[parseInt(Math.random() * rrw.length)] + afterWords
                         });
+
                         i++;
                     }
 
-                    if (callback)
-                        callback(items);
+                    if (callback) callback(items);
                 }
-
-                function getAreas(params, callback) {
-                    var items = [];
-
-                    var i = 0;
-                    while (i < parseInt(Math.random() * 50)) {
-                        items.push({
-                            Code: Math.random().toString(36).substring(7),
-                            Id: i + 1,
-                            CountryId: params.CountryId,
-                            Title: rrw[parseInt(Math.random() * rrw.length)] + ' область'
-                        });
-                        i++;
-                    }
-
-                    if (callback)
-                        callback(items);
-                }
-
-                function getCities (params, callback) {
-                    var items = [];
-
-                    var i = 0;
-                    while (i < parseInt(Math.random() * 50)) {
-                        items.push({
-                            Code: Math.random().toString(36).substring(7),
-                            Id: i + 1,
-                            RegionId: params.RegionId,
-                            Title: rrw[parseInt(Math.random() * rrw.length)]
-                        });
-                        i++;
-                    }
-
-                    if (callback)
-                        callback(items);
-                }
-
 
                 document.getElementById('sb').addEventListener('click', function (e) {
                     rcCity({
@@ -83,13 +47,13 @@
                         selector: '.container',
                         choiceMode: 1,
                         getCountries: function(params, callback) {
-                            getCountries(params, callback);
+                            getEntity(params, callback, { beforeWords: 'Королевство ' });
                         },
                         getAreas    : function(params, callback) {
-                            getAreas(params, callback);
+                            getEntity(params, callback, { afterWords: ' область', specialProperty: 'CountryId' });
                         },
                         getCities   : function(params, callback) {
-                            getCities(params, callback);
+                            getEntity(params, callback, { specialProperty: 'RegionId' });
                         },
                     }, function (cities, areas) {
                         console.log(cities, areas)

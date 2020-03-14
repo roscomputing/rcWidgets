@@ -8,7 +8,7 @@ const componentsShared = require('../../shared/components');
 const template = require('./index.html');
 
 const calendarFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -19,8 +19,8 @@ const calendarFactory = function(config) {
     }]);
 
     let vm = {};
-    let to = config.to ? config.to.date : null;
-    let type = config.type ? config.type : 2;
+    const to = config.to ? config.to.date : null;
+    const type = config.type ? config.type : 2;
 
     // Месяцы, которые рисуем
     let drawMonthRight = (to ? moment(to) : moment()).clone();
@@ -43,9 +43,9 @@ const calendarFactory = function(config) {
     el.find('.blue-zone .from .empty-label').html(config.fromLabel ? config.fromLabel : 'не задано');
 
     // Нарисовать месяц
-    let generateMonth = function(d) {
+    const generateMonth = d => {
         let str = '';
-        let key = d.format('YYYY-M-');
+        const key = d.format('YYYY-M-');
         let i = 1;
 
         while (i < d.date(1).isoWeekday()) {
@@ -62,21 +62,22 @@ const calendarFactory = function(config) {
         return str;
     };
 
-    let generateRegulations = function() {
+    const generateRegulations = () => {
         if (!config.regulations) {
             return false;
         }
 
-        let processTheMinMaxDay = (day, isMinDay) => {
-            let dayId = moment(day).format('YYYY-M-D');
+        const processTheMinMaxDay = (day, isMinDay) => {
+            const dayId = moment(day).format('YYYY-M-D');
+            const compareDateToPred = isMinDay ? (v) => v <= 0 : (v) => v >= 0;
             let dayFromLeft = el.find(`.calendar .dates li[data-id=${dayId}]`);
-            let compareDateToPred = isMinDay ? (v) => v <= 0 : (v) => v >= 0;
 
             // Найдем от какого дня
             if (dayFromLeft.length) {
                 dayFromLeft = dayFromLeft[isMinDay ? 'prev' : 'next']();
             } else {
-                let lastDayId = el.find(`.calendar .dates li:${isMinDay ? 'last' : 'first'}`).attr('data-id');
+                const lastDayId = el.find(`.calendar .dates li:${isMinDay ? 'last' : 'first'}`).attr('data-id');
+
                 if (moment(lastDayId, 'YYYY-M-D').diff(moment(day)) < 0) {
                     dayFromLeft = el.find(`.calendar .dates li:${isMinDay ? 'last' : 'first'}`);
                 }
@@ -94,10 +95,11 @@ const calendarFactory = function(config) {
                 });
             }
         };
-        let sevenDisable = (el, v, pred) => pred && el.find(`.calendar .dates li:nth-child(7n + ${v.DayId})`).addClass('disabled');
-        let specialDisable = (el, v, pred) => pred && el.find(`.calendar .dates li[data-id=${moment(v.Date).format('YYYY-M-D')}]`).addClass('disabled');
-        let sunday = 0;
-        let saturday = 6;
+
+        const sevenDisable = (el, v, pred) => pred && el.find(`.calendar .dates li:nth-child(7n + ${v.DayId})`).addClass('disabled');
+        const specialDisable = (el, v, pred) => pred && el.find(`.calendar .dates li[data-id=${moment(v.Date).format('YYYY-M-D')}]`).addClass('disabled');
+        const sunday = 0;
+        const saturday = 6;
 
         config.regulations.BaseDays.forEach((v,k) => sevenDisable(el, v, config.regulations.OffHoursSelectable ? (k !== sunday && k !== saturday && !v.IsWorking) : !v.IsWorking));
         config.regulations.SpecialDays.forEach((v) => specialDisable(el, v, !v.IsWorking));
@@ -105,7 +107,7 @@ const calendarFactory = function(config) {
         config.maxDate && processTheMinMaxDay(config.maxDate);
     };
 
-    let setMonths = function() {
+    const setMonths = () => {
         drawMonthLeft = drawMonthRight.clone().date(25).subtract(1, 'month');
 
         // Генерируем сам календарь
@@ -119,7 +121,7 @@ const calendarFactory = function(config) {
         el.find('.title .l .slide-1 .month').html(drawMonthLeft.format('MMMM'));
         el.find('.title .l .slide-1 .year').html(drawMonthLeft.year());
 
-        let today = moment().format('YYYY-M-D');
+        const today = moment().format('YYYY-M-D');
 
         if (el.find('[data-id=' + today + ']').length)
             el.find('[data-id=' + today + ']').addClass('today');
@@ -128,7 +130,7 @@ const calendarFactory = function(config) {
         setDays();
     };
 
-    let setDays = function() {
+    const setDays = () => {
         el.find('.selected-from').removeClass('selected-from');
         el.find('.selected-to').removeClass('selected-to');
         el.find('.selected-between').removeClass('selected-between');
@@ -138,7 +140,8 @@ const calendarFactory = function(config) {
             el.find('.blue-zone .to').removeClass('empty');
             el.find('.blue-zone .to .choice-time').html(moment(vm.to).format('HH:mm'));
 
-            let toKey = moment(vm.to).format('YYYY-M-D');
+            const toKey = moment(vm.to).format('YYYY-M-D');
+
             if (el.find('[data-id=' + toKey + ']').length) {
                 el.find('[data-id=' + toKey + ']').addClass('selected-to');
             }
@@ -150,7 +153,8 @@ const calendarFactory = function(config) {
             el.find('.blue-zone .from').removeClass('empty');
             el.find('.blue-zone .from .choice-time').html(moment(vm.from).format('HH:mm'));
 
-            let fromKey = moment(vm.from).format('YYYY-M-D');
+            const fromKey = moment(vm.from).format('YYYY-M-D');
+
             if (el.find('[data-id=' + fromKey + ']').length) {
                 el.find('[data-id=' + fromKey + ']').addClass('selected-from');
                 if (vm.type === 1) {
@@ -160,14 +164,11 @@ const calendarFactory = function(config) {
             el.find('.blue-zone .from').addClass('empty');
         }
 
-        let lFirst = el.find('.calendar:not(.right) .dates li.item:first');
-        let rFirst = el.find('.calendar.right .dates li.item:first');
+        const lFirst = el.find('.calendar:not(.right) .dates li.item:first');
+        const rFirst = el.find('.calendar.right .dates li.item:first');
 
-        let toId = moment(vm.to).month();
-        let fromId = moment(vm.from).month();
-
-        let drawToId = drawMonthRight.month();
-        let drawFromId = drawMonthLeft.month();
+        const drawToId = drawMonthRight.month();
+        const drawFromId = drawMonthLeft.month();
 
         if (vm.to) {
             if (moment(vm.to).month() >= drawToId) {
@@ -211,22 +212,22 @@ const calendarFactory = function(config) {
 
     // Events
 
-    let plusMonth = function() {
+    const plusMonth = () => {
         drawMonthRight.date(25).add(1, 'month');
         drawMonthLeft.date(25).add(1, 'month');
         setMonths();
     };
 
-    let moinMonth = function() {
+    const moinMonth = () => {
         drawMonthRight.date(25).subtract(1, 'month');
         drawMonthLeft.date(25).subtract(1, 'month');
         setMonths();
     };
 
     // Time Choice
-    let setTime = function(time, isTo) {
-        let mTo = moment(vm.to);
-        let mFrom = moment(vm.from);
+    const setTime = (time, isTo) => {
+        const mTo = moment(vm.to);
+        const mFrom = moment(vm.from);
 
         if (isTo) {
             mTo.hour(parseInt(time.split(':')[0])).minutes(parseInt(time.split(':')[1]));
@@ -234,9 +235,9 @@ const calendarFactory = function(config) {
             if (vm.from && mFrom.diff(mTo) > 0) {
                 mTo.hour(mFrom.hour()).minutes(mFrom.minutes())
             }
-        }
-        else {
+        } else {
             mFrom.hour(parseInt(time.split(':')[0])).minutes(parseInt(time.split(':')[1]));
+
             if (vm.to && mFrom.diff(mTo) > 0) {
                 mFrom.hour(mTo.hour()).minutes(mTo.minutes())
             }
@@ -255,33 +256,35 @@ const calendarFactory = function(config) {
         setDays();
     };
 
-    let timeChoice = function(e) {
+    const timeChoice = e => {
         if (e.target.nodeName.toUpperCase() !== 'LI') {
             return false;
         }
+
         setTime($(e.target).text(), !!$(e.target).closest('.to').length);
     };
 
     el.find('.time-choice ul').on('click', timeChoice);
 
 
-    let getTimeRange = function(date) {
+    const getTimeRange = date => {
         if (!date) {
             return false;
         }
 
-        let defaultTimeRange = {
+        const defaultTimeRange = {
             iMin: 0,
             iMax: 23,
             jMin: 0,
             jMax: 59
         };
-        let baseDays = config.regulations && config.regulations.BaseDays;
+
+        const baseDays = config.regulations && config.regulations.BaseDays;
 
         if (baseDays && baseDays.length) {
             date = moment(date).day();
-            let getNumber = (o, p, d) => (o && !Number.isNaN(o[p])) ? o[p] : d;
-            let ranges = baseDays.filter((d) => d.DayId === date).map((d) => {
+            const getNumber = (o, p, d) => (o && !Number.isNaN(o[p])) ? o[p] : d;
+            const ranges = baseDays.filter((d) => d.DayId === date).map((d) => {
                 return {
                     iMin: getNumber(d.StartWorkingTime, 'Hour', 0),
                     iMax: getNumber(d.EndWorkingTime, 'Hour', 23),
@@ -289,36 +292,34 @@ const calendarFactory = function(config) {
                     jMax: getNumber(d.EndWorkingTime, 'Minutes', 59)
                 }
             });
+
             return (ranges && ranges.length && ranges[0]) || defaultTimeRange;
         }
 
         return defaultTimeRange;
     };
 
-    let showTimeChoice = function(e) {
-        let date = $(e.target).closest('.to').length ? vm.to : vm.from;
+    const showTimeChoice = e => {
+        const date = $(e.target).closest('.to').length ? vm.to : vm.from;
+        const tRange = getTimeRange(date);
 
-        if (!date) {
-            return false;
-        }
-
-        let tRange = getTimeRange(date);
-
-        if (tRange.iMax === -1) {
+        if (!date || tRange.iMax === -1) {
             return false;
         }
 
         el.find('.blue-zone .time-choice ul').empty('');
         // Сгенерируем выбор времени
-        let i,j;
-        let makeTimeLabel = function(h, m) {
+        let i;
+        const makeTimeLabel = (h, m) => {
             el.find('.blue-zone .time-choice ul').append('<li>' + ('0' + h).slice (-2) + ':' + ('0' + m).slice (-2) + '</li>');
         };
 
         makeTimeLabel(tRange.iMin, tRange.jMin);
+
         for (i = tRange.iMin * 60 + tRange.jMin + 30; i < tRange.iMax * 60 + tRange.jMax; i += 30) {
             makeTimeLabel( parseInt(i / 60),    (parseInt((i % 60) / 30) * 30) % 60)
         }
+
         makeTimeLabel(tRange.iMax, tRange.jMax);
 
         $(e.target).closest('div').find('> .time-choice').addClass('showing');
@@ -340,21 +341,15 @@ const calendarFactory = function(config) {
         slide: 1,
 
         setSlideThree: function(year) {
-            this.set('leftTitle', (year - 16) + '-' + (year - 1));
-            this.set('rightTitle', (year) + '-' + (year + 15));
+            this.set('leftTitle', `${year - 16}-${year - 1}`);
+            this.set('rightTitle', `${year}-${year + 15}`);
 
-            let leftArray = [];
-            let rightArray = [];
+            const leftArray = [];
+            const rightArray = [];
 
             for (let i = 0; i < 16; i++) {
-                leftArray.push({
-                    id: year - (16 - i),
-                    name: year - (16 - i),
-                });
-                rightArray.push({
-                    id: year + i,
-                    name: year + i,
-                });
+                leftArray.push({ id: year - (16 - i), name: year - (16 - i) });
+                rightArray.push({ id: year + i, name: year + i });
             }
 
             this.set('leftArray', leftArray);
@@ -364,8 +359,8 @@ const calendarFactory = function(config) {
             this.set('leftTitle', year - 1);
             this.set('rightTitle', year);
 
-            let leftArray = [];
-            let rightArray = [];
+            const leftArray = [];
+            const rightArray = [];
 
             for (let i = 0; i < 12; i++) {
                 leftArray.push({
@@ -401,8 +396,8 @@ const calendarFactory = function(config) {
                 this.set('leftTitle', (year - 128) + '-' + (year - 1));
                 this.set('rightTitle', (year) + '-' + (year + 127));
 
-                let leftArray = [];
-                let rightArray = [];
+                const leftArray = [];
+                const rightArray = [];
 
                 for (let i = 0; i < 8; i++) {
                     leftArray.push({
@@ -437,6 +432,7 @@ const calendarFactory = function(config) {
 
             if (this.slide === 2) {
                 let year;
+
                 if (this.get('from')) {
                     year = moment(this.get('from')).year();
                 } else if (this.get('to')) {
@@ -444,6 +440,7 @@ const calendarFactory = function(config) {
                 } else {
                     year = moment().year();
                 }
+
                 this.setSlideTwo(year);
             }
         },
@@ -489,7 +486,6 @@ const calendarFactory = function(config) {
         leftArray: [],
         rightArray: [],
 
-
         // Visible
         getVisibleDayChoice: function() {
             return this.get('slide') === 1;
@@ -497,7 +493,7 @@ const calendarFactory = function(config) {
 
         moin: function() {
             if (this.slide === 4) {
-                let year = this.leftArray[0].year - 16;
+                const year = this.leftArray[0].year - 16;
 
                 if (year - 128 < 0) {
                     return false;
@@ -507,8 +503,7 @@ const calendarFactory = function(config) {
                 this.set('rightArray', $.merge([], this.get('leftArray')));
                 this.set('leftTitle', (year - 128) + '-' + (year - 1));
 
-                let leftArray = [];
-                let rightArray = [];
+                const leftArray = [];
 
                 for (let i = 0; i < 8; i++) {
                     leftArray.push({
@@ -519,38 +514,37 @@ const calendarFactory = function(config) {
                 }
 
                 this.set('leftArray', leftArray);
-            }
-            else if (this.slide === 3) {
+            } else if (this.slide === 3) {
                 let year = this.leftArray[0].id;
 
                 if (year - 16 < 0) {
                     return false;
                 }
 
-                this.set('rightTitle', this.get('leftTitle'))
+                this.set('rightTitle', this.get('leftTitle'));
                 this.set('rightArray', $.merge([], this.get('leftArray')));
                 this.set('leftTitle', (year - 16) + '-' + (year - 1));
 
-                let leftArray = [];
+                const leftArray = [];
+
                 for (let i = 0; i < 16; i++) {
                     leftArray.push({
                         id: year - (16 - i),
                         name: year - (16 - i),
                     });
                 }
+
                 this.set('leftArray', leftArray)
-            }
-            else if (this.slide === 1) {
+            } else if (this.slide === 1) {
                 moinMonth();
-            }
-            else if (this.slide === 2) {
+            } else if (this.slide === 2) {
                 this.set('rightTitle', this.get('leftTitle'));
                 this.set('leftTitle', +this.get('leftTitle') - 1);
             }
         },
         plus: function() {
             if (this.slide === 4) {
-                let year = this.rightArray[this.rightArray.length - 1].year + 16;
+                const year = this.rightArray[this.rightArray.length - 1].year + 16;
 
                 if (year > 3000) {
                     return false;
@@ -560,7 +554,7 @@ const calendarFactory = function(config) {
                 this.set('leftArray', $.merge([], this.get('rightArray')));
                 this.set('rightTitle', (year) + '-' + (year + 127));
 
-                let rightArray = [];
+                const rightArray = [];
 
                 for (let i = 0; i < 8; i++) {
                     rightArray.push({
@@ -571,9 +565,8 @@ const calendarFactory = function(config) {
                 }
 
                 this.set('rightArray', rightArray);
-            }
-            else if (this.slide === 3) {
-                let year = this.rightArray[this.rightArray.length - 1].id + 1;
+            } else if (this.slide === 3) {
+                const year = this.rightArray[this.rightArray.length - 1].id + 1;
 
                 if (year > 3000) {
                     return false;
@@ -583,19 +576,19 @@ const calendarFactory = function(config) {
                 this.set('leftArray', $.merge([], this.get('rightArray')));
                 this.set('rightTitle', (year) + '-' + (year + 15));
 
-                let rightArray = [];
+                const rightArray = [];
+
                 for (let i = 0; i < 16; i++) {
                     rightArray.push({
                         id: year + i,
                         name: year + i,
                     });
                 }
+
                 this.set('rightArray', rightArray);
-            }
-            else if (this.slide === 1) {
+            } else if (this.slide === 1) {
                 plusMonth();
-            }
-            else if (this.slide === 2) {
+            } else if (this.slide === 2) {
                 this.set('leftTitle', this.get('rightTitle'));
                 this.set('rightTitle', +this.get('rightTitle') + 1);
             }
@@ -605,6 +598,7 @@ const calendarFactory = function(config) {
             return !this.get('toDisabled') && !this.get('fromDisabled')
                 && (!!this.get('from') || !!this.get('to'));
         },
+
         removeIt: function() {
             this.set('to', null);
             this.set('from', null);
@@ -627,7 +621,7 @@ const calendarFactory = function(config) {
         // Day choice
         dayChoice: function(e) {
             if ($(e.target).hasClass('item') && (!$(e.target).hasClass('disabled'))) {
-                let dayId = $(e.target).attr('data-id');
+                const dayId = $(e.target).attr('data-id');
                 let val = moment(dayId, 'YYYY-M-D');
 
                 if (!this.fromDisabled && !this.toDisabled) {
@@ -661,7 +655,8 @@ const calendarFactory = function(config) {
                         this.set('to', val.clone().format('YYYY-MM-DDT23:59:59'));
                     }
 
-                    let tRange = getTimeRange(this.to);
+                    const tRange = getTimeRange(this.to);
+
                     if (tRange) {
                         setTime(tRange.iMin + ':' + tRange.jMin, true);
                     }
@@ -678,16 +673,17 @@ const calendarFactory = function(config) {
                         this.set('from', val.clone().format('YYYY-MM-DDT00:00:01'));
                     }
 
-                    let tRange = getTimeRange(this.from);
+                    const tRange = getTimeRange(this.from);
+
                     if (tRange)
                         if (config.autoSetTime) {
-
                             //
                             // "Для выходного с возможностью выбора должны отображаться все часы даты,
                             // а по умолчанию  должно проставлять последнее рабочее время из последнего
                             // рабочего дня в рабочем календаре до выбранного нерабочего дня"
                             //
                             let isOffDay = false;
+
                             $.each(config.regulations.BaseDays, function(k,v) {
                                 if (v.DayId === val.day() && config.regulations.OffHoursSelectable && !v.IsWorking) {
                                     if (config.regulations.OffHoursSelectable && !v.IsWorking) {
@@ -749,7 +745,7 @@ const calendarFactory = function(config) {
         },
 
         getToDateLabel: function() {
-            let to = this.get('to');
+            const to = this.get('to');
 
             if (to) {
                 return moment(to).format('DD MMM YYYY');
@@ -798,7 +794,7 @@ const calendarFactory = function(config) {
 module.exports = function(config, callback) {
     let calendar;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {

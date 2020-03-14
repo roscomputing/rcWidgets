@@ -20,12 +20,13 @@
     <button id="sb">AUTOCOMPLETE</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcAutocomplete) {
-                document.getElementById('sb').addEventListener('click', function (e) {
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcAutocomplete => {
+                document.getElementById('sb').addEventListener('click', e => {
                     rcAutocomplete({
                         selector: '.container',
                         pageX: e.pageX,
                         pageY: e.pageY,
+                        // TODO: that???
                         //method: 'GET',
                         //getAjaxData: function(params) {
                         //    console.log(params); // skip, take, searchStr

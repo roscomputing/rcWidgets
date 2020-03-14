@@ -21,11 +21,9 @@
     <div style="width: 640px;" id="video-result"></div>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcAddvideo) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var v = rcAddvideo({
-                        selector: '.container'
-                    }, function (video) {
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], (rcAddVideo) => {
+                document.getElementById('sb').addEventListener('click', () => {
+                    const v = rcAddVideo({ selector: '.container'}, video => {
                         if (video) {
                             document.getElementById('video-result').innerHTML = v.getHtml(video);
                         }
