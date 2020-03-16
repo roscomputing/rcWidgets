@@ -20,7 +20,7 @@
     <label rc-tooltip="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod">Hover it</label>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTooltip) {
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcTooltip => {
                 rcTooltip({
                     selector: '.container',
                 })

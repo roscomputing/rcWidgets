@@ -8,27 +8,30 @@ const template = require('./index.html');
 
 $(document).ready(function() {
     let tooltipTimeout = null;
-    $(document).on("mouseenter", ".rc-tooltip", function() {
+
+    $(document).on("mouseenter", ".rc-tooltip", () => {
         clearTimeout(tooltipTimeout);
     });
 
-    $(document).on("mouseenter", "[rc-tooltip]", function(e) {
+    $(document).on("mouseenter", "[rc-tooltip]", e => {
         clearTimeout(tooltipTimeout);
 
         tooltipTimeout = setTimeout(function() {
-            let t = $('.rc-tooltip');
+            const tooltip = $('.rc-tooltip');
 
-            if (t.hasClass('move-mode')) {
+            if (tooltip.hasClass('move-mode')) {
                 return true;
             }
 
-            let html = $(e.target).closest('[rc-tooltip]').attr('rc-tooltip') || '';
+            const html = $(e.target).closest('[rc-tooltip]').attr('rc-tooltip') || '';
+
             if (!html.trim().length) {
-                t.hide();
+                tooltip.hide();
                 return false;
             }
-            t.html(html);
-            t.show();
+
+            tooltip.html(html);
+            tooltip.show();
 
             let x =  e.clientX;
 
@@ -37,20 +40,22 @@ $(document).ready(function() {
             }
 
             let y =  e.clientY + 10;
+
             if (y + t.outerHeight() > $(window).height()) {
                 y -= 40 + t.outerHeight();
             }
 
-            t.css('left', x);
-            t.css('top', y);
+            tooltip.css('left', x);
+            tooltip.css('top', y);
         } , 400)
     });
 
-    $(document).on("mouseleave", "[rc-tooltip], .rc-tooltip", function() {
+    $(document).on("mouseleave", "[rc-tooltip], .rc-tooltip", () => {
         clearTimeout(tooltipTimeout);
 
-        const doIt = function() {
-            let t = $('.rc-tooltip');
+        const doIt = () => {
+            const t = $('.rc-tooltip');
+
             t.hide();
             t.css('left', '-1000px');
         };
@@ -75,6 +80,7 @@ const tooltipFactory = function(config) {
 
 module.exports = function(config) {
     let tooltip;
+
     let data = {
         selector: config.selector,
         log: config.log,

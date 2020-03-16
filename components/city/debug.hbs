@@ -41,21 +41,21 @@
                     if (callback) callback(items);
                 }
 
-                document.getElementById('sb').addEventListener('click', function (e) {
+                document.getElementById('sb').addEventListener('click', e => {
                     rcCity({
                         help: 'Just help',
                         selector: '.container',
                         choiceMode: 1,
-                        getCountries: function(params, callback) {
+                        getCountries: (params, callback) => {
                             getEntity(params, callback, { beforeWords: 'Королевство ' });
                         },
-                        getAreas    : function(params, callback) {
+                        getAreas    : (params, callback) => {
                             getEntity(params, callback, { afterWords: ' область', specialProperty: 'CountryId' });
                         },
-                        getCities   : function(params, callback) {
+                        getCities   : (params, callback) => {
                             getEntity(params, callback, { specialProperty: 'RegionId' });
                         },
-                    }, function (cities, areas) {
+                    }, (cities, areas) => {
                         console.log(cities, areas)
                     });
                 })

@@ -1,6 +1,6 @@
 <script id="rc-select-item-template" type="text/x-kendo-template">
     <li
-            class="
+        class="
             # if (typeof(classname) != 'undefined') { #
                 #: classname #
             # } #
@@ -11,8 +11,8 @@
                 active
             # } #
         "
-            data-slug="#: slug #"
-            data-bind="click: onButtonClick"
+        data-slug="#: slug #"
+        data-bind="click: onButtonClick"
     >
         # if (typeof(icon) != 'undefined') { #
         <i class="material-icons icon">
@@ -21,12 +21,12 @@
         # } #
         # if (typeof(img) != 'undefined') { #
         <img
-                src="#: img #"
-                # if (typeof(tooltip) != 'undefined') { #
-                alt="#: tooltip #"
-                # } else {#
-                alt="#: name #"
-                # } #/>
+            src="#: img #"
+            # if (typeof(tooltip) != 'undefined') { #
+            alt="#: tooltip #"
+            # } else {#
+            alt="#: name #"
+            # } #/>
         # } #
         #= name #
     </li>
@@ -34,47 +34,48 @@
 
 <div id='rc-select-template'>
     <div
-            data-bind="
+        data-bind="
             css: {
                 popup-mode: popupMode
             }
         "
-            class="rc-select w-popup white-scroll"
+        class="rc-select w-popup white-scroll"
     >
 
         <button
-                style="display: none;"
-                class="close-button"
-                data-bind="
+            style="display: none;"
+            class="close-button"
+            data-bind="
                 visible: popupMode,
                 click: close
             "
-                rc-tooltip="Закрыть"
-                type="button">
+            rc-tooltip="Закрыть"
+            type="button">
             <i class="material-icons">
                 close
             </i>
         </button>
 
-        <label class="title" data-bind="
-            visible: title,
-            text: title
-        "></label>
-
+        <label class="title"
+               data-bind="
+                   visible: title,
+                   text: title
+               "
+        ></label>
 
         <ul
-                data-template="rc-select-item-template"
-                data-bind="source: buttons"
-                class="buttons"
+            data-template="rc-select-item-template"
+            data-bind="source: buttons"
+            class="buttons"
         ></ul>
 
         <ul
-                data-template="rc-select-item-template"
-                data-bind="
+            data-template="rc-select-item-template"
+            data-bind="
                 visible: actionButtonsVisible,
                 source: actionButtons
             "
-                class="action-buttons"
+            class="action-buttons"
         ></ul>
     </div>
 </div>

@@ -7,8 +7,8 @@ const shared = require('../../shared/index');
 const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
-const filepreviewFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+const filePreviewFactory = function(config) {
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -16,20 +16,17 @@ const filepreviewFactory = function(config) {
 
     shared.initTemplates(el, template, '#rc-file-preview-template', true);
 
-    var vm = {
+    const vm = {
         name: '',
         href: '',
         type: '',
 
         checkLiteMode: function() {
-            let liteMode = true;
-            if (this.getHeaderInfo().trim().length) {
-                liteMode = false;
-            }
-            return liteMode;
+            return !this.getHeaderInfo().trim().length;
         },
 
         headerInfo: config.headerInfo || '',
+
         getHeaderInfo: function() {
             return this.get('headerInfo');
         },
@@ -38,31 +35,37 @@ const filepreviewFactory = function(config) {
 
         // Zoom
         zoom: 1.4,
+
         checkDisabledZoomMin: function() {
             return this.get('zoom') === 1.4;
         },
+
         checkDisabledZoomMax: function() {
             return this.get('zoom') === 2.5;
         },
+
         pdfZoom: function() {
             return this.get('zoom') / 2
         },
         scaleZoom: function() {
             return 'scale(' + this.get('zoom') + ')';
         },
+
         pdfScaleZoom: function() {
             return 'scale(' + (this.get('zoom') / 2) + ')';
         },
+
         zoomIn: function() {
             this.set('zoom', Math.min(2.5, this.get('zoom') + .2));
 
-            var c = el.find('.rc-file-preview > .body');
+            const c = el.find('.rc-file-preview > .body');
             c.scrollLeft(10000).scrollLeft(c.scrollLeft() / 2);
         },
+
         zoomOut: function() {
             this.set('zoom', Math.max(.5, this.get('zoom') - .2));
 
-            var c = el.find('.rc-file-preview > .body');
+            const c = el.find('.rc-file-preview > .body');
             c.scrollLeft(10000).scrollLeft(c.scrollLeft() / 2);
         },
 
@@ -76,48 +79,53 @@ const filepreviewFactory = function(config) {
         getPageLabel: function() {
             return 'Страница ' + this.get('page') + ' из ' + this.get('pageCount');
         },
+
         isPdf: function() {
             return !this.get('inLoadProcess') && (this.get('type').toLowerCase() === 'pdf');
         },
+
         pdfInit: function(url) {
-            let pdfjsLib = window.pdfjsLib;
+            const pdfjsLib = window.pdfjsLib;
+            const canvas = document.getElementById('rc-file-preview-pdf-canvas');
+            const ctx = canvas.getContext('2d');
+            const scale = 4;
+
 
             pdfjsLib.GlobalWorkerOptions.workerSrc = config.pdfWorkerUrl;
 
             let pdfDoc = null,
                 pageNum = 1,
                 pageRendering = false,
-                pageNumPending = null,
-                scale = 4,
-                canvas = document.getElementById('rc-file-preview-pdf-canvas'),
-                ctx = canvas.getContext('2d');
+                pageNumPending = null;
 
-            const renderPage = (num) => {
+            const renderPage = num => {
                 pageRendering = true;
                 pdfDoc.getPage(num).then(function(page) {
-                    let viewport = page.getViewport(scale);
+                    const viewport = page.getViewport(scale);
+
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
 
-                    let renderContext = {
+                    const renderContext = {
                         canvasContext: ctx,
                         viewport: viewport
                     };
-                    let renderTask = page.render(renderContext);
 
-                    renderTask.promise.then(function() {
+                    const renderTask = page.render(renderContext);
+
+                    renderTask.promise.then(() => {
                         pageRendering = false;
                         if (pageNumPending !== null) {
                             renderPage(pageNumPending);
                             pageNumPending = null;
                         }
-
                     });
                 });
+
                 this.set('page', num);
             };
 
-            const queueRenderPage = (num) => {
+            const queueRenderPage = num => {
                 if (pageRendering) {
                     pageNumPending = num;
                 } else {
@@ -157,6 +165,7 @@ const filepreviewFactory = function(config) {
             });
         },
 
+        // TODO: ??
         // там посмотри, если не сделает печать, можно самому на фронте сделать
         // add class 4 widget: print-mode. В нем отруби лишние элементы. И вызови печать
         getPrintLink: function() {
@@ -166,9 +175,11 @@ const filepreviewFactory = function(config) {
         close: function() {
             componentsShared.performClose(el);
         },
+
         onClose() {
             config.callback();
         },
+
         init: function() {
             this.set('name', config.name);
             this.set('href', config.href);
@@ -176,7 +187,6 @@ const filepreviewFactory = function(config) {
             this.set('authorName', config.authorName);
             this.set('created', config.created);
             this.set('geoLocationDescription', config.geoLocationDescription);
-
 
             // Чекаем, что просматривабельно
             if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].indexOf(config.fileType.toLowerCase()) !== -1) {
@@ -195,6 +205,7 @@ const filepreviewFactory = function(config) {
                 if (['pdf'].indexOf(config.fileType.toLowerCase()) !== -1) {
                     this.pdfInit(config.href);
                 }
+
                 this.set('isViewable', false);
                 this.set('imgSrc', '');
             }
@@ -218,7 +229,8 @@ const filepreviewFactory = function(config) {
 
 module.exports = function(config) {
     let filepreview;
-    let data = {
+
+    const data = {
         selector: config.selector,
         log: config.log,
         href: config.href,
@@ -235,12 +247,13 @@ module.exports = function(config) {
             x: config.pageX || 0,
             y: config.pageY || 0,
         },
+
         callback: function() {
             filepreview.destroy();
         }
     };
 
-    filepreview = filepreviewFactory(data);
+    filepreview = filePreviewFactory(data);
     filepreview.show();
 
     return filepreview;

@@ -1,20 +1,20 @@
 <div id='rc-file-preview-template'>
     <div
-            data-bind="
+        data-bind="
             css: {
                 light-mode: checkLiteMode
             }
         "
-            class="rc-file-preview w-popup ">
+        class="rc-file-preview w-popup ">
         <div class="head">
             <label
-                    data-bind="text: name"
-                    class="name"></label>
+                data-bind="text: name"
+                class="name"></label>
 
             <button
-                    rc-tooltip="Закрыть"
-                    data-bind="click: close"
-                    class="close">
+                rc-tooltip="Закрыть"
+                data-bind="click: close"
+                class="close">
                 <i class="material-icons">
                     close
                 </i>
@@ -22,30 +22,29 @@
 
             <div class="left-block">
                 <div
-                        data-bind="html: getHeaderInfo"
+                    data-bind="html: getHeaderInfo"
                 ></div>
             </div>
 
 
             <!-- PDF -->
-            <div
-                    class="center-button-panel">
+            <div class="center-button-panel">
                 <div
-                        data-bind="
+                    data-bind="
                         visible: isPdf
                     "
-                        class="paginator" id="rc-file-review-pdf-paginator">
+                    class="paginator" id="rc-file-review-pdf-paginator">
                     <button
-                            class="prev"
-                            type="button">
+                        class="prev"
+                        type="button">
                         <i class="material-icons">
                             keyboard_arrow_left
                         </i>
                     </button>
                     <label data-bind="text: getPageLabel"></label>
                     <button
-                            class="next"
-                            type="button">
+                        class="next"
+                        type="button">
                         <i class="material-icons">
                             keyboard_arrow_right
                         </i>
@@ -53,23 +52,23 @@
                 </div>
 
                 <button
-                        data-bind="
+                    data-bind="
                         invisible: isViewable,
                         disabled: checkDisabledZoomMin,
                         click: zoomOut
                     "
-                        type="button">
+                    type="button">
                     <i class="material-icons">
                         zoom_out
                     </i>
                 </button>
                 <button
-                        data-bind="
+                    data-bind="
                         invisible: isViewable,
                         disabled: checkDisabledZoomMax,
                         click: zoomIn
                     "
-                        type="button">
+                    type="button">
                     <i class="material-icons">
                         zoom_in
                     </i>
@@ -78,7 +77,7 @@
             </div>
 
             <div
-                    class="right-button-panel">
+                class="right-button-panel">
                 <!-- <a
                     data-bind="
                         attr: {
@@ -92,13 +91,13 @@
                     </i>
                 </a> -->
                 <a
-                        data-bind="
+                    data-bind="
                         attr: {
                             href: href
                         }
                     "
-                        target="_blank"
-                        href="">
+                    target="_blank"
+                    href="">
                     <i class="material-icons">
                         get_app
                     </i>

@@ -20,9 +20,9 @@
     <button id="sb">ПОЛЕ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcField) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var field = {
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcField => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    const field = {
                         Placeholder: 'Введите текст',
                         Type: 'time',
                         MaxTime: "13:00",
@@ -38,7 +38,7 @@
                         pageX: e.pageX,
                         pageY: e.pageY,
                         field: field,
-                    }, function(values) {
+                    }, values => {
                         console.log(values);
                     })
                 })

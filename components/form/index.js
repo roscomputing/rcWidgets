@@ -10,7 +10,7 @@ const autocomplete = require('../autocomplete/index');
 const componentsShared = require('../../shared/components');
 
 const formFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -22,7 +22,7 @@ const formFactory = function(config) {
         templateName: 'rc-form-button-item-template'
     }]);
 
-    let vm = {
+    const vm = {
         isNumberKey: shared.isNumberKey,
         popupMode: !!config.popupMode,
 
@@ -32,25 +32,25 @@ const formFactory = function(config) {
         buttons: config.buttons,
 
         checkPos: function() {
-            setTimeout(function() {
-                let p = el.find('.w-popup');
-                let delta = $(window).height() - (p.offset().top + p.outerHeight());
+            setTimeout(() => {
+                const popup = el.find('.w-popup');
+                let delta = $(window).height() - (popup.offset().top + popup.outerHeight());
 
                 if (delta < 0) {
-                    p.css('top', p.offset().top + delta);
+                    popup.css('top', popup.offset().top + delta);
                 }
 
-                delta = $(window).width() - (p.offset().left + p.outerWidth());
+                delta = $(window).width() - (popup.offset().left + popup.outerWidth());
 
                 if (delta < 0) {
-                    p.css('left', p.offset().left + delta);
+                    popup.css('left', popup.offset().left + delta);
                 }
             });
         },
 
         // Clear field
         clearField: function(e) {
-            let item = $(e.target).closest('.rc-form-field');
+            const item = $(e.target).closest('.rc-form-field');
 
             if (item.find('input').length)
                 item.find('input').val('');
@@ -77,13 +77,13 @@ const formFactory = function(config) {
 
         // Date field
         setDateToDateField: function(e) {
-            var element = $(e.target);
+            let element = $(e.target);
+            let value = '';
 
             if (element.find('[name]').length) {
                 element = element.find('[name]');
             }
 
-            let value = '';
             if (element.attr('data-format')) {
                 value = element.attr('data-format');
             }
@@ -98,9 +98,10 @@ const formFactory = function(config) {
                 fromLabel: 'Укажите дату',
                 to: null,
                 from: value,
-            }, function(from, to, option) {
+            }, from => {
                 if (from) {
-                    let date = moment(from).format('YYYY-MM-DDT00:00:00')
+                    let date = moment(from).format('YYYY-MM-DDT00:00:00');
+
                     element.attr('data-format', date);
                     date = moment(date);
                     element.text(date.format('DD MMM YYYY'))
@@ -138,13 +139,11 @@ const formFactory = function(config) {
                 pageX: e.pageX,
                 pageY: e.pageY,
                 maxValuesCount: e.data.type !== 'multiValue' ? 1 : false,
-                found:  valuesIds.length ? $.grep(e.data.found , function(item) {
-                    return valuesIds.indexOf(item.Id) === -1;
-                }) : e.data.found,
+                found:  valuesIds.length ? $.grep(e.data.found , item => valuesIds.indexOf(item.Id) === -1) : e.data.found,
                 values: values,
                 clientSearch: true,
             }, (values, answer) => {
-                var setValues = (values) => {
+                const setValues = values => {
                     if (values)
                         if (values.length) {
                             if (e.data.type !== 'multiValue') {
@@ -159,6 +158,7 @@ const formFactory = function(config) {
                                 element.attr('data-value', '');
                             else
                                 element.attr('data-value', '[]');
+
                             element.html('');
                         }
 
@@ -166,10 +166,10 @@ const formFactory = function(config) {
                 };
 
                 if (answer) {
-                    $.each(e.data.buttons, function(k,v) {
+                    $.each(e.data.buttons, (k,v) => {
                         if (v.slug === answer) {
                             if (v.callback) {
-                                v.callback(function(items) {
+                                v.callback( items => {
                                     setValues(items);
                                 });
                             }
@@ -217,6 +217,7 @@ const formFactory = function(config) {
             calendar(data, function(from) {
                 if (from) {
                     let date = moment(from).format('YYYY-MM-DDTHH:mm:00');
+
                     element.attr('data-format', date);
                     date = moment(date);
                     element.text(date.format('DD MMM YYYY, HH:mm'))
@@ -229,6 +230,7 @@ const formFactory = function(config) {
         addFile: function() {
             config.callback(this.get('fields'), 'addFile');
         },
+
         removeFile: function(e) {
 
             if (e.data)
@@ -239,102 +241,115 @@ const formFactory = function(config) {
         onlyOneButton: function() {
             return this.get('buttons').length === 1;
         },
+
         changeFields: function() {
             $.each(this.fields, (k,v) => {
                 if (v.change) {
-                    if (v.control === 'users') {
-                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.found, el, this);
-                    }
+                    const nameAttr = `[name=${v.name}]`;
 
-                    if (v.control === 'autocomplete' || v.control === 'tree') {
-                        v.change(el.find('[name=' + v.name + ']').attr('data-value'), v.found, el, this);
-                    }
+                    switch (v.control) {
+                        case 'users':
+                            v.change(el.find(nameAttr).attr('data-value'), v.found, el, this);
+                            break;
 
-                    if (v.control === 'checkbox') {
-                        v.change(el.find('[name=' + v.name + ']').prop('checked'), el, this);
-                    }
+                        case 'autocomplete' || 'tree':
+                            v.change(el.find(nameAttr).attr('data-value'), v.found, el, this);
+                            break;
 
-                    if ((v.control === 'input') || (v.control === 'textarea')) {
-                        v.change(el.find('[name=' + v.name + ']').val(), el, this);
-                    }
+                        case 'checkbox':
+                            v.change(el.find(nameAttr).prop('checked'), el, this);
+                            break;
 
-                    if (v.control === 'date') {
-                        v.change(el.find('[name=' + v.name + ']').attr('data-format'), el, this);
-                    }
+                        case 'input' || 'textarea':
+                            v.change(el.find(nameAttr).val(), el, this);
+                            break;
 
-                    if (v.control === 'time') {
-                        v.change(parseInt(el.find('[name=' + v.name + '-hours]').val() || 0),
-                            parseInt(el.find('[name=' + v.name + '-minutes]').val() || 0), el, this);
-                    }
+                        case 'date':
+                            v.change(el.find(nameAttr).attr('data-format'), el, this);
+                            break;
 
-                    if (v.control === 'editor') {
-                        v.change(el.find('[name=' + v.name + ']').data('kendoEditor').value(), el, this);
+                        case 'time':
+                            v.change(parseInt(el.find(`[name=${v.name}-hours]`).val() || 0),
+                                parseInt(el.find(`[name=${v.name}-minutes]`).val() || 0), el, this);
+                            break;
+
+                        case 'editor':
+                            v.change(el.find(nameAttr).data('kendoEditor').value(), el, this);
+                            break;
                     }
                 }
             });
         },
+
         checkFields: function() {
             el.find('.rc-form-field.error').removeClass('error');
 
             // Required
-            $.each(el.find('.required:not(.time-field) input'), function(k, v) {
+            $.each(el.find('.required:not(.time-field) input'), (k, v) => {
                 if (!$(v).val().trim().length)
                     $(v).closest('.rc-form-field').addClass('error');
             });
 
             // Email
-            $.each(el.find('.email input'), function(k, v) {
+            $.each(el.find('.email input'), (k, v) => {
                 if ($(v).val().trim().length && (!shared.checkEmail($(v).val())))
                     $(v).closest('.rc-form-field').addClass('error');
             });
 
+            $.each(this.fields, (k,v) => {
+                const nameAttr = `[name=${v.name}]`;
 
-            $.each(this.fields, function(k,v) {
-                if (v.checkValid && (!el.find('[name=' + v.name + ']').closest('.rc-form-field').hasClass('hidden'))) {
-                    if ((v.control === 'users') || (v.control === 'autocomplete') || (v.control === 'tree')) {
-                        if (v.checkValid && !v.checkValid(
-                            el.find('[name=' + v.name + ']').attr('data-value'),
-                            v.found,
-                            el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                if (v.checkValid && !el.find(nameAttr).closest('.rc-form-field').hasClass('hidden')) {
+                    switch (v.control) {
+                        case 'users' || 'autocomplete' || 'tree':
+                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-value'), v.found, el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
 
-                    if (v.control === 'checkbox') {
-                        if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').prop('checked'), el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                            break;
 
-                    if ((v.control === 'input') || (v.control === 'textarea')) {
-                        if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').val(), el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                        case 'checkbox':
+                            if (v.checkValid && !v.checkValid(el.find(nameAttr).prop('checked'), el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
 
-                    if (v.control === 'datetime') {
-                        if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').attr('data-format'), el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                            break;
 
-                    if (v.control === 'date') {
-                        if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').attr('data-format'), el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                        case 'input' || 'textarea':
+                            if (v.checkValid && !v.checkValid(el.find(nameAttr).val(), el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
 
-                    if (v.control === 'time') {
-                        if (v.checkValid && !v.checkValid(parseInt(el.find('[name=' + v.name + '-hours]').val() || 0),
-                            parseInt(el.find('[name=' + v.name + '-minutes]').val() || 0), el)) {
-                            el.find('[name=' + v.name + '-hours]').closest('.rc-form-field').addClass('error');
-                        }
-                    }
+                            break;
 
-                    if (v.control === 'editor') {
-                        if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').data('kendoEditor').value(), el)) {
-                            el.find('[name=' + v.name + ']').closest('.rc-form-field').addClass('error');
-                        }
+                        case 'datetime':
+                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-format'), el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
+
+                            break;
+
+                        case 'date':
+                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-format'), el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
+
+                            break;
+
+                        case 'time':
+                            if (v.checkValid && !v.checkValid(parseInt(el.find(nameAttr).val() || 0),
+                                parseInt(el.find(`[name=${v.name}-minutes]`).val() || 0), el)) {
+                                el.find(`[name=${v.name}-hours]`).closest('.rc-form-field').addClass('error');
+                            }
+
+                            break;
+
+                        case 'editor':
+                            if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').data('kendoEditor').value(), el)) {
+                                el.find(nameAttr).closest('.rc-form-field').addClass('error');
+                            }
+
+                            break;
                     }
                 }
             });
@@ -344,46 +359,81 @@ const formFactory = function(config) {
             }
 
             $.each(this.fields, (k,v) => {
-                if (v.control === 'textarea') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']').val();
+                const nameAttr = `[name=${v.name}]`;
 
-                } else if (v.control === 'input') {
-                    if ((v.type === "number") || (v.type === "text") || (v.type === 'email')) {
-                        this.fields[k].value = el.find('[name=' + v.name + ']').val();
-                    }
+                switch (v.control) {
+                    case 'textarea':
+                        this.fields[k].value = el.find(nameAttr).val();
 
-                    if (v.type === "phone") {
-                        this.fields[k].value = el.find('[name=' + v.name + ']').data('kendoMaskedTextBox').value();
-                    }
-                } else if (v.control === 'checkbox') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']').prop('checked');
-                } else if (v.control === 'editor') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']').data('kendoEditor').value();
-                } else if (v.control === 'time') {
-                    this.fields[k].values = {
-                        hours: parseInt(el.find('[name=' + v.name + '-hours]').val() || 0),
-                        minutes: parseInt(el.find('[name=' + v.name + '-minutes]').val() || 0)
-                    }
-                } else if (v.control === 'datetime') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']').attr('data-format');
-                } else if (v.control === 'autocomplete' || v.control === 'tree') {
-                    this.fields[k].value = [el.find('[name=' + v.name + ']').attr('data-value')];
-                } else if (v.control === 'users') {
-                    this.fields[k].value = JSON.parse(el.find('[name=' + v.name + ']').attr('data-value') || []);
-                } else if (v.control === 'date') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']').attr('data-format');
-                } else if (v.control === 'dropdownlist') {
-                    this.fields[k].value = el.find('[name=' + v.name + ']')[0].value;
+                        break;
+
+                    case 'input':
+                        if ((v.type === "number") || (v.type === "text") || (v.type === 'email')) {
+                            this.fields[k].value = el.find(nameAttr).val();
+                        }
+
+                        if (v.type === "phone") {
+                            this.fields[k].value = el.find(nameAttr).data('kendoMaskedTextBox').value();
+                        }
+
+                        break;
+
+                    case 'checkbox':
+                        this.fields[k].value = el.find(nameAttr).prop('checked');
+
+                        break;
+
+                    case 'editor':
+                        this.fields[k].value = el.find(nameAttr).data('kendoEditor').value();
+
+                        break;
+
+                    case 'time':
+                        this.fields[k].values = {
+                            hours: parseInt(el.find(`[name=${v.name}-hours]`).val() || 0),
+                            minutes: parseInt(el.find(`name=${v.name}-minutes]`).val() || 0)
+                        };
+
+                        break;
+
+                    case 'datetime':
+                        this.fields[k].value = el.find(nameAttr).attr('data-format');
+
+                        break;
+
+                    case 'autocomplete' || 'tree':
+                        this.fields[k].value = [el.find(nameAttr).attr('data-value')];
+
+                        break;
+
+                    case 'date':
+                        this.fields[k].value = el.find(nameAttr).attr('data-format');
+
+                        break;
+
+                    case 'users':
+                        this.fields[k].value = JSON.parse(el.find(nameAttr).attr('data-value') || []);
+
+                        break;
+
+                    case 'dropdownlist':
+                        this.fields[k].value = el.find(nameAttr)[0].value;
+
+                        break;
                 }
             });
+
             return true;
         },
+
         onButtonClick: function(e) {
             if (e.data.needCheck && !this.checkFields()) {
                 return false;
             }
+
             componentsShared.performClose(el, [this.get('fields'), e.data.slug, this.get('files')]);
         },
+
         close: function() {
             componentsShared.performClose(el, [this.get('fields'), 'cancel']);
         },
@@ -395,9 +445,9 @@ const formFactory = function(config) {
             Данный метод позволяет поменять данные поля. (работает пока только для dropdownlist)
          */
         updateDataForField: function (name, data) {
-            $.each(this.fields, function(k, v) {
+            $.each(this.fields, (k, v) => {
                 if (name === v.name && v.dataSource) {
-                    let elem = el.find('[name=' + v.name + ']');
+                    const elem = el.find(`[name=${v.name}]`);
 
                     if (elem && elem.data('kendoDropDownList')) {
                         elem.data('kendoDropDownList').setDataSource(new kendo.data.DataSource({ data: data }));
@@ -414,6 +464,7 @@ const formFactory = function(config) {
                 config.callback(this.get('values'));
             }
         },
+
         init: function() {
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
 
@@ -440,7 +491,7 @@ const formFactory = function(config) {
                 pasteCleanup: {
                     all: false,
                     css: true,
-                    custom: function (html) {
+                    custom: html => {
                         return shared.pasteCleanup(html);
                     },
                     keepNewLines: false,
@@ -453,10 +504,11 @@ const formFactory = function(config) {
             });
 
             // Устанавливаем text cursor в конец текста
-            let setCursorAtTextEnd = function (contentEditableElement) {
+            const setCursorAtTextEnd = contentEditableElement => {
                 let range, selection;
-                if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
-                {
+
+                //Firefox, Chrome, Opera, Safari, IE 9+
+                if (document.createRange){
                     range = document.createRange();
                     range.selectNodeContents(contentEditableElement);
                     range.collapse(false);
@@ -466,9 +518,8 @@ const formFactory = function(config) {
                         selection.removeAllRanges();
                         selection.addRange(range);
                     }
-                }
-                else if (document.selection)//IE 8 and lower
-                {
+                } else if (document.selection) {
+                    //IE 8 and lower
                     range = document.body.createTextRange();
                     range.moveToElementText(contentEditableElement);
                     range.collapse(false);
@@ -476,13 +527,13 @@ const formFactory = function(config) {
                 }
             };
 
-            $.each(el.find('.editor'), function (k, v) {
-
+            $.each(el.find('.editor'), (k, v) => {
                 setCursorAtTextEnd(v);
 
-                let editor = $(v).data("kendoEditor");
+                const editor = $(v).data("kendoEditor");
+
                 if (editor) {
-                    let toolbar = editor.toolbar.element.closest(".k-window");
+                    const toolbar = editor.toolbar.element.closest(".k-window");
 
                     editor.value(shared.htmlDecode(editor.value(), true) || null);
 
@@ -501,6 +552,7 @@ const formFactory = function(config) {
             if (el.find('.editor').length) {
                 el.find('.editor').data('kendoEditor').destroy();
             }
+
             componentsShared.destroy(el);
         }
     };
@@ -511,7 +563,7 @@ const formFactory = function(config) {
 module.exports = function(config, callback) {
     let form;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {
@@ -523,12 +575,12 @@ module.exports = function(config, callback) {
         title: config.title || '',
         description: config.description,
         fields: config.fields,
-        callback: function(fields, custom) {
+        callback: (fields, custom) => {
             if (custom && typeof callback === 'function') {
                 callback(fields, custom);
                 form.destroy();
             } else {
-                setTimeout(function() { form.show(); });
+                setTimeout(() => { form.show(); });
             }
         }
     };

@@ -16,7 +16,7 @@ const fieldFactory = function(config) {
 
     shared.initTemplates(el, template, '#rc-field-template', true);
 
-    var vm = {
+    const vm = {
         value: null,
         help: '',
         type: 'text',
@@ -26,23 +26,13 @@ const fieldFactory = function(config) {
 
         closeIt: function() {
             let errorCount = 0;
-            let val = this.get('value');
-            let f = config.field;
+            const val = this.get('value');
+            const field = config.field;
 
-            let checkD = function(val, format) {
-                if (!val) {
-                    return false;
-                }
-                if (val.indexOf('_') !== -1) {
-                    return true;
-                }
-                return moment(val, format).format() === "Invalid date";
+            if (field.Type === 'text') {
+                const maxLength = field.Maxlength;
+                const minLength = field.Minlength;
 
-            };
-
-            if (f.Type === 'text') {
-                let maxLength = f.Maxlength;
-                let minLength = f.Minlength;
                 if (val && !Number.isNaN(maxLength) && (maxLength < val.length)) {
                     errorCount++;
                     shared.log(`Длина текста не может быть больше ${maxLength}`);
@@ -54,90 +44,58 @@ const fieldFactory = function(config) {
                 }
             }
 
-            if (val && (f.Type === 'date')) {
-                if (checkD(val, 'YYYY-MM-DD')) {
-                    errorCount++;
-                    shared.log('Не правильно введена дата. См формат данных');
+            const validateDate = (val, format) => {
+                return val && (val.indexOf('_') !== -1 || moment(val, format).format() !== "Invalid date");
+            };
+
+            const checkDateTime = (type, format, maxValue, minValue,
+                invalidDateMessage = 'Не правильно введена дата. См формат данных',
+                laterDateMessage = 'Дата не может быть позже ',
+                earlierDateMessage = 'Дата не может быть раньше ',
+            ) => {
+                if (val && (field.Type === type)) {
+                    if (!validateDate(val, format)) {
+                        errorCount++;
+                        shared.log(invalidDateMessage);
+                    }
+
+                    console.log(field)
+
+                    if (!errorCount && field[maxValue] && (moment(val, format).diff(moment(field[maxValue], format)) > 0)) {
+                        errorCount++;
+                        shared.log(laterDateMessage + field[maxValue]);
+                    }
+
+                    if (!errorCount && field[minValue] && (moment(val, format).diff(moment(field[minValue], format)) < 0)) {
+                        errorCount++;
+                        shared.log(earlierDateMessage + field[minValue]);
+                    }
                 }
+            };
 
-                if (!errorCount)
-                    if (f.MaxDate && (moment(val, 'YYYY-MM-DD').diff(moment(f.MaxDate, 'YYYY-MM-DD')) > 0)) {
+            checkDateTime('date', 'YYYY-MM-DD', 'MaxDate', 'MinDate');
+            checkDateTime('datetime', 'YYYY-MM-DD HH:mm', 'MaxDatetime', 'MinDatetime');
+            checkDateTime('time', 'HH:mm', 'MaxTime', 'MinTime',
+                'Не правильно введено время. См формат данных',
+                'Время не может быть позже ',
+                'Время не может быть раньше ');
+
+            const checkNumbers = (type, maxValue, minValue) => {
+                if (val && (field.Type === type)) {
+                    if (field[maxValue] && field[maxValue] < val){
                         errorCount++;
-                        shared.log('Дата не может быть позже ' + f.MaxDate);
+                        shared.log(`Максимальное значение ${field[maxValue]}`);
                     }
 
-                if (!errorCount)
-                    if (f.MinDate && (moment(val, 'YYYY-MM-DD').diff(moment(f.MinDate, 'YYYY-MM-DD')) < 0)) {
+                    if (field[minValue] && field[minValue] > val) {
                         errorCount++;
-                        shared.log('Дата не может быть раньше ' + f.MinDate);
+                        shared.log(`Минимальное значение ${field[minValue]}`);
                     }
-            }
-
-            if (f.Type === 'datetime') {
-                if (checkD(val, 'YYYY-MM-DD HH:mm')) {
-                    errorCount++;
-                    shared.log('Не правильно введена дата. См формат данных');
                 }
+            };
 
-                if (!errorCount)
-                    if (f.MaxDatetime && (moment(val, 'YYYY-MM-DD HH:mm').diff(moment(f.MaxDatetime, 'YYYY-MM-DD HH:mm')) > 0)) {
-                        errorCount++;
-                        shared.log('Дата не может быть позже ' + f.MaxDatetime);
-                    }
-
-                if (!errorCount)
-                    if (f.MinDatetime && (moment(val, 'YYYY-MM-DD HH:mm').diff(moment(f.MinDatetime, 'YYYY-MM-DD HH:mm')) < 0)) {
-                        errorCount++;
-                        shared.log('Дата не может быть раньше ' + f.MinDatetime);
-                    }
-            }
-
-            if (f.Type === 'time') {
-                if (checkD(val, 'HH:mm')) {
-                    errorCount++;
-                    shared.log('Не правильно введено время. См формат данных');
-                }
-
-                if (!errorCount)
-                    if (f.MaxTime && (moment(val, 'HH:mm').diff(moment(f.MaxTime, 'HH:mm')) > 0)) {
-                        errorCount++;
-                        shared.log('Время не может быть позже ' + f.MaxTime);
-                    }
-
-                if (!errorCount)
-                    if (f.MinTime && (moment(val, 'HH:mm').diff(moment(f.MinTime, 'HH:mm')) < 0)) {
-                        errorCount++;
-                        shared.log('Время не может быть раньше ' + f.MinTime);
-                    }
-            }
-
-            if (val && (f.Type === 'integer')) {
-                if (f.MaxI)
-                    if (f.MaxI < val) {
-                        errorCount++;
-                        shared.log('Максимальное значение ' + f.MaxI);
-                    }
-
-                if (f.MinI)
-                    if (f.MinI > val) {
-                        errorCount++;
-                        shared.log('Минимальное значение ' + f.MinI);
-                    }
-            }
-
-            if (val && (f.Type === 'float')) {
-                if (f.MaxF)
-                    if (f.MaxF < val) {
-                        errorCount++;
-                        shared.log('Максимальное значение ' + f.MaxF);
-                    }
-
-                if (f.MinF)
-                    if (f.MinF > val) {
-                        errorCount++;
-                        shared.log('Минимальное значение ' + f.MinF);
-                    }
-            }
+            checkNumbers('integer', 'MaxI', 'MinI');
+            checkNumbers('integer', 'MaxF', 'MinF');
 
             if (errorCount) {
                 return false;
@@ -149,7 +107,7 @@ const fieldFactory = function(config) {
         },
 
         init: function() {
-            let input = el.find('input');
+            const input = el.find('input');
 
             // Type
             if (['text', 'date', 'datetime', 'time'].indexOf(config.field.Type) !== -1) {
@@ -170,6 +128,7 @@ const fieldFactory = function(config) {
                     mask: config.field.Mask
                 });
             }
+
             if (config.field.Type === 'date') {
                 input.attr('placeholder', 'ГГГГ-ММ-ДД');
 
@@ -177,6 +136,7 @@ const fieldFactory = function(config) {
                     mask: "9999-99-99"
                 });
             }
+
             if (config.field.Type === 'datetime') {
                 input.attr('placeholder', 'ГГГГ-ММ-ДД ЧЧ:мм');
                 input.kendoMaskedTextBox({
@@ -230,10 +190,11 @@ const fieldFactory = function(config) {
 
         show: function() {
             componentsShared.show(el, false, config.pos);
-            setTimeout(function() {
+            setTimeout(() => {
                 el.find('input').focus();
             }, 200);
         },
+
         destroy: function() {
             el.find('.rc-field .w-popup-background').off('click');
             componentsShared.destroy(el);
@@ -254,7 +215,7 @@ module.exports = function(config, callback) {
         config.field.Placeholder = '';
     }
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {

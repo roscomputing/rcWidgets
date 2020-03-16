@@ -20,9 +20,9 @@
     <button id="sb">ФОРМА</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcForm) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var fields = [
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcForm => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    const fields = [
                         {
                             name: 'Email',
                             title: 'Email',
@@ -30,7 +30,7 @@
                             control: 'input',
                             type: 'text',
                             value: '',
-                            checkValid: function(val) {
+                            checkValid: val => {
                                 if (!val.trim().length) {
                                     return false;
                                 }
@@ -46,7 +46,7 @@
                             control: 'input',
                             type: 'text',
                             value: '123',
-                            change: function(val, el) {
+                            change: val => {
                                 console.log(val);
                             },
                         }, {
@@ -57,7 +57,7 @@
                             control: 'input',
                             type: 'text',
                             value: '123',
-                            change: function(val, el) {
+                            change: val => {
                                 console.log(val);
                             },
                         }, {
@@ -82,7 +82,7 @@
                                     Text: 'Весна'
                                 }
                             ],
-                            checkValid: function(val) {
+                            checkValid: val => {
                                 return !!val;
                             }
                         }, {
@@ -95,7 +95,7 @@
                             checkValid: function (val, el) {
                                 return true;
                             },
-                            change: function (val, el, vm, name) {
+                            change: (val, el) => {
                                 if (val) {
                                     el.find('.hello-checkbox input').val('Какие надо зависимости');
                                 } else {
@@ -109,11 +109,10 @@
                             control: 'input',
                             type: 'number',
                             value: '',
-                            change: function(val, el) {
-                            },
-                            checkValid: function(val, el) {
+                            checkValid: val => {
                                 if (!val)
                                     return true;
+
                                 if ((val < 0) || (val > 100)) {
                                     console.log('Число принимает значение от 0 до 100')
                                     return false;
@@ -142,7 +141,7 @@
                         ],
                         title: 'Введите что-нибудь',
                         fields: fields
-                    }, function(fields, answer) {
+                    }, (fields, answer) => {
                         console.log(fields, answer)
                     });
                 })

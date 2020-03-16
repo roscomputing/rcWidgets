@@ -20,16 +20,16 @@
     <button id="sb">ПРОСМОТР</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcFilepreview) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    rcFilepreview({
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcFilePreview => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    rcFilePreview({
                         selector: '.container',
                         href: 'http://img2.gorod.lv/images/news_item_in_cifs/pic/279102/big/2f1065fb9401706e8d53cebcd6f33e5f1b2dd3fe_900.jpg?v=1488201639',
                         fileName: 'Когда посмотрел в код',
                         headerInfo: 'Для решения проблемы решило его семейство завести кота. Завели, только кот оказался не совсем обычным. Он не то что крыс, мышей боится до дрожи в коленках. Но не выбрасывать же - живое существо, а не мебель какая.',
                         pageX: e.pageX,
                         pageY: e.pageY,
-                    }, function(values) {
+                    }, values => {
                         console.log(values);
                     })
                 })

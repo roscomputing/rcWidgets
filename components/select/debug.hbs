@@ -20,9 +20,9 @@
     <button id="sb">ВЫБОР</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcSelect) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var buttons = [
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcSelect => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    const buttons = [
                         {
                             slug: 3,
                             name: 'Создать задачу',
@@ -40,13 +40,12 @@
                         }
                     ];
 
-
                     rcSelect({
                         selector: '.container',
                         buttons: buttons,
                         pageX: e.pageX,
                         pageY: e.pageY,
-                    }, function(values) {
+                    }, values => {
                         console.log(values);
                     })
                 })

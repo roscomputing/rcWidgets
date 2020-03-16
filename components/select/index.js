@@ -18,7 +18,7 @@ const selectFactory = function(config) {
         templateName: 'rc-select-item-template',
     }]);
 
-    let vm = {
+    const vm = {
         popupMode: !!config.popupMode,
 
         title: config.title || '',
@@ -30,7 +30,7 @@ const selectFactory = function(config) {
         },
 
         onButtonClick: function(e) {
-            let button = $(e.target);
+            const button = $(e.target);
 
             button.closest('.rc-select').find('.active').removeClass('active');
             button.closest('li').addClass('active');
@@ -57,12 +57,15 @@ const selectFactory = function(config) {
             }
         },
         show: function() {
-            let wPopup = el.find('> .w-popup');
+            const wPopup = el.find('> .w-popup');
+
             componentsShared.show(el, this.popupMode, config.pos, this.popupMode);
+
             if (config.pos) {
                 //TODO: I've left this call as it was in the original impl.
                 this.updateHeight(wPopup, wPopup, config.pos);
             }
+
             if (config.class) {
                 el.find('> .w-popup > ul').addClass(config.class);
             }
@@ -76,10 +79,9 @@ const selectFactory = function(config) {
             }
 
             let height = pos.height || 440;
-            let y = Math.max(Math.min(pos.y - 180, $(window).height() - height), 50);
+            const y = Math.max(Math.min(pos.y - 180, $(window).height() - height), 50);
 
-            var overflow = y + wPopup.outerHeight() > $(window).height();
-            if (overflow) {
+            if (y + wPopup.outerHeight() > $(window).height()) {
                 height = $(window).height() - y;
                 $(wPopupList).css('height', height);
             }
@@ -91,7 +93,7 @@ const selectFactory = function(config) {
 
 module.exports = function(config, callback) {
     let select;
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {
@@ -104,7 +106,7 @@ module.exports = function(config, callback) {
         class: config.class || '',
         actionButtons: config.actionButtons || [],
         onlyBackgroundClose: !!config.onlyBackgroundClose,
-        callback: function(options, params) {
+        callback: (options, params) => {
             callback(options, params);
 
             if (!params || !params.dontClose)
