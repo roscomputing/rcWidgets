@@ -59,6 +59,7 @@ const calendarFactory = function(config) {
             str += `<li class="item" data-id="${key + i}">${i}</li>`;
             i++;
         }
+
         return str;
     };
 
@@ -382,34 +383,28 @@ const calendarFactory = function(config) {
         addSlide: function() {
             this.set('slide', Math.min(this.slide + 1, 4));
 
-            if (this.slide === 4) {
-                let year;
-
+            const getYear = () => {
                 if (this.get('from')) {
-                    year = moment(this.get('from')).year();
+                    return moment(this.get('from')).year();
                 } else if (this.get('to')) {
-                    year = moment(this.get('to')).year();
-                } else {
-                    year = moment().year();
+                    return moment(this.get('to')).year();
                 }
 
-                this.set('leftTitle', (year - 128) + '-' + (year - 1));
-                this.set('rightTitle', (year) + '-' + (year + 127));
+                return moment().year();
+            };
+
+            if (this.slide === 4) {
+                let year = getYear();
+
+                this.set('leftTitle', `${year - 128}-${year - 1}`);
+                this.set('rightTitle', `${year}-${year + 127}`);
 
                 const leftArray = [];
                 const rightArray = [];
 
                 for (let i = 0; i < 8; i++) {
-                    leftArray.push({
-                        year: year - (8 - i) * 16 + 15 + 1,
-                        id: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
-                        name: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
-                    });
-                    rightArray.push({
-                        year: year + i * 16,
-                        id: (year + i * 16) + ' - ' + (year + i * 16 + 15),
-                        name: (year + i * 16) + ' - ' + (year + i * 16 + 15),
-                    });
+                    leftArray.push(this.getLeftArrayDefaultObject(year, i));
+                    rightArray.push(this.getRightArrayDefaultObject(year, i));
                 }
 
                 this.set('leftArray', leftArray);
@@ -417,29 +412,13 @@ const calendarFactory = function(config) {
             }
 
             if (this.slide === 3) {
-                let year;
-
-                if (this.get('from')) {
-                    year = moment(this.get('from')).year();
-                } else if (this.get('to')) {
-                    year = moment(this.get('to')).year();
-                } else {
-                    year = moment().year();
-                }
+                let year = getYear();
 
                 this.setSlideThree(year);
             }
 
             if (this.slide === 2) {
-                let year;
-
-                if (this.get('from')) {
-                    year = moment(this.get('from')).year();
-                } else if (this.get('to')) {
-                    year = moment(this.get('to')).year();
-                } else {
-                    year = moment().year();
-                }
+                let year = getYear();
 
                 this.setSlideTwo(year);
             }
@@ -474,6 +453,7 @@ const calendarFactory = function(config) {
                     drawMonthLeft = drawMonthRight.clone();
                     drawMonthLeft.date(25).subtract(1, 'month');
                 }
+
                 setMonths();
 
                 this.set('slide', 1);
@@ -486,111 +466,146 @@ const calendarFactory = function(config) {
         leftArray: [],
         rightArray: [],
 
+        getLeftArrayDefaultObject: function(year, i) {
+            return {
+                year: year - (8 - i) * 16 + 15 + 1,
+                id: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
+                name: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
+            }
+        },
+
+        getRightArrayDefaultObject: function(year, i) {
+            return {
+                year: year + i * 16,
+                id: (year + i * 16) + ' - ' + (year + i * 16 + 15),
+                name: (year + i * 16) + ' - ' + (year + i * 16 + 15),
+            }
+        },
+
         // Visible
         getVisibleDayChoice: function() {
             return this.get('slide') === 1;
         },
 
         moin: function() {
-            if (this.slide === 4) {
-                const year = this.leftArray[0].year - 16;
+            switch (this.slide) {
+                case 1: {
+                    moinMonth();
 
-                if (year - 128 < 0) {
-                    return false;
+                    break;
                 }
+                case 2: {
+                    this.set('rightTitle', this.get('leftTitle'));
+                    this.set('leftTitle', +this.get('leftTitle') - 1);
 
-                this.set('rightTitle', this.get('leftTitle'));
-                this.set('rightArray', $.merge([], this.get('leftArray')));
-                this.set('leftTitle', (year - 128) + '-' + (year - 1));
-
-                const leftArray = [];
-
-                for (let i = 0; i < 8; i++) {
-                    leftArray.push({
-                        year: year - (8 - i) * 16 + 15 + 1,
-                        id: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
-                        name: (year - (8 - i) * 16) + ' - ' + (year - (8 - i) * 16 + 15),
-                    });
+                    break;
                 }
+                case 3: {
+                    let year = this.leftArray[0].id;
 
-                this.set('leftArray', leftArray);
-            } else if (this.slide === 3) {
-                let year = this.leftArray[0].id;
+                    if (year - 16 < 0) {
+                        return false;
+                    }
 
-                if (year - 16 < 0) {
-                    return false;
+                    this.set('rightTitle', this.get('leftTitle'));
+                    this.set('rightArray', $.merge([], this.get('leftArray')));
+                    this.set('leftTitle', (year - 16) + '-' + (year - 1));
+
+                    const leftArray = [];
+
+                    for (let i = 0; i < 16; i++) {
+                        leftArray.push({
+                            id: year - (16 - i),
+                            name: year - (16 - i),
+                        });
+                    }
+
+                    this.set('leftArray', leftArray);
+
+                    break;
                 }
+                case 4: {
+                    const year = this.leftArray[0].year - 16;
 
-                this.set('rightTitle', this.get('leftTitle'));
-                this.set('rightArray', $.merge([], this.get('leftArray')));
-                this.set('leftTitle', (year - 16) + '-' + (year - 1));
+                    if (year - 128 < 0) {
+                        return false;
+                    }
 
-                const leftArray = [];
+                    this.set('rightTitle', this.get('leftTitle'));
+                    this.set('rightArray', $.merge([], this.get('leftArray')));
+                    this.set('leftTitle', (year - 128) + '-' + (year - 1));
 
-                for (let i = 0; i < 16; i++) {
-                    leftArray.push({
-                        id: year - (16 - i),
-                        name: year - (16 - i),
-                    });
+                    const leftArray = [];
+
+                    for (let i = 0; i < 8; i++) {
+                        leftArray.push(this.getLeftArrayDefaultObject(i, year));
+                    }
+
+                    this.set('leftArray', leftArray);
+
+                    break;
                 }
-
-                this.set('leftArray', leftArray)
-            } else if (this.slide === 1) {
-                moinMonth();
-            } else if (this.slide === 2) {
-                this.set('rightTitle', this.get('leftTitle'));
-                this.set('leftTitle', +this.get('leftTitle') - 1);
             }
         },
         plus: function() {
-            if (this.slide === 4) {
-                const year = this.rightArray[this.rightArray.length - 1].year + 16;
+            switch (this.slide) {
+                case 1: {
+                    plusMonth();
 
-                if (year > 3000) {
-                    return false;
+                    break;
+                }
+                case 2: {
+                    this.set('leftTitle', this.get('rightTitle'));
+                    this.set('rightTitle', +this.get('rightTitle') + 1);
+
+                    break;
+                }
+                case 3: {
+                    const year = this.rightArray[this.rightArray.length - 1].id + 1;
+
+                    if (year > 3000) {
+                        return false;
+                    }
+
+                    this.set('leftTitle', this.get('rightTitle'));
+                    this.set('leftArray', $.merge([], this.get('rightArray')));
+                    this.set('rightTitle', (year) + '-' + (year + 15));
+
+                    const rightArray = [];
+
+                    for (let i = 0; i < 16; i++) {
+                        rightArray.push({
+                            id: year + i,
+                            name: year + i,
+                        });
+                    }
+
+                    this.set('rightArray', rightArray);
+
+                    break;
+                }
+                case 4: {
+                    const year = this.rightArray[this.rightArray.length - 1].year + 16;
+
+                    if (year > 3000) {
+                        return false;
+                    }
+
+                    this.set('leftTitle', this.get('rightTitle'));
+                    this.set('leftArray', $.merge([], this.get('rightArray')));
+                    this.set('rightTitle', (year) + '-' + (year + 127));
+
+                    const rightArray = [];
+
+                    for (let i = 0; i < 8; i++) {
+                        rightArray.push(this.getRightArrayDefaultObject(year, i));
+                    }
+
+                    this.set('rightArray', rightArray);
+
+                    break;
                 }
 
-                this.set('leftTitle', this.get('rightTitle'));
-                this.set('leftArray', $.merge([], this.get('rightArray')));
-                this.set('rightTitle', (year) + '-' + (year + 127));
-
-                const rightArray = [];
-
-                for (let i = 0; i < 8; i++) {
-                    rightArray.push({
-                        year: year + i * 16,
-                        id: (year + i * 16) + ' - ' + (year + i * 16 + 15),
-                        name: (year + i * 16) + ' - ' + (year + i * 16 + 15),
-                    });
-                }
-
-                this.set('rightArray', rightArray);
-            } else if (this.slide === 3) {
-                const year = this.rightArray[this.rightArray.length - 1].id + 1;
-
-                if (year > 3000) {
-                    return false;
-                }
-
-                this.set('leftTitle', this.get('rightTitle'));
-                this.set('leftArray', $.merge([], this.get('rightArray')));
-                this.set('rightTitle', (year) + '-' + (year + 15));
-
-                const rightArray = [];
-
-                for (let i = 0; i < 16; i++) {
-                    rightArray.push({
-                        id: year + i,
-                        name: year + i,
-                    });
-                }
-
-                this.set('rightArray', rightArray);
-            } else if (this.slide === 1) {
-                plusMonth();
-            } else if (this.slide === 2) {
-                this.set('leftTitle', this.get('rightTitle'));
-                this.set('rightTitle', +this.get('rightTitle') + 1);
             }
         },
 
@@ -703,8 +718,8 @@ const calendarFactory = function(config) {
                                 });
 
                                 if (lastWorkingDayBeforeId) {
-                                    var range = config.regulations.BaseDays[lastWorkingDayBeforeId];
-                                    var aRange = {
+                                    const range = config.regulations.BaseDays[lastWorkingDayBeforeId];
+                                    const aRange = {
                                         iMin: range.StartWorkingTime.Hour,
                                         iMax: range.EndWorkingTime.Hour,
                                         jMin: range.StartWorkingTime.Minutes,
@@ -733,25 +748,18 @@ const calendarFactory = function(config) {
             }
         },
 
+        getDateLabel: function (date) {
+            const label = this.get(date);
+
+            return  label ? moment(label).format('DD MMM YYYY') : '';
+        },
 
         getFromDateLabel: function() {
-            let from = this.get('from');
-
-            if (from) {
-                return moment(from).format('DD MMM YYYY');
-            }
-
-            return '';
+            this.getDateLabel('from');
         },
 
         getToDateLabel: function() {
-            const to = this.get('to');
-
-            if (to) {
-                return moment(to).format('DD MMM YYYY');
-            }
-
-            return '';
+            this.getDateLabel('to');
         },
 
         onClose() {
@@ -773,6 +781,7 @@ const calendarFactory = function(config) {
             if (config.pos) {
                 config.pos.height = 500;
             }
+
             componentsShared.show(el, false, config.pos);
         },
 

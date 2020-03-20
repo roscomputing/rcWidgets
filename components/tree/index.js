@@ -8,7 +8,7 @@ const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
 const treeFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -23,7 +23,7 @@ const treeFactory = function(config) {
         el.addClass(config.className);
     }
 
-    let vm = {
+    const vm = {
         showLoader: false,
 
         valuesIds: [],
@@ -39,14 +39,9 @@ const treeFactory = function(config) {
             }
 
             if (this.get('valuesIds').indexOf(e.data.id) !== -1) {
-                this.set('values', $.grep(this.get('values'), function(item) {
-                    return item.id !== e.data.id;
-                }));
-                this.set('valuesIds', $.grep(this.get('valuesIds'), function(item) {
-                    return item !== e.data.id;
-                }));
-            }
-            else {
+                this.set('values', $.grep(this.get('values'), item => item.id !== e.data.id ));
+                this.set('valuesIds', $.grep(this.get('valuesIds'), item => item !== e.data.id));
+            } else {
                 this.values.unshift(e.data);
                 this.valuesIds.unshift(e.data.id);
             }
@@ -60,8 +55,10 @@ const treeFactory = function(config) {
                 if (config.callback) {
                     config.callback(this.valuesIds, this.values);
                 }
+
                 return false;
             }
+
             return false;
         },
 
@@ -78,12 +75,12 @@ const treeFactory = function(config) {
             this.set('items', result);
 
             if (result.length && config.values && config.values.length) {
-                let values = [];
-                let valuesIds = config.values.map((v) => v.id);
-                let fillValues = (r) => {
-                    values.push(...r.filter((v) => {
+                const values = [];
+                const valuesIds = config.values.map(v => v.id);
+                const fillValues = r => {
+                    values.push(...r.filter(v => {
                         v.children && v.children.length && fillValues(v.children);
-                        return valuesIds.find((vid) => vid === v.id);
+                        return valuesIds.find(vid => vid === v.id);
                     }));
                 };
 
@@ -91,11 +88,11 @@ const treeFactory = function(config) {
 
                 if (values && values.length) {
                     this.set('values', values);
-                    this.set('valuesIds', values.map((v) => v.id));
+                    this.set('valuesIds', values.map(v => v.id));
                 }
             }
 
-            setTimeout(function() {
+            setTimeout(() => {
                 if (config.pos) {
                     shared.findWidgetPos(el.find('> .w-popup'), config.pos);
                 }
@@ -122,13 +119,13 @@ const treeFactory = function(config) {
                     data: data,
                     type: config.method || 'GET',
                     url: config.url,
-                    success: (result) => {
+                    success: result => {
                         if (config.onAjaxSuccess) {
                             result = config.onAjaxSuccess(result);
                         }
                         this.prepareAndSet(result);
                     },
-                    error: function(error) {
+                    error: error => {
                         source.error(error.responseJSON);
                     }
                 });
@@ -159,7 +156,7 @@ const treeFactory = function(config) {
 module.exports = function(config, callback) {
     let tree;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {
@@ -175,7 +172,7 @@ module.exports = function(config, callback) {
         maxValuesCount: config.maxValuesCount,
         method: config.method,
         template: config.template,
-        callback: function(slug, values) {
+        callback: (slug, values) => {
             callback(slug, values);
             tree.destroy();
         }

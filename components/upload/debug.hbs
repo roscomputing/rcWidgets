@@ -20,8 +20,8 @@
     <button id="sb">ЗАГРУЗКА</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcUpload) {
-                document.getElementById('sb').addEventListener('click', function (e) {
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcUpload => {
+                document.getElementById('sb').addEventListener('click', e => {
                     rcUpload({
                         selector: '.container',
                         url: 'https://yourupload.url',
@@ -30,7 +30,7 @@
                         maxFilesCount: 2,
                         maxFileSize: 8, // mb
                         allowedExtensions: ["jpg", "jpeg", "png", "gif"],
-                    }, function(value) {
+                    }, value => {
                         console.log(value);
                     })
                 })

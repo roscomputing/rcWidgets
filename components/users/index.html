@@ -1,6 +1,6 @@
 <script id="rc-users-user-item-template" type="text/x-kendo-template">
     <li
-            data-bind="click: userClick"
+        data-bind="click: userClick"
     >
         <div>#: name #</div>
         <i class="material-icons">
@@ -11,7 +11,7 @@
 
 <script id="rc-users-button-item-template" type="text/x-kendo-template">
     <li
-            data-bind="click: onButtonClick"
+        data-bind="click: onButtonClick"
     >
         #: name #
 
@@ -25,37 +25,37 @@
     <div class="rc-users w-popup">
         <div class="search-input">
             <button
-                    class="find-button"
-                    type="button">
+                class="find-button"
+                type="button">
                 <i class="material-icons">
                     search
                 </i>
             </button>
 
             <input
-                    data-value-update="keyup"
-                    data-bind="
+                data-value-update="keyup"
+                data-bind="
                     value: searchStr,
                     events: {
                         change: searchStrChange,
                         keyup: searchStrChange
                     }
                 "
-                    placeholder="Поиск"
-                    type="text"/>
+                placeholder="Поиск"
+                type="text"/>
             <span></span>
         </div>
 
         <ul
-                data-template="rc-users-button-item-template"
-                data-bind="source: actionButtons"
-                class="action-buttons"></ul>
+            data-template="rc-users-button-item-template"
+            data-bind="source: actionButtons"
+            class="action-buttons"></ul>
 
         <ul
-                data-template="rc-users-button-item-template"
-                data-bind="source: buttons"
+            data-template="rc-users-button-item-template"
+            data-bind="source: buttons"
 
-                class="buttons"
+            class="buttons"
         ></ul>
 
         <!--     <span data-bind="invisible: valuesExists" class="empty-label">
@@ -63,13 +63,13 @@
             </span> -->
 
         <ul
-                data-template="rc-users-user-item-template"
-                data-bind="
+            data-template="rc-users-user-item-template"
+            data-bind="
                 visible: valuesExists,
                 source: values
             "
 
-                class="values">
+            class="values">
         </ul>
 
         <div class="load-process rc-loader" data-bind="visible: showLoader">
@@ -81,15 +81,15 @@
         </div>
 
         <span
-                data-bind="
+            data-bind="
                 visible: valuesExists,
             "
-                class="line"></span>
+            class="line"></span>
         <ul
-                data-template="rc-users-user-item-template"
-                data-bind="source: found"
+            data-template="rc-users-user-item-template"
+            data-bind="source: found"
 
-                class="found">
+            class="found">
         </ul>
     </div>
 </div>

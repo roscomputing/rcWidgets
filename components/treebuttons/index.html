@@ -11,8 +11,8 @@
 
 <script id="rc-treebuttons-fields-item-template" type="text/x-kendo-template">
     <li
-            data-status-id="#: slug #"
-            class="
+        data-status-id="#: slug #"
+        class="
             # if (buttons.length > 1) { #
                 width-default-button
             # } #
@@ -20,8 +20,8 @@
     >
 
         <div
-                data-bind="click: onFieldClick"
-                class="head">
+            data-bind="click: onFieldClick"
+            class="head">
             <span>#: name #</span>
             # if (buttons.length > 1) { #
             <i class="material-icons icon down">
@@ -34,8 +34,8 @@
 
             # if (buttons.length > 1) { #
             <button
-                    data-bind="click: onFirstButton"
-                    type="button">#: buttons[0].name #</button>
+                data-bind="click: onFirstButton"
+                type="button">#: buttons[0].name #</button>
             # } #
         </div>
         <div class="body">
@@ -56,13 +56,13 @@
 
 <div id="rc-treebuttons-template">
     <div
-            data-bind="
+        data-bind="
             visible: checkColsExists,
             css: {
                 popup-mode: checkPopupMode
             }
         "
-            class="rc-treebuttons w-popup">
+        class="rc-treebuttons w-popup">
         <div class="head">
             <button class="close-it" rc-tooltip="Закрыть" data-bind="click: close" type="button">
                 <i class="material-icons">
@@ -73,17 +73,17 @@
         </div>
 
         <div
-                data-template="rc-treebuttons-col-fields-item-template"
-                data-bind="source: cols"
-                class="fields">
+            data-template="rc-treebuttons-col-fields-item-template"
+            data-bind="source: cols"
+            class="fields">
         </div>
 
         <ul
-                data-template="rc-treebuttons-action-buttons-item-template"
-                data-bind="
+            data-template="rc-treebuttons-action-buttons-item-template"
+            data-bind="
                 source: buttons
             "
-                class="buttons"
+            class="buttons"
         ></ul>
     </div>
 </div>

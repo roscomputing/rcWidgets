@@ -29,15 +29,13 @@
     <button id="sb">ПОЛЬЗОВАТЕЛИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcUsers) {
-                var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcUsers => {
+                const rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
 
-                function getRandomUsers (params, callback) {
-                    var items = [];
+                const getRandomUsers = (params, callback) => {
+                    const items = [];
 
-                    console.log(params);
-
-                    var i = 0;
+                    let i = 0;
                     while (i < 10 + parseInt(Math.random() * 50)) {
                         items.push({
                             id: i + 1,
@@ -49,16 +47,16 @@
 
                     if (callback)
                         callback(items);
-                }
+                };
 
 
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var values = []; // [{Id: 1, Name: '123'}, ...]
-                    var buttons = [];
+                document.getElementById('sb').addEventListener('click', e => {
+                    const values = []; // [{Id: 1, Name: '123'}, ...]
+                    const buttons = [];
 
                     rcUsers({
                         selector: '.container',
-                        getUsers: function(params, callback) {
+                        getUsers: (params, callback) => {
                             getRandomUsers(params, callback);
                         },
                         //template: '<img class="user-icon" src="https://placekitten.com/50/50?image=#: id #"/> #: name #',
@@ -67,7 +65,7 @@
                         buttons: buttons,
                         maxValuesCount: true,
                         values: values,
-                    }, function(users, slug) {
+                    }, (users, slug) => {
                         console.log(users, slug);
                     })
                 })

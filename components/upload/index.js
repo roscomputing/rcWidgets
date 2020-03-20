@@ -8,7 +8,7 @@ const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
 const uploadFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -18,7 +18,7 @@ const uploadFactory = function(config) {
 
     let inUpload = false;
 
-    let vm = {
+    const vm = {
         inUpload: false,
 
         selectFiles: function(e) {
@@ -39,31 +39,33 @@ const uploadFactory = function(config) {
             let hasError = false;
 
             let tx = "";
-            if (e.files.length > 1) { tx = "Hи один " }
+
+            if (e.files.length > 1) { tx = 'Hи один ' }
 
             if (e.files.length > config.MaxFilesCount) {
-                shared.log(tx + "файл не загружен, т.к. в задаче достигнуто максимальное количество файлов "+ config.MaxFilesCount);
+                shared.log(`${tx} файл не загружен, т.к. в задаче достигнуто максимальное количество файлов ${config.MaxFilesCount}`);
                 e.preventDefault();
                 hasError = true;
             }
 
-            $.each(e.files, function (index, value) {
-                if (value.size > config.MaxFileSize * 1024 * 1024) {
-                    shared.log(tx + "файл не загружен, т.к. размер одного из файлов больше чем "+ config.MaxFileSize + " Mb. (файл " + value.name + ")");
-                    e.preventDefault();
-                    hasError = true;
-                    inUpload = false;
-                }
-                if (!value.size) {
-                    shared.log(tx + "файл не загружен, т.к. размер одного из файлов = 0"+ " (файл " + value.name + ")");
+            e.files.forEach(item => {
+                if (item.size > config.MaxFileSize * 1024 * 1024) {
+                    shared.log(`${tx} файл не загружен, т.к. размер одного из файлов больше чем ${config.MaxFileSize} Mb. (файл ${item.name})`);
                     e.preventDefault();
                     hasError = true;
                     inUpload = false;
                 }
 
-                if (config.AllowedExtensions.indexOf(value.extension.substr(1).toLowerCase()) < 0) {
-                    shared.log(tx + "файл не загружен, т.к. расширение файла не поддерживается"+ " (файл " + value.name + ")");
-                    shared.log("Допустимые расширения: "+config.AllowedExtensions.join(', '));
+                if (!item.size) {
+                    shared.log(`${tx} файл не загружен, т.к. размер одного из файлов = 0 (файл ${item.name})`);
+                    e.preventDefault();
+                    hasError = true;
+                    inUpload = false;
+                }
+
+                if (config.AllowedExtensions.indexOf(item.extension.substr(1).toLowerCase()) < 0) {
+                    shared.log(`${tx} файл не загружен, т.к. расширение файла не поддерживается (файл ${item.name})`);
+                    shared.log(`Допустимые расширения: ${config.AllowedExtensions.join(', ')}`);
                     e.preventDefault();
                     hasError = true;
                     inUpload = false;
@@ -100,15 +102,10 @@ const uploadFactory = function(config) {
                 config.callback();
             }
 
-            let message = "";
-            if (e.XMLHttpRequest) {
-                if (e.XMLHttpRequest.responseText) {
-                    message = JSON.parse(e.XMLHttpRequest.responseText).Message;
-                    shared.log(JSON.parse(e.XMLHttpRequest.responseText));
-                }
+            if (e.XMLHttpRequest && e.XMLHttpRequest.responseText) {
+                shared.log(JSON.parse(e.XMLHttpRequest.responseText));
             } else {
-                let mes = {Message: "Что-то пошло не так"};
-                shared.log(mes);
+                shared.log({ Message: 'Что-то пошло не так' });
             }
         },
 
@@ -150,7 +147,7 @@ const uploadFactory = function(config) {
 module.exports = function(config, callback) {
     let upload;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {
@@ -161,7 +158,7 @@ module.exports = function(config, callback) {
         MaxFilesCount: config.maxFilesCount || 1,
         MaxFileSize: config.maxFileSize || 50,
         AllowedExtensions: config.allowedExtensions || ["avi", "jpg", "jpeg", "png", "gif", "doc", "docx", "mp4", "rtf", "pdf", "txt", "log", "xls", "xlsx", "zip", "7z", "rar", "cfg", "config", "vsd", "vdx", "vsx", "vtx", "vsdx", "vsdm", "xml", "AVI", "JPG", "JPEG", "PNG", "GIF", "DOC", "DOCX", "MP4", "RTF", "PDF", "TXT", "LOG", "XLS", "XLSX", "ZIP", "7Z", "RAR", "CFG", "CONFIG", "VSD", "VDX", "VSX", "VTX", "VSDX", "VSDM", "XML", "har", "sig"],
-        callback: function(newFiles, uploadProcess) {
+        callback: (newFiles, uploadProcess) => {
             callback(newFiles, uploadProcess);
 
             if (!uploadProcess)

@@ -7,8 +7,10 @@ const shared = require('../../shared/index');
 const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
-const treebuttonsFactory = function(config) {
-    let el = shared.anyWidgetInitialActions(config);
+const PX_PER_SYMBOL = 7;
+
+const treeButtonsFactory = function(config) {
+    const el = shared.anyWidgetInitialActions(config);
 
     if (!el) {
         return null;
@@ -25,15 +27,13 @@ const treebuttonsFactory = function(config) {
     }]);
 
     let onResizeTimeout = null;
-    let onResize = function() {
+    const onResize = () => {
         clearTimeout(onResizeTimeout);
 
-        onResizeTimeout = setTimeout(function() {
-            vm.generateColumns();
-        }, 400);
+        onResizeTimeout = setTimeout(() => { vm.generateColumns(); }, 400);
     };
 
-    let vm = {
+    const vm = {
         fields: config.fields,
 
         cols: [],
@@ -44,8 +44,8 @@ const treebuttonsFactory = function(config) {
             return this.get('cols').length > 1;
         },
         checkPos: function() {
-            setTimeout(function() {
-                let p = el.find('.w-popup');
+            setTimeout(() => {
+                const p = el.find('.w-popup');
                 let delta = $(window).height() - (p.offset().top + p.outerHeight());
 
                 if (delta < 0) {
@@ -53,29 +53,26 @@ const treebuttonsFactory = function(config) {
                 }
 
                 delta = $(window).width() - (p.offset().left + p.find('.fields').outerWidth());
+
                 if (delta < 0) {
                     p.css('left', p.offset().left + delta);
                 }
             });
         },
         generateColumns: function() {
-            let fields = this.get("fields").sort(function(a,b) {
-                if (a.name.toUpperCase() > b.name.toUpperCase())
-                    return 1;
-                else
-                    return -1;
-            });
+            const fields = this.get("fields").sort((a,b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1: -1 );
 
             let linesCount = Math.max(1, Math.ceil(($(window).height() - 161) / 42));
-            let maxWidth = $(window).width() - 120;
+            const maxWidth = $(window).width() - 120;
 
             let colCount = 1;
             let flag = true;
             let cols = [];
 
-            let splitFieldsByCol = function(items, linesCount) {
-                let cols = [{fields: []}];
-                $.each(items, function(k,v) {
+            const splitFieldsByCol = (items, linesCount) => {
+                const cols = [{fields: []}];
+
+                items.forEach(item => {
                     let id = cols.length - 1;
 
                     if (cols[id].fields.length === linesCount) {
@@ -83,24 +80,19 @@ const treebuttonsFactory = function(config) {
                         id ++;
                     }
 
-                    cols[id].fields.push(v);
+                    cols[id].fields.push(item);
                 });
 
                 return cols;
             };
 
-            let getColWidth = function(fields) {
-                fields = fields.sort(function(a,b) {
-                    if (a.name.length + (a.buttons.length > 1 ? 20 : 0) >
-                        b.name.length + (b.buttons.length > 1 ? 20 : 0)) {
-                        return -1;
-                    } else
-                        return 1;
+            const getColWidth = fields => {
+                fields = fields.sort((a,b) => {
+                    return a.name.length + (a.buttons.length > 1 ? 20 : 0) >
+                        b.name.length + (b.buttons.length > 1 ? 20 : 0) ? -1 : 1
                 });
 
-                let pxPerSymbol = 7;
-
-                return fields[0].name.length * pxPerSymbol + (fields[0].buttons.length > 1 ? 215 : 30);
+                return fields[0].name.length * PX_PER_SYMBOL + (fields[0].buttons.length > 1 ? 215 : 30);
             };
 
             while (flag && Math.ceil(fields.length / colCount) > linesCount) {
@@ -109,8 +101,9 @@ const treebuttonsFactory = function(config) {
                 let w = 0;
 
                 cols = splitFieldsByCol(fields, Math.ceil(fields.length / colCount));
-                $.each(cols, function(k,v) {
-                    w += getColWidth($.merge([], v.fields));
+
+                cols.forEach(item => {
+                    w += getColWidth($.merge([], item.fields));
                 });
 
                 if (w > maxWidth) {
@@ -130,7 +123,7 @@ const treebuttonsFactory = function(config) {
         buttons: config.buttons,
 
         onButtonClick: function (e) {
-            let statusId = $(e.target).closest('[data-status-id]').attr('data-status-id');
+            const statusId = $(e.target).closest('[data-status-id]').attr('data-status-id');
 
             config.callback(statusId, e.data.slug);
             this.close();
@@ -139,6 +132,7 @@ const treebuttonsFactory = function(config) {
         onFirstButton: function(e) {
             config.callback(e.data.slug, e.data.buttons[0].slug);
             this.close();
+
             return false;
         },
 
@@ -156,11 +150,11 @@ const treebuttonsFactory = function(config) {
             } else if (e.data.buttons.length) {
                 config.callback(e.data.slug, e.data.buttons[0].slug);
                 this.close();
-
             } else {
                 config.callback(e.data.slug);
                 this.close();
             }
+
             return false;
         },
 
@@ -178,7 +172,6 @@ const treebuttonsFactory = function(config) {
 
         init: function () {
             componentsShared.onCloseSetup(config, el, this.onClose.bind(this));
-
             this.generateColumns();
             window.addEventListener('resize', onResize);
         },
@@ -198,8 +191,8 @@ const treebuttonsFactory = function(config) {
 };
 
 module.exports = function(config, callback) {
-    let treebuttons;
-    let data = {
+    let treeButtons;
+    const data = {
         selector: config.selector,
         log: config.log,
         pos: {
@@ -209,16 +202,16 @@ module.exports = function(config, callback) {
         buttons: config.buttons || [],
         title: config.title || '',
         fields: config.fields || [],
-        callback: function(button, subbutton, actionButton) {
+        callback: (button, subbutton, actionButton) => {
             callback(button, subbutton, actionButton ? actionButton.slug : null);
 
             if (!actionButton || actionButton.close)
-                treebuttons.destroy();
+                treeButtons.destroy();
         }
     };
 
-    treebuttons = treebuttonsFactory(data);
-    treebuttons.show();
+    treeButtons = treeButtonsFactory(data);
+    treeButtons.show();
 
-    return treebuttons;
+    return treeButtons;
 };

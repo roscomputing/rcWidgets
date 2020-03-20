@@ -20,11 +20,11 @@
     <button id="sb">КНОПКИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTreebuttons) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    function getRandomSubButtons() {
-                        var items = [];
-                        var i = 0;
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcTreeButtons => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    const getRandomSubButtons = () => {
+                        const items = [];
+                        let i = 0;
                         while (i < 3 + parseInt(Math.random() * 10)) {
                             items.push({
                                 slug: i + 1,
@@ -33,13 +33,13 @@
                             i++;
                         }
                         return items;
-                    }
+                    };
 
 
-                    var rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
+                    const rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
 
 
-                    var buttons = [
+                    const buttons = [
                         {
                             name: 'Отменить всё что можно',
                             slug: 'cancel',
@@ -47,9 +47,9 @@
                         }
                     ];
 
-                    var items = [];
+                    const items = [];
 
-                    var i = 0;
+                    let i = 0;
                     while (i < 20 + parseInt(Math.random() * 10)) {
                         items.push({
                             slug: i + 1,
@@ -59,14 +59,14 @@
                         i++;
                     }
 
-                    rcTreebuttons({
+                    rcTreeButtons({
                         selector: '.container',
                         buttons: buttons,
                         title: 'Изменить статус',
                         pageX: e.pageX,
                         pageY: e.pageY,
                         fields: items
-                    }, function(button, subbutton, actionButton) {
+                    }, (button, subbutton, actionButton) => {
                         console.log(button, subbutton, actionButton);
                     })
                 })

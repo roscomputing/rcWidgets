@@ -20,9 +20,9 @@
     <button id="sb">ДЕРЕВО</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
-            require(['{{htmlWebpackPlugin.options.requireScript}}'], function (rcTree) {
-                document.getElementById('sb').addEventListener('click', function (e) {
-                    var data = [
+            require(['{{htmlWebpackPlugin.options.requireScript}}'], rcTree => {
+                document.getElementById('sb').addEventListener('click', e => {
+                    const data = [
                         {
                             id: 1,
                             name: '1 колонка',
@@ -82,14 +82,7 @@
                         }
                     ];
 
-                    var values = [
-                        {
-                            id: 3
-                        },
-                        {
-                            id: 5
-                        }
-                    ];
+                    const values = [{id: 3}, {id: 5}];
 
                     rcTree({
                         selector: '.container',
@@ -100,7 +93,7 @@
                         data: data,
                         values: values,
                         maxValuesCount: 5,
-                    }, function(ids, values) {
+                    }, (ids, values) => {
                         console.log(ids, values)
                     });
 
