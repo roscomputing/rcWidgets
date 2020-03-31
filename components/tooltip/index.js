@@ -35,14 +35,14 @@ $(document).ready(function() {
 
             let x =  e.clientX;
 
-            if (x + t.outerWidth() > $(window).width()) {
-                x -= 20 + t.outerWidth();
+            if (x + tooltip.outerWidth() > $(window).width()) {
+                x -= 20 + tooltip.outerWidth();
             }
 
             let y =  e.clientY + 10;
 
-            if (y + t.outerHeight() > $(window).height()) {
-                y -= 40 + t.outerHeight();
+            if (y + tooltip.outerHeight() > $(window).height()) {
+                y -= 40 + tooltip.outerHeight();
             }
 
             tooltip.css('left', x);
@@ -79,8 +79,6 @@ const tooltipFactory = function(config) {
 };
 
 module.exports = function(config) {
-    let tooltip;
-
     let data = {
         selector: config.selector,
         log: config.log,
