@@ -72,6 +72,7 @@ const autocompleteFactory = function(config) {
                         skip: this.dataParams ? this.dataParams.take : 0,
                         take: this.dataParams ? this.dataParams.take : 40,
                         searchStr: searchStr.trim(),
+                        values: this.values || []
                     });
 
                     this.onGetPossibleValuesSuccess(ids, data);
@@ -96,7 +97,6 @@ const autocompleteFactory = function(config) {
 
         // Click
         selectValue: function(e) {
-            // TODO: find another solution to remove jquery
             const isOld = $(e.target).closest('li').parent().hasClass('values');
             const data = e.data;
 
@@ -155,8 +155,10 @@ module.exports = function(config, callback) {
         onAjaxSuccess: config.onAjaxSuccess,
         maxValuesCount: config.maxValuesCount,
         clientSearch: config.clientSearch,
-        callback: function(values) {
-            callback(values);
+        callback: values => {
+            if (typeof callback === 'function') {
+                callback(values);
+            }
 
             autocomplete.destroy();
         }

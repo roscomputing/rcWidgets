@@ -26,40 +26,30 @@
                         selector: '.container',
                         pageX: e.pageX,
                         pageY: e.pageY,
-                        // TODO: that???
-                        //method: 'GET',
-                        //getAjaxData: function(params) {
-                        //    console.log(params); // skip, take, searchStr
-                        //    return JSON.stringify({});
-                        //},
-                        //onAjaxSuccess: function(result) {
-                        //    return result.seasons.map(function(item) {
-                        //        return {
-                        //            Id: parseInt(Math.random() * 1000),
-                        //            Text: item
-                        //        }
-                        //    });
-                        //},
-                        //clientSearch: false,
-                        //url: 'https://cdn.rawgit.com/dpheitmeyer/e0c4480fe583663c51de/raw/8e19ab1765dc27b6eeeb480f0187f3fd5a6db6a9/seasons.json',
-                        found: [
-                            {
-                                Id: 4,
-                                Text: '4 колонки'
-                            }, {
-                                Id: 3,
-                                Text: '3 колонка'
-                            }, {
-                                Id: 2,
-                                Text: '2 колонки'
-                            }, {
-                                Id: 1,
-                                Text: '1 колонка'
+                        method: 'GET',
+                        url: 'https://cdn.rawgit.com/dpheitmeyer/e0c4480fe583663c51de/raw/8e19ab1765dc27b6eeeb480f0187f3fd5a6db6a9/seasons.json',
+                        clientSearch: false,
+                        getAjaxData: params => {
+                            const dummyData = ['one', 'два', 'три', 'город', 'улица'];
+
+                            for (let i = dummyData.length - 1; i >= 0; i--){
+                                for (let j = 0; j < params.values.length; j++){
+                                    if(dummyData[i] && (dummyData[i] === params.values[j].Text)){
+                                        dummyData.splice(i, 1);
+                                    }
+                                }
                             }
-                        ],
-                        values: [],
-                    }, function (values) {
-                        console.log(values);
+
+                            return dummyData.filter(item => item.indexOf(params.searchStr.toLowerCase()) !== -1);
+                        },
+                        onAjaxSuccess: result => {
+                            return result.map(item => {
+                                return {
+                                    Id: parseInt(Math.random() * 1000),
+                                    Text: item
+                                }
+                            });
+                        }
                     });
                 })
             })
