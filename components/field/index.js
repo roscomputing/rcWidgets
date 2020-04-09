@@ -33,12 +33,12 @@ const fieldFactory = function(config) {
                 const maxLength = field.Maxlength;
                 const minLength = field.Minlength;
 
-                if (val && !Number.isNaN(maxLength) && (maxLength < val.length)) {
+                if (maxLength && val && !Number.isNaN(maxLength) && (maxLength < val.length)) {
                     errorCount++;
                     shared.log(`Длина текста не может быть больше ${maxLength}`);
                 }
 
-                if (!Number.isNaN(minLength) && (!val || (minLength > val.length))) {
+                if (minLength && !Number.isNaN(minLength) && (!val || (minLength > val.length))) {
                     errorCount++;
                     shared.log(`Минимальное количество символов не может быть меньше ${minLength}`);
                 }
@@ -81,6 +81,11 @@ const fieldFactory = function(config) {
                 'Время не может быть раньше ');
 
             const checkNumbers = (type, maxValue, minValue) => {
+                if (type === 'integer' && field.Type === 'integer' && !Number.isInteger(val)) {
+                    errorCount++;
+                    shared.log(`Число должно быть целым`);
+                }
+
                 if (val && (field.Type === type)) {
                     if (field[maxValue] && field[maxValue] < val){
                         errorCount++;
@@ -95,7 +100,7 @@ const fieldFactory = function(config) {
             };
 
             checkNumbers('integer', 'MaxI', 'MinI');
-            checkNumbers('integer', 'MaxF', 'MinF');
+            checkNumbers('float', 'MaxF', 'MinF');
 
             if (errorCount) {
                 return false;
@@ -103,6 +108,28 @@ const fieldFactory = function(config) {
 
             if (config.callback) {
                 config.callback(val);
+            }
+        },
+        onKeypress:  function(e) {
+            const field = config.field;
+
+            const getOnlyNumbers = event => {
+                const keyCode = parseInt(event.keyCode);
+
+                if ([8, 9, 27, 13, 110, 190].includes(keyCode) ||
+                    (keyCode === 65 && event.ctrlKey === true) ||
+                    (keyCode >= 35 && keyCode <= 39)) {
+                    return true;
+                }
+
+                if ((event.shiftKey || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105) || keyCode === 101) {
+                    event.preventDefault();
+                    return false;
+                }
+            };
+
+            if (field.Type === 'integer') {
+                getOnlyNumbers(e);
             }
         },
 

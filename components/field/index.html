@@ -10,7 +10,10 @@
 
             <input
                 data-bind="
-                    value: value
+                    value: value,
+                    events: {
+                        keypress: onKeypress
+                    }
                 "
                 type="text"
                 class="simple-input"/>
