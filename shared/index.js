@@ -145,6 +145,7 @@ const initTemplates = (el, template, templateSelector, isPopupMode, kendoTemplat
                 mainTemplate = mainTemplate.replace(re, id);
                 kt.html(newTemplateHtml);
                 kt.attr('id', id);
+                $('body').prepend(kt);
             }
 
             if (!$(id).length) {

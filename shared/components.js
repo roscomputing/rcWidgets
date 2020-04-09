@@ -13,12 +13,21 @@ const performClose = (el, onCloseParams) => {
     el.find('.w-popup').off('onClose');
 };
 
-const destroy = (el) => {
+const destroy = (el, templateName) => {
     const wPopup = el.find('> .w-popup');
     kendo.unbind(wPopup);
     wPopup.off('mouseup');
     el.off();
     el.remove();
+
+    if (templateName) {
+        const id = `#${templateName}-${$(el).attr('id')}`;
+
+        if ($(id).length) {
+            $(id).remove();
+        }
+    }
+
     shared.setMainOverflow();
 };
 

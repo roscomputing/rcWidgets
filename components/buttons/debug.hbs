@@ -18,7 +18,6 @@
 <main class="theme-dark">
     <div class="container"></div>
     <button id="sb">КНОПКИ</button>
-    <div class="container1"></div>
     <button id="sb1">КНОПКИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
@@ -48,7 +47,7 @@
                     rcButtons({
                         selector: '.container',
                         buttons: buttons,
-                        title: 'Изменить статус0',
+                        title: 'Изменить статус',
                         fields: fields,
                         pageX: e.pageX,
                         pageY: e.pageY
@@ -59,10 +58,10 @@
 
                 document.getElementById('sb1').addEventListener('click', e => {
                       rcButtons({
-                            selector: '.container1',
+                            selector: '.container',
                             template: '#: name # # if (typeof date !== "undefined") {# (#: date # ) # } #',
                             buttons: buttons,
-                            title: 'Изменить статус1',
+                            title: 'Изменить статус',
                             fields: fields,
                             pageX: e.pageX,
                             pageY: e.pageY,

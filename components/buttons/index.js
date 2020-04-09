@@ -7,6 +7,8 @@ const shared = require('../../shared/index');
 const template = require('./index.html');
 const componentsShared = require('../../shared/components');
 
+const templateName = 'rc-buttons-button-item-template';
+
 const buttonsFactory = function(config) {
     let el = shared.anyWidgetInitialActions(config);
 
@@ -15,7 +17,7 @@ const buttonsFactory = function(config) {
     }
 
     shared.initTemplates(el, template, '#rc-buttons-template', false, [{
-        templateName: 'rc-buttons-button-item-template',
+        templateName,
         userTemplate: config.template
     }]);
 
@@ -41,7 +43,7 @@ const buttonsFactory = function(config) {
             componentsShared.show(el, false, config.pos);
         },
         destroy: function() {
-            componentsShared.destroy(el);
+            componentsShared.destroy(el, templateName);
         }
     };
 
@@ -61,7 +63,7 @@ module.exports = function(config, callback) {
         title: config.title,
         template: config.template,
         fields: config.fields,
-        callback: function(option) {
+        callback: option => {
             typeof callback === 'function' && callback(option);
             buttons.destroy();
         }
