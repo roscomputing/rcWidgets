@@ -26,21 +26,22 @@ let overflowMem;
 
 const reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const log = function (v) {
+const log = v => {
     (typeof externalLog === 'function' && externalLog(v)) || console.log(v);
 };
 
-const getGuid = function () {
-    function s4() {
+const getGuid = () => {
+    const s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
             .substring(1);
-    }
+    };
+
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
 };
 
-const findWidgetPos = function(wPopup, pos) {
+const findWidgetPos = (wPopup, pos) => {
     if (!pos) {
         return false;
     }
@@ -50,11 +51,8 @@ const findWidgetPos = function(wPopup, pos) {
 
     if (pos.y) {
         let frame = $(window).height();
-        if (pos.y < frame) {
-            y = pos.y;
-        } else {
-            y = pos.y - window.scrollY;
-        }
+
+        y = pos.y < frame ? pos.y : pos.y - window.scrollY;
     }
 
     if (pos.x) {
@@ -65,14 +63,14 @@ const findWidgetPos = function(wPopup, pos) {
     $(wPopup).css('left', left);
 };
 
-const setYCenterPosition = function (wPopup) {
+const setYCenterPosition = wPopup => {
     $(wPopup).css('top', (window.scrollY || 0) + (window.innerHeight / 2));
 };
 
-const initListener = function() {
-    let wPopupShowingKey = '.w-popup.showing';
+const initListener = () => {
+    const wPopupShowingKey = '.w-popup.showing';
 
-    let globalMouseDownListener = function(e) {
+    const globalMouseDownListener = e => {
         if (!$(e.target).closest('.w-popup').length && !$(e.target).closest('.w-popup-background.popup-mode').length) {
             $('.w-popup.showing:last').trigger('onClose').removeClass('showing');
         }
@@ -83,7 +81,7 @@ const initListener = function() {
         }
     };
 
-    let globalKeyDownListener = function(e) {
+    const globalKeyDownListener = e => {
         // esc
         if (e.keyCode === 27) {
             if ($(wPopupShowingKey).length) {
@@ -103,7 +101,7 @@ const initListener = function() {
     window.addEventListener('mouseup', globalMouseDownListener);
 };
 
-const libraryInitialAction = function (params) {
+const libraryInitialAction = params => {
     if (!params || !params.selector || !$(params.selector).length) {
         return false;
     }
@@ -115,35 +113,34 @@ const libraryInitialAction = function (params) {
     initListener();
 };
 
-const anyWidgetInitialActions = function (params) {
+const anyWidgetInitialActions = params => {
     if (!baseEl) {
         libraryInitialAction(params);
     }
 
-    // TODO: find another solution to delete jquery
     let el = $(`<div id="${getGuid()}"></div>`);
     el.appendTo(baseEl);
     return el;
 };
 
-const initTemplates = function (el, template, templateSelector, isPopupMode, kendoTemplates) {
+const initTemplates = (el, template, templateSelector, isPopupMode, kendoTemplates) => {
     el.html(`<div class="w-popup-background${isPopupMode ? ' popup-mode' : ''}"></div>`);
 
-    let t = $(`<div>${template}</div>`);
+    const t = $(`<div>${template}</div>`);
     let mainTemplate = t.find(templateSelector).html();
 
     if (kendoTemplates && kendoTemplates.length) {
         kendoTemplates.forEach((v) => {
-            let tn = v.templateName;
-            let id = `#${tn}`;
-            let kt = t.find(id);
-            let ut = v.userTemplate;
+            const tn = v.templateName;
+            const id = `#${tn}`;
+            const kt = t.find(id);
+            const ut = v.userTemplate;
 
 
             if (ut) {
-                let id = `${tn}-${$(el).attr('id')}`;
-                let re = new RegExp(tn, 'g');
-                let newTemplateHtml = kt.html().replace('#: name #', ut).replace(re, id);
+                const id = `${tn}-${$(el).attr('id')}`;
+                const re = new RegExp(tn, 'g');
+                const newTemplateHtml = kt.html().replace('#: name #', ut).replace(re, id);
 
                 mainTemplate = mainTemplate.replace(re, id);
                 kt.html(newTemplateHtml);
@@ -159,7 +156,8 @@ const initTemplates = function (el, template, templateSelector, isPopupMode, ken
     el.append(mainTemplate);
 };
 
-const bindViewModel = function (el, vm) {
+const bindViewModel = (el, vm) =>{
+
     vm = kendo.observable(vm);
 
     kendo.bind(el.find('> .w-popup'), vm);
@@ -168,21 +166,16 @@ const bindViewModel = function (el, vm) {
     return vm;
 };
 
-const getHtml = function(data) {
-    if (!data.remote_id)
+const getHtml = data => {
+    if (!data.remote_id || !consts.video.services[data.source])
         return '';
 
-    if (!consts.video.services[data.source])
-        return '';
-
-    let html = consts.video.services[data.source].html;
-
-    html = html.replace(/<%= remote_id %>/g, data.remote_id);
-    return html;
+    return consts.video.services[data.source].html.replace(/<%= remote_id %>/g, data.remote_id);
 };
 
-const setMainOverflow = function (isShow) {
-    let html = $('html');
+const setMainOverflow = isShow => {
+    const html = $('html');
+
     if (isShow) {
         overflowMem = html.css('overflow');
         html.css('overflow', 'hidden');
@@ -191,17 +184,17 @@ const setMainOverflow = function (isShow) {
     }
 };
 
-const checkEmail = function (val) {
+const checkEmail = val => {
     return val && reEmail.test(val);
 };
 
-const removeAttributes = function (contents) {
+const removeAttributes = contents => {
     let whitelist = ["src", "href", "style"];
     let temp = document.createElement('div');
     temp = $(temp).html(contents);
 
     $(temp).find('*').each(function () {
-        let attributes = this.attributes;
+        const attributes = this.attributes;
         let i = attributes.length;
         while( i-- ) {
             let attr = attributes[i];
@@ -209,10 +202,11 @@ const removeAttributes = function (contents) {
                 this.removeAttributeNode(attr);
         }
     });
+
     return $(temp).html();
 };
 
-const pasteCleanup = function(html) {
+const pasteCleanup = html => {
     let result;
 
     // Функция убирает все атрибуты всех тэгов
@@ -237,12 +231,12 @@ const pasteCleanup = function(html) {
     return result;
 };
 
-const htmlDecode =  function(input, keepHtml) {
+const htmlDecode = (input, keepHtml) => {
     let result;
 
     // Преобразовуем HTTP мнемоники в обычные символы:
     // https://stackoverflow.com/a/1912522/4222953
-    let e = document.createElement('div');
+    const e = document.createElement('div');
     e.innerHTML = input;
     result = (e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue) || input;
 
@@ -260,13 +254,14 @@ const htmlDecode =  function(input, keepHtml) {
     return result;
 };
 
-const isNumberKey = function(evt) {
+const isNumberKey = evt => {
     let charCode = (evt.which) ? evt.which : evt.keyCode;
+
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 };
 
-const isNullOrUndefined = (v) => v === null || v === undefined;
-const isFunction = (v) => typeof v === 'function';
+const isNullOrUndefined = v => v === null || v === undefined;
+const isFunction = v => typeof v === 'function';
 
 export {
     libraryInitialAction,

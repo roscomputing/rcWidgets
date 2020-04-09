@@ -18,44 +18,57 @@
 <main class="theme-dark">
     <div class="container"></div>
     <button id="sb">КНОПКИ</button>
+    <div class="container1"></div>
+    <button id="sb1">КНОПКИ</button>
     {{#if htmlWebpackPlugin.options.requireScript}}
         <script>
             require(['{{htmlWebpackPlugin.options.requireScript}}'], rcButtons => {
-                let button;
-                const rrw = ['Пипица', 'Хабара', 'Мимозыря', 'Ендовочник', 'Яга', 'Волглый', 'Алкать', 'Анахорет', 'Яхон', 'Шепотник', 'Ужик', 'Торок', 'Анчутки', 'Титла', 'Талан', 'Ококоветь', 'Супря', 'Студенец', 'Странь', 'Наопако', 'Мужатица', 'Любительный', 'Звездочетство', 'Анчутки', 'Вавакать', 'Взбутусить', 'Выдень', 'Копырзиться', 'Наопако', 'Нюни', 'Огуртво', 'Ономнясь', 'Сарынь', 'Странь', 'Сычёный'];
                 const buttons = [
                     {
-                        name: 'Отменить всё что можно',
-                        date: '1111',
+                        name: 'Отменить всё',
+                        date: '11.11.2011',
                         slug: 'cancel',
                     }
                 ];
 
-                const items = [];
-                let i = 0;
-                while (i < 3 + parseInt(Math.random() * 10)) {
-                    items.push({
-                        slug: i + 1,
-                        name: rrw[parseInt(Math.random() * rrw.length)]
-                    });
-                    i++;
-                }
+                const fields = [
+                    {
+                        name: 'отмена-1',
+                        date: '12.12.2012',
+                        slug: 'cancel-1',
+                    },
+                    {
+                        name: 'отмена-2',
+                        date: '13.03.2013',
+                        slug: 'cancel-2',
+                    }
+                ];
 
                 document.getElementById('sb').addEventListener('click', e => {
-                    if (!button) {
-                        button = rcButtons({
+                    rcButtons({
+                        selector: '.container',
+                        buttons: buttons,
+                        title: 'Изменить статус0',
+                        fields: fields,
+                        pageX: e.pageX,
+                        pageY: e.pageY
+                    }, value => {
+                        console.log(value);
+                    });
+                });
+
+                document.getElementById('sb1').addEventListener('click', e => {
+                      rcButtons({
+                            selector: '.container1',
                             template: '#: name # # if (typeof date !== "undefined") {# (#: date # ) # } #',
-                            selector: '.container',
                             buttons: buttons,
-                            title: 'Изменить статус',
-                            fields: items,
+                            title: 'Изменить статус1',
+                            fields: fields,
                             pageX: e.pageX,
                             pageY: e.pageY,
                         }, value => {
                             console.log(value);
-                            button = null;
                         });
-                    }
                 })
             })
         </script>

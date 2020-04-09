@@ -1,20 +1,20 @@
 const shared = require('./index');
 
-const onCloseSetup = function (config, el, onClose) {
+const onCloseSetup = (config, el, onClose) => {
     if (el && el.length && config && typeof config.callback === 'function') {
         el.find('.w-popup').on('onClose', onClose);
     }
 };
 
-const performClose = function(el, onCloseParams) {
+const performClose = (el, onCloseParams) => {
     el.find('> .w-popup').trigger('onClose', onCloseParams);
     el.find('> .w-popup').removeClass('showing');
     el.find('.w-popup').removeClass('no-close');
     el.find('.w-popup').off('onClose');
 };
 
-const destroy = function (el) {
-    let wPopup = el.find('> .w-popup');
+const destroy = (el) => {
+    const wPopup = el.find('> .w-popup');
     kendo.unbind(wPopup);
     wPopup.off('mouseup');
     el.off();
@@ -22,8 +22,8 @@ const destroy = function (el) {
     shared.setMainOverflow();
 };
 
-const show = function (el, isCentered, pos, isPopupMode) {
-    let wPopup = el.find('> .w-popup');
+const show = (el, isCentered, pos, isPopupMode) => {
+    const wPopup = el.find('> .w-popup');
     !isPopupMode && wPopup.addClass('showing');
     shared.setMainOverflow(true);
 
