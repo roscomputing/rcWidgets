@@ -260,6 +260,21 @@ const isNumberKey = evt => {
 
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 };
+const checkPosition = (el) => {
+    const popup = el.find('.w-popup');
+
+    let delta = $(window).height() - (popup.position().top + popup.outerHeight());
+
+    if (delta < 0) {
+        popup.css('top', popup.position().top + delta);
+    }
+
+    delta = $(window).width() - (popup.position().left + popup.outerWidth());
+
+    if (delta < 0) {
+        popup.css('left', popup.position().left + delta);
+    }
+};
 
 const isNullOrUndefined = v => v === null || v === undefined;
 const isFunction = v => typeof v === 'function';
@@ -279,5 +294,6 @@ export {
     pasteCleanup,
     isNumberKey,
     isNullOrUndefined,
-    isFunction
+    isFunction,
+    checkPosition
 };

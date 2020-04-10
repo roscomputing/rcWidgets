@@ -59,8 +59,6 @@ const fieldFactory = function(config) {
                         shared.log(invalidDateMessage);
                     }
 
-                    console.log(field)
-
                     if (!errorCount && field[maxValue] && (moment(val, format).diff(moment(field[maxValue], format)) > 0)) {
                         errorCount++;
                         shared.log(laterDateMessage + field[maxValue]);
@@ -206,7 +204,7 @@ const fieldFactory = function(config) {
                 this.closeIt();
             });
 
-            input.on('keypress', (e) => {
+            input.on('keypress', e => {
                 if (e.keyCode === 13) {
                     setTimeout(() => {
                         this.closeIt();

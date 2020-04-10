@@ -43,22 +43,6 @@ const treeButtonsFactory = function(config) {
         checkPopupMode: function() {
             return this.get('cols').length > 1;
         },
-        checkPos: function() {
-            setTimeout(() => {
-                const p = el.find('.w-popup');
-                let delta = $(window).height() - (p.offset().top + p.outerHeight());
-
-                if (delta < 0) {
-                    p.css('top', p.offset().top + delta);
-                }
-
-                delta = $(window).width() - (p.offset().left + p.find('.fields').outerWidth());
-
-                if (delta < 0) {
-                    p.css('left', p.offset().left + delta);
-                }
-            });
-        },
         generateColumns: function() {
             const fields = this.get("fields").sort((a,b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1: -1 );
 
@@ -116,7 +100,7 @@ const treeButtonsFactory = function(config) {
             cols = splitFieldsByCol(fields, linesCount);
 
             this.set('cols', cols);
-            this.checkPos();
+            shared.checkPosition(el);
         },
 
         title: config.title,
@@ -146,7 +130,7 @@ const treeButtonsFactory = function(config) {
 
             if (e.data.buttons.length > 1) {
                 $(e.target).closest('li').toggleClass('expanded');
-                this.checkPos();
+                shared.checkPosition(el);
             } else if (e.data.buttons.length) {
                 config.callback(e.data.slug, e.data.buttons[0].slug);
                 this.close();

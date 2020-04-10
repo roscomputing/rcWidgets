@@ -31,23 +31,6 @@ const formFactory = function(config) {
         description: config.description || '',
         buttons: config.buttons,
 
-        checkPos: function() {
-            setTimeout(() => {
-                const popup = el.find('.w-popup');
-                let delta = $(window).height() - (popup.offset().top + popup.outerHeight());
-
-                if (delta < 0) {
-                    popup.css('top', popup.offset().top + delta);
-                }
-
-                delta = $(window).width() - (popup.offset().left + popup.outerWidth());
-
-                if (delta < 0) {
-                    popup.css('left', popup.offset().left + delta);
-                }
-            });
-        },
-
         // Clear field
         clearField: function(e) {
             const item = $(e.target).closest('.rc-form-field');
@@ -546,7 +529,7 @@ const formFactory = function(config) {
         },
         show: function() {
             componentsShared.show(el, false, config.pos);
-            this.checkPos();
+            shared.checkPosition(el);
         },
         destroy: function() {
             if (el.find('.editor').length) {
@@ -579,8 +562,6 @@ module.exports = function(config, callback) {
             if (custom && typeof callback === 'function') {
                 callback(fields, custom);
                 form.destroy();
-            } else {
-                setTimeout(() => { form.show(); });
             }
         }
     };
