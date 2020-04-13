@@ -778,11 +778,8 @@ const calendarFactory = function(config) {
         },
 
         show: function() {
-            if (config.pos) {
-                config.pos.height = 500;
-            }
-
             componentsShared.show(el, false, config.pos);
+            shared.checkPosition(el);
         },
 
         destroy: function() {

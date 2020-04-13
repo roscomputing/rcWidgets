@@ -75,9 +75,13 @@ const cityFactory = function(config) {
         },
 
         selectArea: function(e) {
+            if (this.selectedAreasIds.indexOf(e.data.Id) !== -1) {
+                this.unselectArea(e);
+                return false;
+            }
+
             this.selectedAreasIds.push(e.data.Id);
             this.selectedAreas.push(e.data);
-            return false;
         },
 
         unselectArea: function(e) {
