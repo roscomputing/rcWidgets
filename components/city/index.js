@@ -85,8 +85,8 @@ const cityFactory = function(config) {
         },
 
         unselectArea: function(e) {
-            this.set('selectedAreasIds', $.grep(this.get('selectedAreasIds'), item => item !== e.data.Id));
-            this.set('selectedAreas', $.grep(this.get('selectedAreas'), item => item.Id !== e.data.Id));
+            this.set('selectedAreasIds', this.get('selectedAreasIds').filter(item => item !== e.data.Id));
+            this.set('selectedAreas', this.get('selectedAreas').filter(item => item.Id !== e.data.Id));
         },
 
         getAreas: function() {
@@ -151,8 +151,8 @@ const cityFactory = function(config) {
             this.selectedCities.unshift(e.data);
         },
         unselectCity: function(e) {
-            this.set('selectedCitiesIds', $.grep(this.get('selectedCitiesIds'), item => item !== e.data.Id));
-            this.set('selectedCities', $.grep(this.get('selectedCities'), item => item.Id !== e.data.Id));
+            this.set('selectedCitiesIds', this.get('selectedCitiesIds').filter(item => item !== e.data.Id));
+            this.set('selectedCities', this.get('selectedCities').filter(item => item.Id !== e.data.Id));
         },
         checkCitySelected: function(e) {
             return this.get('selectedCitiesIds').indexOf(e.Id) !== -1;
@@ -170,16 +170,16 @@ const cityFactory = function(config) {
 
             this.searchCityTimeout = setTimeout(() => {
                 let str = this.searchStr.toLowerCase().trim();
-                this.set('cities', $.grep(this.get('allCities'), item => item.Title.toLowerCase().trim().indexOf(str) !== -1));
+                this.set('cities', this.get('allCities').filter(item => item.Title.toLowerCase().trim().indexOf(str) !== -1));
             }, 300);
         },
 
         // Selected
-        selectedAreasIds: config.areas ? $.map(config.areas, function(item) { return item.Id;}): [],
+        selectedAreasIds: config.areas ? config.areas.map(item =>item.Id): [],
         selectedAreas: config.areas ? config.areas : [],
 
 
-        selectedCitiesIds: config.cities ? $.map(config.cities, function(item) { return item.Id;}): [],
+        selectedCitiesIds: config.cities ? config.cities.map(item =>item.Id): [],
         selectedCities: config.cities ? config.cities : [],
 
         // Save

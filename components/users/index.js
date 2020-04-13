@@ -21,14 +21,15 @@ const usersFactory = function(config) {
         templateName: 'rc-users-button-item-template'
     }]);
 
-    let vm = {
+    const vm = {
         // Buttons
         onButtonClick: function(e) {
             if (e.data.dontClose) {
-                let params = {
+                const params = {
                     pageX: e.pageX,
                     pageY: e.pageY
                 };
+
                 config.callback([], e.data.slug || null, params, (items, params) => {
                     if (params) {
                         if (!params.addAfterValues) {
@@ -79,31 +80,25 @@ const usersFactory = function(config) {
         },
 
         getUsersSuccess: function(items) {
-            let ids = $.map(this.get('values'), item => item.id);
-            let valIds = $.map(this.values, item => parseInt(item.id));
+            const ids = this.get('values').map(item => item.id);
+            const valIds = this.values.map(item => parseInt(item.id));
+
+            const checkIfItemExist = item => ids.indexOf(item.id) === -1 && (item.name != null || item.fullName != null);
 
             if (this.total) {
                 this.set('total', this.total + items.length);
 
-                let newItems = [];
+                let newItems = items;
                 if (ids.length || valIds.length) {
-                    newItems = $.grep(items, function (item) {
-                        return (ids.indexOf(item.id) === -1) && (item.name != null || item.fullName != null) && (valIds.indexOf(item.id) === -1);
-                    });
-                } else {
-                    newItems = items;
+                    newItems = items.filter(item => checkIfItemExist(item) && (valIds.indexOf(item.id) === -1));
                 }
 
                 this.set('found', $.merge($.extend([], this.found), newItems));
             } else {
                 this.set('total', this.total + items.length);
-                items = $.grep(items, function(item) {
-                    return (ids.indexOf(item.id) === -1) && (item.name != null || item.fullName != null) && (valIds.indexOf(item.id) === -1);
-                });
+                items = items.filter(item => checkIfItemExist(item) && valIds.indexOf(item.id) === -1);
 
-                this.set('found', $.grep(items.splice(0, 40), function(item) {
-                    return ids.indexOf(item.id) === -1 && (item.name != null || item.fullName != null);
-                }));
+                this.set('found', items.splice(0, 40).filter(item => checkIfItemExist(item)));
             }
         },
 
@@ -113,8 +108,7 @@ const usersFactory = function(config) {
                 return false;
             }
 
-            let hasSearchString = !!this.searchStr;
-            if (hasSearchString) {
+            if (!!this.searchStr) {
                 this.total = 0;
                 this.set('found', []);
             }
@@ -122,16 +116,16 @@ const usersFactory = function(config) {
             config.getUsers({
                 Skip: this.total || (this.dataParams ? this.dataParams.skip || 0 : 0),
                 SearchStr: this.searchStr,
-            }, (items) => {
+            }, items => {
                 this.getUsersSuccess(items);
             });
         },
         getDataAfterEndScroll: function() {
             let scrollEndTimeout = null;
 
-            el.find('ul.found').on('scroll', (e) => {
-                let thatScrEv = e.target;
-                //по достижению конца, подгружаем ещё пользователей
+            el.find('ul.found').on('scroll', e => {
+                const thatScrEv = e.target; //по достижению конца, подгружаем ещё пользователей
+
                 if (scrollEndTimeout) {
                     clearTimeout(scrollEndTimeout);
                 }
@@ -149,11 +143,12 @@ const usersFactory = function(config) {
 
         // Click
         userClick: function(e) {
-            let isOld = $(e.target).closest('li').parent().hasClass('values');
+            const isOld = $(e.target).closest('li').parent().hasClass('values');
 
             if (isOld) {
                 this.found.unshift(e.data);
-                this.set('values', $.grep(this.get('values'), item => item.id !== e.data.id));
+                this.set('values', this.get('values').filter(item => item.id !== e.data.id));
+
                 return false;
             }
 
@@ -165,7 +160,7 @@ const usersFactory = function(config) {
                 this.found.unshift(this.values.pop());
             }
 
-            this.set('found', $.grep(this.get('found'), item => item.id !== e.data.id));
+            this.set('found', this.get('found').filter(item => item.id !== e.data.id));
 
             if (!config.maxValuesCount && this.values.length > 0) {
                 componentsShared.performClose(el);
@@ -192,10 +187,12 @@ const usersFactory = function(config) {
             }
         },
         destroy: function() {
-            let showingEl = $('.rc-select.w-popup.showing');
+            const showingEl = $('.rc-select.w-popup.showing');
+
             if (showingEl.length) {
                 showingEl.trigger('onClose');
             }
+
             componentsShared.destroy(el);
         }
     };
@@ -206,7 +203,7 @@ const usersFactory = function(config) {
 module.exports = function(config, callback) {
     let users;
 
-    let data = {
+    const data = {
         selector: config.selector,
         log: config.log,
         template: config.template,
@@ -227,16 +224,14 @@ module.exports = function(config, callback) {
             }
         },
 
-        callback: function(values, slug, params, returnResults) {
+        callback: (values, slug, params, returnResults) => {
             typeof callback === 'function' && callback(values, slug, params, returnResults);
 
             let closeIt = true;
 
-            $.each(config.buttons, function(k,v) {
-                if (v.slug === slug) {
-                    if (v.dontClose) {
-                        closeIt = false;
-                    }
+            config.buttons.forEach(item => {
+                if (item.slug === slug && item.dontClose) {
+                    closeIt = false;
                 }
             });
 

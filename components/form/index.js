@@ -113,8 +113,8 @@ const formFactory = function(config) {
                 }
             }
 
-            $.each(values, function(k,v) {
-                valuesIds.push(parseInt(v.Id));
+            values.forEach(item => {
+                valuesIds.push(parseInt(item.Id));
             });
 
             // Autocomplete
@@ -122,7 +122,7 @@ const formFactory = function(config) {
                 pageX: e.pageX,
                 pageY: e.pageY,
                 maxValuesCount: e.data.type !== 'multiValue' ? 1 : false,
-                found:  valuesIds.length ? $.grep(e.data.found , item => valuesIds.indexOf(item.Id) === -1) : e.data.found,
+                found:  valuesIds.length ? e.data.found.filter(item => valuesIds.indexOf(item.Id) === -1) : e.data.found,
                 values: values,
                 clientSearch: true,
             }, (values, answer) => {
@@ -134,7 +134,7 @@ const formFactory = function(config) {
                                 element.html(values[0].Text);
                             } else {
                                 element.attr('data-value', JSON.stringify(values));
-                                element.html(($.map(values, function(item) { return item.Text })).join(', '));
+                                element.html((values.map(item => item.Text)).join(', '));
                             }
                         } else {
                             if (config.type !== 'multiValue')
@@ -149,13 +149,11 @@ const formFactory = function(config) {
                 };
 
                 if (answer) {
-                    $.each(e.data.buttons, (k,v) => {
-                        if (v.slug === answer) {
-                            if (v.callback) {
-                                v.callback( items => {
-                                    setValues(items);
-                                });
-                            }
+                    e.data.buttons.forEach(item => {
+                        if (item.slug === answer && item.callback) {
+                            item.callback( items => {
+                                setValues(items);
+                            });
                         }
                     });
                 }
@@ -226,38 +224,38 @@ const formFactory = function(config) {
         },
 
         changeFields: function() {
-            $.each(this.fields, (k,v) => {
-                if (v.change) {
-                    const nameAttr = `[name=${v.name}]`;
+            this.fields.forEach(item => {
+                if (item.change) {
+                    const nameAttr = `[name=${item.name}]`;
 
-                    switch (v.control) {
+                    switch (item.control) {
                         case 'users':
-                            v.change(el.find(nameAttr).attr('data-value'), v.found, el, this);
+                            item.change(el.find(nameAttr).attr('data-value'), item.found, el, this);
                             break;
 
                         case 'autocomplete' || 'tree':
-                            v.change(el.find(nameAttr).attr('data-value'), v.found, el, this);
+                            item.change(el.find(nameAttr).attr('data-value'), item.found, el, this);
                             break;
 
                         case 'checkbox':
-                            v.change(el.find(nameAttr).prop('checked'), el, this);
+                            item.change(el.find(nameAttr).prop('checked'), el, this);
                             break;
 
                         case 'input' || 'textarea':
-                            v.change(el.find(nameAttr).val(), el, this);
+                            item.change(el.find(nameAttr).val(), el, this);
                             break;
 
                         case 'date':
-                            v.change(el.find(nameAttr).attr('data-format'), el, this);
+                            item.change(el.find(nameAttr).attr('data-format'), el, this);
                             break;
 
                         case 'time':
-                            v.change(parseInt(el.find(`[name=${v.name}-hours]`).val() || 0),
-                                parseInt(el.find(`[name=${v.name}-minutes]`).val() || 0), el, this);
+                            item.change(parseInt(el.find(`[name=${item.name}-hours]`).val() || 0),
+                                parseInt(el.find(`[name=${item.name}-minutes]`).val() || 0), el, this);
                             break;
 
                         case 'editor':
-                            v.change(el.find(nameAttr).data('kendoEditor').value(), el, this);
+                            item.change(el.find(nameAttr).data('kendoEditor').value(), el, this);
                             break;
                     }
                 }
@@ -279,56 +277,56 @@ const formFactory = function(config) {
                     $(v).closest('.rc-form-field').addClass('error');
             });
 
-            $.each(this.fields, (k,v) => {
-                const nameAttr = `[name=${v.name}]`;
+            this.fields.forEach(item => {
+                const nameAttr = `[name=${item.name}]`;
 
-                if (v.checkValid && !el.find(nameAttr).closest('.rc-form-field').hasClass('hidden')) {
-                    switch (v.control) {
+                if (item.checkValid && !el.find(nameAttr).closest('.rc-form-field').hasClass('hidden')) {
+                    switch (item.control) {
                         case 'users' || 'autocomplete' || 'tree':
-                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-value'), v.found, el)) {
+                            if (item.checkValid && !item.checkValid(el.find(nameAttr).attr('data-value'), item.found, el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'checkbox':
-                            if (v.checkValid && !v.checkValid(el.find(nameAttr).prop('checked'), el)) {
+                            if (item.checkValid && !item.checkValid(el.find(nameAttr).prop('checked'), el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'input' || 'textarea':
-                            if (v.checkValid && !v.checkValid(el.find(nameAttr).val(), el)) {
+                            if (item.checkValid && !item.checkValid(el.find(nameAttr).val(), el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'datetime':
-                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-format'), el)) {
+                            if (item.checkValid && !item.checkValid(el.find(nameAttr).attr('data-format'), el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'date':
-                            if (v.checkValid && !v.checkValid(el.find(nameAttr).attr('data-format'), el)) {
+                            if (item.checkValid && !item.checkValid(el.find(nameAttr).attr('data-format'), el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'time':
-                            if (v.checkValid && !v.checkValid(parseInt(el.find(nameAttr).val() || 0),
-                                parseInt(el.find(`[name=${v.name}-minutes]`).val() || 0), el)) {
-                                el.find(`[name=${v.name}-hours]`).closest('.rc-form-field').addClass('error');
+                            if (item.checkValid && !item.checkValid(parseInt(el.find(nameAttr).val() || 0),
+                                parseInt(el.find(`[name=${item.name}-minutes]`).val() || 0), el)) {
+                                el.find(`[name=${item.name}-hours]`).closest('.rc-form-field').addClass('error');
                             }
 
                             break;
 
                         case 'editor':
-                            if (v.checkValid && !v.checkValid(el.find('[name=' + v.name + ']').data('kendoEditor').value(), el)) {
+                            if (item.checkValid && !item.checkValid(el.find('[name=' + item.name + ']').data('kendoEditor').value(), el)) {
                                 el.find(nameAttr).closest('.rc-form-field').addClass('error');
                             }
 
@@ -341,38 +339,38 @@ const formFactory = function(config) {
                 return false;
             }
 
-            $.each(this.fields, (k,v) => {
-                const nameAttr = `[name=${v.name}]`;
+            this.fields.forEach(item => {
+                const nameAttr = `[name=${item.name}]`;
 
-                switch (v.control) {
+                switch (item.control) {
                     case 'textarea':
-                        this.fields[k].value = el.find(nameAttr).val();
+                        item.value = el.find(nameAttr).val();
 
                         break;
 
                     case 'input':
-                        if ((v.type === "number") || (v.type === "text") || (v.type === 'email')) {
-                            this.fields[k].value = el.find(nameAttr).val();
+                        if ((item.type === "number") || (item.type === "text") || (item.type === 'email')) {
+                            item.value = el.find(nameAttr).val();
                         }
 
-                        if (v.type === "phone") {
-                            this.fields[k].value = el.find(nameAttr).data('kendoMaskedTextBox').value();
+                        if (item.type === "phone") {
+                            item.value = el.find(nameAttr).data('kendoMaskedTextBox').value();
                         }
 
                         break;
 
                     case 'checkbox':
-                        this.fields[k].value = el.find(nameAttr).prop('checked');
+                        item.value = el.find(nameAttr).prop('checked');
 
                         break;
 
                     case 'editor':
-                        this.fields[k].value = el.find(nameAttr).data('kendoEditor').value();
+                        item.value = el.find(nameAttr).data('kendoEditor').value();
 
                         break;
 
                     case 'time':
-                        this.fields[k].values = {
+                        item.values = {
                             hours: parseInt(el.find(`[name=${v.name}-hours]`).val() || 0),
                             minutes: parseInt(el.find(`name=${v.name}-minutes]`).val() || 0)
                         };
@@ -380,27 +378,27 @@ const formFactory = function(config) {
                         break;
 
                     case 'datetime':
-                        this.fields[k].value = el.find(nameAttr).attr('data-format');
+                        item.value = el.find(nameAttr).attr('data-format');
 
                         break;
 
                     case 'autocomplete' || 'tree':
-                        this.fields[k].value = [el.find(nameAttr).attr('data-value')];
+                        item.value = [el.find(nameAttr).attr('data-value')];
 
                         break;
 
                     case 'date':
-                        this.fields[k].value = el.find(nameAttr).attr('data-format');
+                        item.value = el.find(nameAttr).attr('data-format');
 
                         break;
 
                     case 'users':
-                        this.fields[k].value = JSON.parse(el.find(nameAttr).attr('data-value') || []);
+                        item.value = JSON.parse(el.find(nameAttr).attr('data-value') || []);
 
                         break;
 
                     case 'dropdownlist':
-                        this.fields[k].value = el.find(nameAttr)[0].value;
+                        item.value = el.find(nameAttr)[0].value;
 
                         break;
                 }
@@ -428,9 +426,9 @@ const formFactory = function(config) {
             Данный метод позволяет поменять данные поля. (работает пока только для dropdownlist)
          */
         updateDataForField: function (name, data) {
-            $.each(this.fields, (k, v) => {
-                if (name === v.name && v.dataSource) {
-                    const elem = el.find(`[name=${v.name}]`);
+            this.fields.forEach(item => {
+                if (name === item.name && item.dataSource) {
+                    const elem = el.find(`[name=${item.name}]`);
 
                     if (elem && elem.data('kendoDropDownList')) {
                         elem.data('kendoDropDownList').setDataSource(new kendo.data.DataSource({ data: data }));

@@ -39,8 +39,8 @@ const treeFactory = function(config) {
             }
 
             if (this.get('valuesIds').indexOf(e.data.id) !== -1) {
-                this.set('values', $.grep(this.get('values'), item => item.id !== e.data.id ));
-                this.set('valuesIds', $.grep(this.get('valuesIds'), item => item !== e.data.id));
+                this.set('values', this.get('values').filter(item => item.id !== e.data.id ));
+                this.set('valuesIds', this.get('valuesIds').filter(item => item !== e.data.id));
             } else {
                 this.values.unshift(e.data);
                 this.valuesIds.unshift(e.data.id);
