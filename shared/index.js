@@ -47,19 +47,17 @@ const findWidgetPos = (wPopup, pos) => {
     }
 
     let left = parseInt(wPopup.css('left'));
-    let y = 0;
+    let y = parseInt(wPopup.css('top'));
 
     if (pos.y) {
-        let frame = $(window).height();
-
-        y = pos.y < frame ? pos.y : pos.y - window.scrollY;
+        y = Math.max(Math.min(pos.y - $(window).scrollTop() , $(window).height() - wPopup.height() - 50), 10);
     }
 
     if (pos.x) {
         left = Math.max(Math.min(pos.x , $(window).width() - wPopup.width() - 50), 10);
     }
 
-    $(wPopup).css('top', Math.max(y, 10));
+    $(wPopup).css('top', y);
     $(wPopup).css('left', left);
 };
 
@@ -260,7 +258,7 @@ const isNumberKey = evt => {
 
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 };
-const checkPosition = (el) => {
+const checkPosition = el => {
     const popup = el.find('.w-popup');
 
     let delta = $(window).height() - (popup.position().top + popup.outerHeight());
