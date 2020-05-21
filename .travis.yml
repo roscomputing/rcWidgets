@@ -15,5 +15,6 @@ deploy:
   skip_cleanup: true
   email: "dinaghalini@gmail.com"
   api_key: $NPM_TOKEN
+  local_dir: dist
   on:
     branch: master
