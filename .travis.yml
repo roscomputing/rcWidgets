@@ -3,6 +3,9 @@ node_js:
   - 12.13.1
 cache: npm
 
+script:
+  - npm run build
+
 branches:
   only:
     - master
@@ -10,5 +13,6 @@ branches:
 deploy:
   provider: script
   script: npm run build
+  local_dir: dist
   on:
     branch: master
