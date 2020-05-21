@@ -11,8 +11,9 @@ branches:
     - master
 
 deploy:
-  provider: script
-  script: npm run build
-  local_dir: dist
+  provider: npm
+  skip_cleanup: true
+  email: "dinaghalini@gmail.com"
+  api_key: $NPM_TOKEN
   on:
     branch: master
