@@ -747,19 +747,24 @@ const calendarFactory = function(config) {
                 setDays();
             }
         },
-
-        getDateLabel: function (date) {
-            const label = this.get(date);
-
-            return  label ? moment(label).format('DD MMM YYYY') : '';
-        },
-
         getFromDateLabel: function() {
-            this.getDateLabel('from');
+            let from = this.get('from');
+
+            if (from) {
+                return moment(from).format('DD MMM YYYY');
+            }
+
+            return '';
         },
 
         getToDateLabel: function() {
-            this.getDateLabel('to');
+            let from = this.get('to');
+
+            if (from) {
+                return moment(from).format('DD MMM YYYY');
+            }
+
+            return '';
         },
 
         onClose() {
