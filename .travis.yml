@@ -12,7 +12,7 @@ branches:
 
 deploy:
   provider: npm
-  cleanup: true
+  skip_cleanup: true
   email: "dinaghalini@gmail.com"
   api_key: $NPM_TOKEN
   local_dir: dist
