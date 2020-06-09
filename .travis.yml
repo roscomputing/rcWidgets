@@ -15,6 +15,6 @@ deploy:
   cleanup: true
   email: "dinaghalini@gmail.com"
   api_key: $NPM_TOKEN
-  local-dir: dist
+  local_dir: dist
   on:
     branch: master
