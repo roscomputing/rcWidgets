@@ -18,7 +18,7 @@
     "camelcase": "^5.3.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
-    "file-loader": "^3.0.1",
+    "file-loader": "^6.0.0",
     "handlebars": "^4.3.0",
     "handlebars-loader": "^1.7.1",
     "html-loader": "^0.5.5",
