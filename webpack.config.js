@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const aux = require('./webpack.aux');
 
 const config = {
