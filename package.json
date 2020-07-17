@@ -15,7 +15,7 @@
     "@babel/preset-env": "^7.4.5",
     "@progress/kendo-ui": "^2019.2.529",
     "babel-loader": "^8.1.0",
-    "camelcase": "^5.3.1",
+    "camelcase": "^6.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "file-loader": "^6.0.0",
