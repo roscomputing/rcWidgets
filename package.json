@@ -11,7 +11,7 @@
     "build-dev": "cross-env NODE_ENV=development webpack --env.development && webpack --env.cdn"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
+    "@babel/core": "^7.12.7",
     "@babel/preset-env": "^7.10.4",
     "@progress/kendo-ui": "^2019.2.529",
     "babel-loader": "^8.1.0",
